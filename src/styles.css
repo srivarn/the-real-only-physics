@@ -1,7 +1,28 @@
-/* Global styles */
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
-  color: #333;
+  background-color: #121212; /* Dark background */
+  color: #e0e0e0; /* Light text for contrast */
+  font-family: 'Roboto', sans-serif;
+}
+
+.p-panelmenu .p-panelmenu-header > a {
+  background-color: #2a2a2a; /* Dark background for panel headers */
+  color: #e0e0e0; /* Light text for panel headers */
+  border-bottom: 1px solid #333333; /* Subtle dark border */
+}
+
+.p-panelmenu .p-panelmenu-header > a:hover {
+  background-color: #3a3a3a; /* Lighter dark hover effect */
+}
+
+.p-panelmenu .p-panelmenu-content {
+  background-color: #1a1a1a; /* Slightly lighter dark for content area */
+  border-top: 1px solid #333333; /* Subtle dark border */
+}
+
+.p-panelmenu .p-menuitem-link {
+  color: #036ca0; /* Lighter grey for menu item links */
+}
+
+.p-panelmenu .p-menuitem-link:hover {
+  background-color: #3a3a3a; /* Lighter dark hover effect for menu items */
 }

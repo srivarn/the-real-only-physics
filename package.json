@@ -6,8 +6,7 @@
     "start": "ng serve",
     "test": "ng test",
     "watch": "ng build --watch --configuration development",
-    "build": "ng build",
-    "postinstall": "npm install --force"
+    "build": "ng build"
   },
   "private": true,
   "dependencies": {
@@ -30,8 +29,5 @@
     "@typescript-eslint/parser": "^6.0.0",
     "eslint": "^8.0.0",
     "typescript": "~5.2.0"
-  },
-  "optionalDependencies": {
-    "@angular/cli": "17.3.0"
   }
 }
