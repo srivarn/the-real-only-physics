@@ -1,0 +1,26 @@
+<div *ngIf="formula" class="p-8 max-w-4xl mx-auto bg-gray-900 rounded-lg shadow-lg text-white">
+    <h1 class="text-4xl font-bold mb-6 text-center">{{ formula.title }}</h1>
+    <div class="bg-gray-800 p-6 rounded mb-6 border border-gray-700">
+      <p class="text-3xl font-mono">{{ formula.formula }}</p>
+    </div>
+    <div class="mb-6">
+      <h2 class="text-2xl font-semibold mb-3">Explanation</h2>
+      <p class="leading-relaxed">
+        {{ formula.explanation }}
+      </p>
+    </div>
+    <div class="mb-6 bg-gray-800 p-4 rounded border border-gray-700">
+      <h2 class="text-2xl font-semibold mb-3">Meanings</h2>
+      <p class="leading-relaxed">{{ formula.meanings }}</p>
+    </div>
+    <div class="mb-6">
+      <h2 class="text-2xl font-semibold mb-3">Real-Life Application</h2>
+      <p class="leading-relaxed">
+        {{ formula.realLifeApplication }}
+      </p>
+    </div>
+    <div class="mt-10 p-6 bg-gray-800 rounded-lg shadow-inner border border-gray-700">
+      <h2 class="text-2xl font-semibold mb-4">Calculator</h2>
+      <app-calculator *ngIf="calculatorKey" [attr.data-key]="calculatorKey"></app-calculator>
+    </div>
+  </div>

@@ -1,0 +1,54 @@
+<div class="calculator-container">
+  <div class="display">{{ displayValue }}</div>
+
+  <!-- Combined Basic and Scientific Calculator Buttons -->
+  <div class="buttons scientific-functions">
+    <button (click)="clear()" class="clear-btn">C</button>
+    <button (click)="clearEntry()" class="ce-btn">CE</button>
+    <button (click)="backspace()" class="backspace-btn">⌫</button>
+    <button (click)="performOperation('/')" class="operator-btn">÷</button>
+
+    <button (click)="inputDigit('7')" class="number-btn">7</button>
+    <button (click)="inputDigit('8')" class="number-btn">8</button>
+    <button (click)="inputDigit('9')" class="number-btn">9</button>
+    <button (click)="performOperation('*')" class="operator-btn">×</button>
+
+    <button (click)="inputDigit('4')" class="number-btn">4</button>
+    <button (click)="inputDigit('5')" class="number-btn">5</button>
+    <button (click)="inputDigit('6')" class="number-btn">6</button>
+    <button (click)="performOperation('-')" class="operator-btn">−</button>
+
+    <button (click)="inputDigit('1')" class="number-btn">1</button>
+    <button (click)="inputDigit('2')" class="number-btn">2</button>
+    <button (click)="inputDigit('3')" class="number-btn">3</button>
+    <button (click)="performOperation('+')" class="operator-btn">+</button>
+
+    <button (click)="inputDigit('0')" class="number-btn zero-btn">0</button>
+    <button (click)="inputDecimal()" class="number-btn">.</button>
+    <button (click)="calculateResult()" class="equals-btn">=</button>
+
+    <button (click)="performScientificFunction('sin')" class="sci-btn">sin</button>
+    <button (click)="performScientificFunction('cos')" class="sci-btn">cos</button>
+    <button (click)="performScientificFunction('tan')" class="sci-btn">tan</button>
+    <button (click)="performScientificFunction('asin')" class="sci-btn">asin</button>
+
+    <button (click)="performScientificFunction('acos')" class="sci-btn">acos</button>
+    <button (click)="performScientificFunction('atan')" class="sci-btn">atan</button>
+    <button (click)="performScientificFunction('sqrt')" class="sci-btn">√</button>
+    <button (click)="performScientificFunction('cbrt')" class="sci-btn">∛</button>
+
+    <button (click)="performScientificFunction('log')" class="sci-btn">log</button>
+    <button (click)="performScientificFunction('ln')" class="sci-btn">ln</button>
+    <button (click)="performScientificFunction('exp')" class="sci-btn">exp</button>
+    <button (click)="performScientificFunction('x²')" class="sci-btn">x²</button>
+
+    <button (click)="performScientificFunction('x³')" class="sci-btn">x³</button>
+    <button (click)="performScientificFunction('1/x')" class="sci-btn">1/x</button>
+    <button (click)="performScientificFunction('x!')" class="sci-btn">x!</button>
+    <button (click)="performScientificFunction('abs')" class="sci-btn">|x|</button>
+
+    <button (click)="performScientificFunction('±')" class="sci-btn">±</button>
+    <button (click)="insertConstant('π')" class="sci-btn">π</button>
+    <button (click)="insertConstant('e')" class="sci-btn">e</button>
+  </div>
+</div>

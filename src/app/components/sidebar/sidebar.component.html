@@ -1,0 +1,25 @@
+<div class="sidebar-container">
+  <div *ngFor="let topic of formulas" class="topic">
+    <div class="topic-header" (click)="toggleTopic(topic.topic)">
+      <span class="topic-label">{{ topic.topic }}</span>
+      <span class="toggle-icon">{{ isTopicExpanded(topic.topic) ? '▼' : '▶' }}</span>
+    </div>
+    <div *ngIf="isTopicExpanded(topic.topic)" class="subtopics">
+      <div *ngFor="let subtopic of topic.subtopics" class="subtopic">
+        <div class="subtopic-header">
+          <a [routerLink]="['/formula', subtopic.path]" class="subtopic-title">{{ subtopic.title }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isAuthenticated" class="extra-features">
+    <h3>Exclusive Features</h3>
+    <ul>
+      <li><a routerLink="/learning-paths">Personalized Learning Paths</a></li>
+      <li><a routerLink="/simulations">Interactive Physics Simulations</a></li>
+      <li><a routerLink="/custom-formulas">Custom Formulas</a></li>
+      <li><a routerLink="/community-qa">Community Q&A</a></li>
+    </ul>
+  </div>
+</div>

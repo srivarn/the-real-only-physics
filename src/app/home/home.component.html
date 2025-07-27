@@ -1,0 +1,10 @@
+<div class="home-container">
+  <h1 class="title">Welcome to TheOnlyPhysics</h1>
+  <p class="subtitle">A collection of inspiring quotes from the world of physics and science.</p>
+  <div class="quotes-grid">
+    <div *ngFor="let quote of quotes" class="quote-card">
+      <p class="quote-text">"{{ quote.text }}"</p>
+      <p class="quote-author">- {{ quote.author }}</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+.physics-card {
+  background-color: #2a2a2a; /* Dark background for the card */
+  color: #eee; /* Light text color */
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease-in-out;
+}
+
+.physics-card:hover {
+  transform: translateY(-5px);
+}
+
+.physics-card h3 {
+  color: #007bff; /* Blue for headings */
+  margin-top: 0;
+}
+
+.physics-card p {
+  font-size: 0.9em;
+  line-height: 1.6;
+}
+
+.physics-card a {
+  color: #0f0; /* Neon green for links */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.physics-card a:hover {
+  text-decoration: underline;
+}

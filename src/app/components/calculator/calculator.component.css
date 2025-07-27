@@ -1,0 +1,237 @@
+.calculator-container {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  margin: 20px auto;
+  border: 1px solid #333;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  background-color: #1a1a1a;
+}
+
+.display {
+  background-color: #000;
+  color: #0f0; /* Neon green for display */
+  font-size: 2.5em;
+  padding: 15px;
+  text-align: right;
+  min-height: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  word-wrap: break-word;
+  word-break: break-all;
+  border-bottom: 1px solid #333;
+  font-family: 'Courier New', monospace;
+}
+
+.mode-toggle {
+  background-color: #2a2a2a;
+  padding: 8px;
+  text-align: center;
+  border-bottom: 1px solid #333;
+}
+
+.mode-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.2s;
+}
+
+.mode-btn:hover {
+  background-color: #0056b3;
+}
+
+.scientific-functions {
+  background-color: #2a2a2a;
+  border-bottom: 1px solid #333;
+}
+
+.sci-row {
+  display: flex;
+  width: 100%;
+}
+
+.sci-btn {
+  flex: 1;
+  background-color: #3a3a3a;
+  color: #ffa500; /* Orange for scientific functions */
+  border: 1px solid #555;
+  padding: 12px 8px;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+  font-weight: bold;
+}
+
+.sci-btn:hover {
+  background-color: #4a4a4a;
+  color: #ffb84d;
+}
+
+.sci-btn:active {
+  background-color: #5a5a5a;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background-color: #333;
+}
+
+.buttons button {
+  border: none;
+  padding: 20px;
+  font-size: 1.5em;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+  font-weight: bold;
+}
+
+/* Number buttons */
+.number-btn {
+  background-color: #2a2a2a;
+  color: #eee;
+}
+
+.number-btn:hover {
+  background-color: #3a3a3a;
+}
+
+.number-btn:active {
+  background-color: #4a4a4a;
+}
+
+/* Operator buttons */
+.operator-btn {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.operator-btn:hover {
+  background-color: #0056b3;
+}
+
+.operator-btn:active {
+  background-color: #004085;
+}
+
+/* Clear button */
+.clear-btn {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.clear-btn:hover {
+  background-color: #c82333;
+}
+
+.clear-btn:active {
+  background-color: #bd2130;
+}
+
+/* Clear Entry button */
+.ce-btn {
+  background-color: #fd7e14;
+  color: #fff;
+}
+
+.ce-btn:hover {
+  background-color: #e66100;
+}
+
+.ce-btn:active {
+  background-color: #cc5500;
+}
+
+/* Backspace button */
+.backspace-btn {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.backspace-btn:hover {
+  background-color: #5a6268;
+}
+
+.backspace-btn:active {
+  background-color: #4e555b;
+}
+
+/* Equals button */
+.equals-btn {
+  background-color: #28a745;
+  color: #fff;
+  grid-column: span 2;
+}
+
+.equals-btn:hover {
+  background-color: #218838;
+}
+
+.equals-btn:active {
+  background-color: #1e7e34;
+}
+
+/* Zero button spans two columns */
+.zero-btn {
+  grid-column: span 2;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 480px) {
+  .calculator-container {
+    width: 95%;
+    margin: 10px auto;
+  }
+  
+  .display {
+    font-size: 2em;
+    padding: 12px;
+  }
+  
+  .buttons button {
+    padding: 15px;
+    font-size: 1.3em;
+  }
+  
+  .sci-btn {
+    padding: 10px 6px;
+    font-size: 0.8em;
+  }
+}
+
+/* Animation for mode switching */
+.scientific-functions {
+  animation: slideDown 0.3s ease-in-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Error state styling */
+.display.error {
+  color: #ff4444;
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
