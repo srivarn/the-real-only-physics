@@ -3,11 +3,18 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-sign-up',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, CardModule, ButtonModule, InputTextModule, PasswordModule, ToastModule],
+  providers: [MessageService],
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.css']
 })
@@ -15,6 +22,7 @@ export class SignUpComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
   private fb = inject(FormBuilder);
+  private messageService = inject(MessageService);
 
   signUpForm: FormGroup = this.fb.group({
     username: ['', [Validators.required, Validators.minLength(3)]],
@@ -32,8 +40,22 @@ export class SignUpComponent {
   onSubmit() {
     if (this.signUpForm.valid) {
       this.authService.signUp(this.signUpForm.value).subscribe({
-        next: () => this.router.navigate(['/login']),
-        error: (err: any) => this.errorMessage = err.error?.message || 'Sign up failed'
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Sign Up Successful',
+            detail: 'Welcome to KnowPhysics!'
+          });
+          this.router.navigate(['/login']);
+        },
+        error: (err: any) => {
+          this.errorMessage = err.error?.message || 'Sign up failed';
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Sign Up Failed',
+            detail: this.errorMessage
+          });
+        }
       });
     }
   }

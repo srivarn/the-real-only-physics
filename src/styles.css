@@ -1,32 +1,536 @@
-@import "~primeng/resources/themes/saga-blue/theme.css";
-@import "~primeng/resources/primeng.min.css";
-@import "~primeicons/primeicons.css";
+/* PrimeNG v16 CSS imports */
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
+
+/* Custom dark theme variables */
+:root {
+  --primary-color: #3b82f6;
+  --primary-color-text: #ffffff;
+  --surface-ground: #0f172a;
+  --surface-section: #1e293b;
+  --surface-card: #334155;
+  --surface-overlay: #475569;
+  --surface-border: #64748b;
+  --surface-hover: #475569;
+  --text-color: #f1f5f9;
+  --text-color-secondary: #cbd5e1;
+  --border-radius: 8px;
+  --focus-ring: 0 0 0 2px #3b82f6;
+  --gradient-primary: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  --gradient-secondary: linear-gradient(135deg, #1e293b, #334155);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+* {
+  box-sizing: border-box;
+}
 
 body {
-  background-color: #121212; /* Dark background */
-  color: #e0e0e0; /* Light text for contrast */
-  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  color: var(--text-color);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  min-height: 100vh;
 }
 
-.p-panelmenu .p-panelmenu-header > a {
-  background-color: #2a2a2a; /* Dark background for panel headers */
-  color: #e0e0e0; /* Light text for panel headers */
-  border-bottom: 1px solid #333333; /* Subtle dark border */
+/* Enhanced PrimeNG component styling */
+.p-card {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  transition: all 0.3s ease;
 }
 
-.p-panelmenu .p-panelmenu-header > a:hover {
-  background-color: #3a3a3a; /* Lighter dark hover effect */
+.p-card:hover {
+  transform: none;
+  box-shadow: none;
 }
 
-.p-panelmenu .p-panelmenu-content {
-  background-color: #1a1a1a; /* Slightly lighter dark for content area */
-  border-top: 1px solid #333333; /* Subtle dark border */
+.p-card .p-card-header {
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
 }
 
-.p-panelmenu .p-menuitem-link {
-  color: #036ca0; /* Lighter grey for menu item links */
+.p-card .p-card-content {
+  padding: 0;
 }
 
-.p-panelmenu .p-menuitem-link:hover {
-  background-color: #3a3a3a; /* Lighter dark hover effect for menu items */
+.p-panel {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  margin-bottom: 0;
+}
+
+.p-panel .p-panel-header {
+  background: transparent;
+  border-radius: 0;
+  color: var(--text-color);
+  font-weight: 600;
+  padding: 0;
+}
+
+.p-menubar {
+  background: rgba(30, 41, 59, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--surface-border);
+  box-shadow: var(--shadow-md);
+  padding: 0.75rem 1.5rem;
+}
+
+.p-button {
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.p-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.p-button.p-button-primary {
+  background: var(--gradient-primary);
+  border: none;
+}
+
+.p-button.p-button-outlined {
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  background: transparent;
+}
+
+.p-button.p-button-outlined:hover {
+  background: var(--primary-color);
+  color: var(--primary-color-text);
+}
+
+.p-inputtext {
+  background-color: rgba(71, 85, 105, 0.8);
+  border: 2px solid var(--surface-border);
+  border-radius: var(--border-radius);
+  color: var(--text-color);
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.p-inputtext:focus {
+  border-color: var(--primary-color);
+  box-shadow: var(--focus-ring);
+  background-color: rgba(71, 85, 105, 0.9);
+}
+
+.p-password {
+  background-color: rgba(71, 85, 105, 0.8);
+  border-radius: var(--border-radius);
+}
+
+.p-password input {
+  background-color: transparent;
+  border: none;
+  color: var(--text-color);
+  padding: 0.75rem 1rem;
+}
+
+.p-password .p-password-toggle {
+  color: var(--text-color-secondary);
+}
+
+.p-dialog {
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-xl);
+}
+
+.p-dialog .p-dialog-header {
+  background: var(--gradient-primary);
+  color: var(--primary-color-text);
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  padding: 1.5rem;
+}
+
+.p-dialog .p-dialog-content {
+  background: var(--gradient-secondary);
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  padding: 1.5rem;
+}
+
+/* Calculator specific styles */
+.calculator-container {
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+/* Enhanced sidebar styling */
+.sidebar {
+  background: rgba(30, 41, 59, 0.95);
+  backdrop-filter: blur(20px);
+  border-right: 1px solid var(--surface-border);
+  box-shadow: var(--shadow-md);
+  width: 280px;
+}
+
+.topic-header {
+  background: rgba(51, 65, 85, 0.8);
+  border-radius: var(--border-radius);
+  margin-bottom: 0.5rem;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.topic-header:hover {
+  background: rgba(59, 130, 246, 0.2);
+  transform: translateX(4px);
+}
+
+.subtopic-header {
+  background: rgba(71, 85, 105, 0.6);
+  border-radius: calc(var(--border-radius) - 4px);
+  margin-bottom: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.subtopic-header:hover {
+  background: rgba(59, 130, 246, 0.15);
+}
+
+.formula-item {
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: calc(var(--border-radius) - 6px);
+  margin-bottom: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+  cursor: pointer;
+}
+
+.formula-item:hover {
+  background: rgba(59, 130, 246, 0.2);
+  border-left-color: var(--primary-color);
+  transform: translateX(4px);
+}
+
+/* Toast styling */
+.p-toast {
+  z-index: 1000;
+}
+
+.p-toast .p-toast-message {
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(10px);
+}
+
+/* Input number styling */
+.p-inputnumber {
+  background-color: rgba(71, 85, 105, 0.8);
+  border-radius: var(--border-radius);
+}
+
+.p-inputnumber input {
+  background-color: transparent;
+  border: none;
+  color: var(--text-color);
+  padding: 0.75rem 1rem;
+}
+
+.p-inputnumber .p-inputnumber-button {
+  background-color: rgba(71, 85, 105, 0.9);
+  border: 1px solid var(--surface-border);
+  color: var(--text-color);
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
+
+.p-inputnumber .p-inputnumber-button:hover {
+  background-color: var(--primary-color);
+  color: var(--primary-color-text);
+}
+
+/* Tag styling */
+.p-tag {
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  padding: 0.25rem 0.75rem;
+}
+
+/* Main content area */
+.main-content {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.6) 100%);
+  min-height: calc(100vh - 64px);
+  padding: 2rem;
+  flex: 1;
+}
+
+/* Header styling */
+.header {
+  background: rgba(30, 41, 59, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--surface-border);
+  box-shadow: var(--shadow-md);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo-container img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: var(--shadow-sm);
+}
+
+.logo-container h2 {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .p-dialog {
+    width: 95% !important;
+    margin: 1rem;
+  }
+  
+  .calculator-container {
+    padding: 0;
+  }
+  
+  .main-content {
+    padding: 1rem;
+  }
+  
+  .sidebar {
+    width: 100%;
+    position: relative;
+  }
+}
+
+/* Animation for cards */
+.p-card {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hover effects for interactive elements */
+.p-button, .p-card, .p-panel {
+  transition: all 0.3s ease;
+}
+
+.p-button:hover, .p-card:hover, .p-panel:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(71, 85, 105, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #1d4ed8;
+}
+
+/* Loading animation */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(59, 130, 246, 0.3);
+  border-radius: 50%;
+  border-top-color: var(--primary-color);
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Error message styling */
+.error-message {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  border: 1px solid #ef4444;
+  border-radius: var(--border-radius);
+  color: white;
+  padding: 1rem;
+  margin: 1rem 0;
+  box-shadow: var(--shadow-md);
+}
+
+/* Success message styling */
+.success-message {
+  background: linear-gradient(135deg, #059669, #047857);
+  border: 1px solid #10b981;
+  border-radius: var(--border-radius);
+  color: white;
+  padding: 1rem;
+  margin: 1rem 0;
+  box-shadow: var(--shadow-md);
+}
+
+/* Formula page specific styles */
+.formula-page {
+  max-width: none;
+  padding: 0;
+}
+
+.formula-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.formula-name {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.formula-display {
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.formula-text {
+  font-size: 2rem;
+  font-family: 'Courier New', monospace;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.formula-units {
+  color: var(--text-color-secondary);
+  font-size: 1.1rem;
+}
+
+.formula-section {
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
+
+.section-content {
+  line-height: 1.8;
+  color: var(--text-color);
+}
+
+.variables-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.variable-item {
+  background: rgba(71, 85, 105, 0.3);
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  border-left: 4px solid var(--primary-color);
+}
+
+.variable-name {
+  font-weight: 600;
+  color: var(--primary-color);
+  font-family: 'Courier New', monospace;
+}
+
+.variable-description {
+  color: var(--text-color-secondary);
+  margin-top: 0.5rem;
+}
+
+.calculator-section {
+  background: rgba(59, 130, 246, 0.05);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  margin-top: 2rem;
+  border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+.calculator-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--primary-color);
+  text-align: center;
+}
+
+.calculator-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.calculator-result {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.result-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #10b981;
+  margin-bottom: 0.5rem;
+}
+
+.result-unit {
+  color: var(--text-color-secondary);
 }

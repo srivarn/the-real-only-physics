@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, ActivatedRoute } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 
@@ -12,11 +12,5 @@ import { ButtonModule } from 'primeng/button';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  showQuotes: boolean = false;
-
-  constructor(private route: ActivatedRoute) {
-    this.route.queryParams.subscribe(params => {
-      this.showQuotes = params['showQuotes'] === 'true';
-    });
-  }
+  // Component logic can be added here if needed
 }

@@ -1,54 +1,148 @@
-<div class="calculator-container">
-  <div class="display">{{ displayValue }}</div>
+<div class="calculator-integrated">
+  <!-- Formula Calculator Section -->
+  <div class="formula-calculator-section">
+    <h3 class="calculator-title">Formula Calculator</h3>
+    
+    <!-- Calculator Form -->
+    <div class="calculator-form">
+      <div *ngFor="let variable of formulaVariables" class="field">
+        <label [for]="variable.key" class="block text-sm font-medium mb-2 text-primary-color">
+          {{ variable.key }} ({{ variable.unit }})
+        </label>
+        <p-inputNumber 
+          [id]="variable.key"
+          [(ngModel)]="variable.value"
+          [placeholder]="'Enter ' + variable.key"
+          [minFractionDigits]="2"
+          [maxFractionDigits]="6"
+          styleClass="w-full">
+        </p-inputNumber>
+        <small class="text-surface-border">{{ variable.description }}</small>
+      </div>
+    </div>
 
-  <!-- Combined Basic and Scientific Calculator Buttons -->
-  <div class="buttons scientific-functions">
-    <button (click)="clear()" class="clear-btn">C</button>
-    <button (click)="clearEntry()" class="ce-btn">CE</button>
-    <button (click)="backspace()" class="backspace-btn">⌫</button>
-    <button (click)="performOperation('/')" class="operator-btn">÷</button>
+    <!-- Calculate Button -->
+    <div class="text-center mb-4">
+      <p-button 
+        label="Calculate" 
+        icon="pi pi-calculator"
+        styleClass="p-button-primary"
+        (click)="calculate()"
+        [disabled]="!canCalculate()">
+      </p-button>
+    </div>
 
-    <button (click)="inputDigit('7')" class="number-btn">7</button>
-    <button (click)="inputDigit('8')" class="number-btn">8</button>
-    <button (click)="inputDigit('9')" class="number-btn">9</button>
-    <button (click)="performOperation('*')" class="operator-btn">×</button>
+    <!-- Result Display -->
+    <div *ngIf="result" class="calculator-result">
+      <div class="result-value">{{ result.value.toFixed(4) }}</div>
+      <div class="result-unit">{{ result.unit }}</div>
+    </div>
+  </div>
 
-    <button (click)="inputDigit('4')" class="number-btn">4</button>
-    <button (click)="inputDigit('5')" class="number-btn">5</button>
-    <button (click)="inputDigit('6')" class="number-btn">6</button>
-    <button (click)="performOperation('-')" class="operator-btn">−</button>
+  <!-- Scientific Calculator Section -->
+  <div class="scientific-calculator-section">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="calculator-title">Scientific Calculator</h3>
+      <div class="flex space-x-2">
+        <p-button 
+          [label]="scientificMode ? 'Basic' : 'Scientific'"
+          icon="pi pi-calculator"
+          styleClass="p-button-outlined p-button-sm"
+          (click)="toggleScientificMode()">
+        </p-button>
+        <p-button 
+          [label]="angleUnit"
+          icon="pi pi-angle"
+          styleClass="p-button-outlined p-button-sm"
+          (click)="toggleAngleUnit()">
+        </p-button>
+      </div>
+    </div>
 
-    <button (click)="inputDigit('1')" class="number-btn">1</button>
-    <button (click)="inputDigit('2')" class="number-btn">2</button>
-    <button (click)="inputDigit('3')" class="number-btn">3</button>
-    <button (click)="performOperation('+')" class="operator-btn">+</button>
+    <!-- Display -->
+    <div class="calculator-display">
+      <div class="display-value">{{ displayValue }}</div>
+      <div class="display-info">
+        <span class="angle-unit">{{ angleUnit }}</span>
+        <span class="memory-indicator" *ngIf="memory !== 0">M</span>
+      </div>
+    </div>
 
-    <button (click)="inputDigit('0')" class="number-btn zero-btn">0</button>
-    <button (click)="inputDecimal()" class="number-btn">.</button>
-    <button (click)="calculateResult()" class="equals-btn">=</button>
+    <!-- Calculator Buttons -->
+    <div class="calculator-buttons">
+      <!-- Memory Row -->
+      <div class="button-row">
+        <button class="calc-btn memory-btn" (click)="memoryClear()">MC</button>
+        <button class="calc-btn memory-btn" (click)="memoryRecall()">MR</button>
+        <button class="calc-btn memory-btn" (click)="memoryAdd()">M+</button>
+        <button class="calc-btn memory-btn" (click)="memorySubtract()">M-</button>
+        <button class="calc-btn memory-btn" (click)="memoryStore()">MS</button>
+      </div>
 
-    <button (click)="performScientificFunction('sin')" class="sci-btn">sin</button>
-    <button (click)="performScientificFunction('cos')" class="sci-btn">cos</button>
-    <button (click)="performScientificFunction('tan')" class="sci-btn">tan</button>
-    <button (click)="performScientificFunction('asin')" class="sci-btn">asin</button>
+      <!-- Scientific Functions Row -->
+      <div class="button-row" *ngIf="scientificMode">
+        <button class="calc-btn function-btn" (click)="sin()">sin</button>
+        <button class="calc-btn function-btn" (click)="cos()">cos</button>
+        <button class="calc-btn function-btn" (click)="tan()">tan</button>
+        <button class="calc-btn function-btn" (click)="log()">log</button>
+        <button class="calc-btn function-btn" (click)="ln()">ln</button>
+      </div>
 
-    <button (click)="performScientificFunction('acos')" class="sci-btn">acos</button>
-    <button (click)="performScientificFunction('atan')" class="sci-btn">atan</button>
-    <button (click)="performScientificFunction('sqrt')" class="sci-btn">√</button>
-    <button (click)="performScientificFunction('cbrt')" class="sci-btn">∛</button>
+      <!-- Scientific Functions Row 2 -->
+      <div class="button-row" *ngIf="scientificMode">
+        <button class="calc-btn function-btn" (click)="sqrt()">√</button>
+        <button class="calc-btn function-btn" (click)="square()">x²</button>
+        <button class="calc-btn function-btn" (click)="inverse()">1/x</button>
+        <button class="calc-btn function-btn" (click)="performOperation('^')">x^y</button>
+        <button class="calc-btn function-btn" (click)="clear()">C</button>
+      </div>
 
-    <button (click)="performScientificFunction('log')" class="sci-btn">log</button>
-    <button (click)="performScientificFunction('ln')" class="sci-btn">ln</button>
-    <button (click)="performScientificFunction('exp')" class="sci-btn">exp</button>
-    <button (click)="performScientificFunction('x²')" class="sci-btn">x²</button>
+      <!-- Number Pad -->
+      <div class="button-row">
+        <button class="calc-btn number-btn" (click)="inputDigit('7')">7</button>
+        <button class="calc-btn number-btn" (click)="inputDigit('8')">8</button>
+        <button class="calc-btn number-btn" (click)="inputDigit('9')">9</button>
+        <button class="calc-btn operator-btn" (click)="performOperation('/')">÷</button>
+        <button class="calc-btn clear-btn" (click)="clear()">AC</button>
+      </div>
 
-    <button (click)="performScientificFunction('x³')" class="sci-btn">x³</button>
-    <button (click)="performScientificFunction('1/x')" class="sci-btn">1/x</button>
-    <button (click)="performScientificFunction('x!')" class="sci-btn">x!</button>
-    <button (click)="performScientificFunction('abs')" class="sci-btn">|x|</button>
+      <div class="button-row">
+        <button class="calc-btn number-btn" (click)="inputDigit('4')">4</button>
+        <button class="calc-btn number-btn" (click)="inputDigit('5')">5</button>
+        <button class="calc-btn number-btn" (click)="inputDigit('6')">6</button>
+        <button class="calc-btn operator-btn" (click)="performOperation('*')">×</button>
+        <button class="calc-btn function-btn" (click)="sqrt()">√</button>
+      </div>
 
-    <button (click)="performScientificFunction('±')" class="sci-btn">±</button>
-    <button (click)="insertConstant('π')" class="sci-btn">π</button>
-    <button (click)="insertConstant('e')" class="sci-btn">e</button>
+      <div class="button-row">
+        <button class="calc-btn number-btn" (click)="inputDigit('1')">1</button>
+        <button class="calc-btn number-btn" (click)="inputDigit('2')">2</button>
+        <button class="calc-btn number-btn" (click)="inputDigit('3')">3</button>
+        <button class="calc-btn operator-btn" (click)="performOperation('-')">−</button>
+        <button class="calc-btn function-btn" (click)="square()">x²</button>
+      </div>
+
+      <div class="button-row">
+        <button class="calc-btn number-btn" (click)="inputDigit('0')">0</button>
+        <button class="calc-btn number-btn" (click)="inputDecimal()">.</button>
+        <button class="calc-btn equals-btn" (click)="performOperation('=')">=</button>
+        <button class="calc-btn operator-btn" (click)="performOperation('+')">+</button>
+        <button class="calc-btn function-btn" (click)="inverse()">1/x</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- History Section -->
+  <div *ngIf="calculationHistory.length > 0" class="history-section">
+    <h3 class="text-lg font-semibold mb-3 text-primary-color">Calculation History</h3>
+    <div class="space-y-2 max-h-40 overflow-y-auto">
+      <div *ngFor="let calc of calculationHistory.slice(-5)" class="history-item">
+        <div class="text-sm text-surface-border">{{ calc.timestamp | date:'short' }}</div>
+        <div class="font-mono text-sm">{{ calc.inputs | json }}</div>
+        <div class="text-primary-color font-semibold">= {{ calc.result.toFixed(4) }} {{ calc.unit }}</div>
+      </div>
+    </div>
   </div>
 </div>
+
+<p-toast></p-toast>

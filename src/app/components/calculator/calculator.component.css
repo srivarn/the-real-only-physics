@@ -235,3 +235,274 @@
   25% { transform: translateX(-5px); }
   75% { transform: translateX(5px); }
 }
+
+.calculator-integrated {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.formula-calculator-section,
+.scientific-calculator-section {
+  background: rgba(30, 41, 59, 0.8);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.calculator-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--primary-color);
+  text-align: center;
+}
+
+.calculator-form {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.calculator-result {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.result-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #10b981;
+  margin-bottom: 0.5rem;
+}
+
+.result-unit {
+  color: var(--text-color-secondary);
+}
+
+/* Scientific Calculator Styles */
+.calculator-display {
+  background: rgba(15, 23, 42, 0.9);
+  border: 2px solid rgba(59, 130, 246, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  text-align: right;
+}
+
+.display-value {
+  font-size: 2rem;
+  font-family: 'Courier New', monospace;
+  color: #10b981;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.display-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: var(--text-color-secondary);
+}
+
+.angle-unit,
+.memory-indicator {
+  background: rgba(59, 130, 246, 0.2);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.calculator-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.button-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+}
+
+.calc-btn {
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 3rem;
+}
+
+.calc-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.calc-btn:active {
+  transform: translateY(0);
+}
+
+.number-btn {
+  background: rgba(71, 85, 105, 0.8);
+  color: var(--text-color);
+  border: 1px solid rgba(71, 85, 105, 0.9);
+}
+
+.number-btn:hover {
+  background: rgba(71, 85, 105, 1);
+}
+
+.operator-btn {
+  background: rgba(59, 130, 246, 0.8);
+  color: white;
+  border: 1px solid rgba(59, 130, 246, 0.9);
+}
+
+.operator-btn:hover {
+  background: rgba(59, 130, 246, 1);
+}
+
+.equals-btn {
+  background: rgba(16, 185, 129, 0.8);
+  color: white;
+  border: 1px solid rgba(16, 185, 129, 0.9);
+  grid-column: span 2;
+}
+
+.equals-btn:hover {
+  background: rgba(16, 185, 129, 1);
+}
+
+.clear-btn {
+  background: rgba(239, 68, 68, 0.8);
+  color: white;
+  border: 1px solid rgba(239, 68, 68, 0.9);
+}
+
+.clear-btn:hover {
+  background: rgba(239, 68, 68, 1);
+}
+
+.function-btn {
+  background: rgba(139, 92, 246, 0.8);
+  color: white;
+  border: 1px solid rgba(139, 92, 246, 0.9);
+  font-size: 0.75rem;
+}
+
+.function-btn:hover {
+  background: rgba(139, 92, 246, 1);
+}
+
+.memory-btn {
+  background: rgba(245, 158, 11, 0.8);
+  color: white;
+  border: 1px solid rgba(245, 158, 11, 0.9);
+  font-size: 0.75rem;
+}
+
+.memory-btn:hover {
+  background: rgba(245, 158, 11, 1);
+}
+
+/* History Section */
+.history-section {
+  grid-column: span 2;
+  background: rgba(30, 41, 59, 0.8);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  margin-top: 1rem;
+}
+
+.history-item {
+  background: rgba(71, 85, 105, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  border-left: 4px solid var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .calculator-integrated {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .history-section {
+    grid-column: span 1;
+  }
+  
+  .button-row {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .equals-btn {
+    grid-column: span 1;
+  }
+}
+
+/* Dark theme enhancements */
+.calculator-integrated {
+  background: transparent;
+}
+
+.formula-calculator-section,
+.scientific-calculator-section,
+.history-section {
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.calc-btn {
+  backdrop-filter: blur(5px);
+}
+
+/* Animation for calculator buttons */
+.calc-btn {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.calc-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* Glow effect for active buttons */
+.calc-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Special styling for scientific mode */
+.scientific-calculator-section {
+  position: relative;
+}
+
+.scientific-calculator-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+  border-radius: 12px;
+  pointer-events: none;
+  z-index: -1;
+}

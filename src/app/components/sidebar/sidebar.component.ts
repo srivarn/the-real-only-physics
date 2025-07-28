@@ -6,12 +6,11 @@ import { PHYSICS_TOPICS, PHYSICS_FORMULAS, PhysicsFormula } from '../../data/phy
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { BadgeModule } from 'primeng/badge';
-import { SidebarModule } from 'primeng/sidebar';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterModule, ButtonModule, CardModule, BadgeModule, SidebarModule],
+  imports: [CommonModule, RouterModule, ButtonModule, CardModule, BadgeModule],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
@@ -22,14 +21,8 @@ export class SidebarComponent {
   physicsTopics = PHYSICS_TOPICS;
   physicsFormulas = PHYSICS_FORMULAS;
 
-  sidebarVisible: boolean = false;
-
   constructor(private router: Router) {
     this.checkAuth();
-  }
-
-  toggleSidebar(): void {
-    this.sidebarVisible = !this.sidebarVisible;
   }
 
   expandedTopics: Set<string> = new Set();
@@ -53,11 +46,6 @@ export class SidebarComponent {
 
   navigateToFormula(formulaId: string): void {
     this.router.navigate(['/formula', formulaId]);
-  }
-
-  navigateToHomeWithQuotes(): void {
-    this.router.navigate(['/home'], { queryParams: { showQuotes: 'true' } });
-    this.sidebarVisible = false;
   }
 
   getFormulasBySubtopic(topic: string, subtopic: string): PhysicsFormula[] {
