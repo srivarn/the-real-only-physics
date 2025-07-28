@@ -2,11 +2,16 @@ import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
+import { PHYSICS_TOPICS, PHYSICS_FORMULAS, PhysicsFormula } from '../../data/physics-formulas';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { BadgeModule } from 'primeng/badge';
+import { SidebarModule } from 'primeng/sidebar';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ButtonModule, CardModule, BadgeModule, SidebarModule],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
@@ -14,9 +19,17 @@ export class SidebarComponent {
   @Input() formulas: any[] = [];
   private authService = inject(AuthService);
   isAuthenticated: boolean = false;
+  physicsTopics = PHYSICS_TOPICS;
+  physicsFormulas = PHYSICS_FORMULAS;
+
+  sidebarVisible: boolean = false;
 
   constructor(private router: Router) {
     this.checkAuth();
+  }
+
+  toggleSidebar(): void {
+    this.sidebarVisible = !this.sidebarVisible;
   }
 
   expandedTopics: Set<string> = new Set();
@@ -38,8 +51,19 @@ export class SidebarComponent {
     }
   }
 
-  navigateToFormula(path: string): void {
-    this.router.navigate(['/formula', path]);
+  navigateToFormula(formulaId: string): void {
+    this.router.navigate(['/formula', formulaId]);
+  }
+
+  navigateToHomeWithQuotes(): void {
+    this.router.navigate(['/home'], { queryParams: { showQuotes: 'true' } });
+    this.sidebarVisible = false;
+  }
+
+  getFormulasBySubtopic(topic: string, subtopic: string): PhysicsFormula[] {
+    return this.physicsFormulas.filter(formula => 
+      formula.topic === topic && formula.subtopic === subtopic
+    );
   }
 
   isTopicExpanded(topic: string): boolean {

@@ -1,18 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FORMULAS } from '../formulas';
+import { PHYSICS_FORMULAS, PhysicsFormula } from '../data/physics-formulas';
 import { CommonModule } from '@angular/common';
 import { CalculatorComponent } from '../components/calculator/calculator.component';
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
+import { PanelModule } from 'primeng/panel';
+import { TagModule } from 'primeng/tag';
+import { DividerModule } from 'primeng/divider';
 
 @Component({
   selector: 'app-formula-page',
   standalone: true,
-  imports: [CommonModule, CalculatorComponent],
+  imports: [CommonModule, CalculatorComponent, CardModule, ButtonModule, PanelModule, TagModule, DividerModule],
   templateUrl: './formula-page.component.html',
   styleUrls: ['./formula-page.component.css']
 })
 export class FormulaPageComponent implements OnInit {
-  formula: any;
+  formula: PhysicsFormula | null = null;
   explanationExpanded: boolean = false;
   realLifeApplicationExpanded: boolean = false;
   calculatorKey: string = '';
@@ -21,23 +26,16 @@ export class FormulaPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      const path = params['path'];
-      this.formula = this.findFormulaByPath(path);
+      const formulaId = params['id'];
+      this.formula = this.findFormulaById(formulaId);
       this.explanationExpanded = false;
       this.realLifeApplicationExpanded = false;
-      this.calculatorKey = path;
+      this.calculatorKey = formulaId;
     });
   }
 
-  findFormulaByPath(path: string): any {
-    for (const topic of FORMULAS) {
-      for (const subtopic of topic.subtopics) {
-        if (subtopic.path === path) {
-          return subtopic;
-        }
-      }
-    }
-    return null;
+  findFormulaById(id: string): PhysicsFormula | null {
+    return PHYSICS_FORMULAS.find(formula => formula.id === id) || null;
   }
 
   toggleExplanation(): void {
@@ -46,5 +44,13 @@ export class FormulaPageComponent implements OnInit {
 
   toggleRealLifeApplication(): void {
     this.realLifeApplicationExpanded = !this.realLifeApplicationExpanded;
+  }
+
+  getVariableEntries(): { key: string; value: string }[] {
+    if (!this.formula) return [];
+    return Object.entries(this.formula.variables).map(([key, value]) => ({
+      key,
+      value: value as string
+    }));
   }
 }

@@ -1,25 +1,68 @@
-<div class="sidebar-container">
-  <div *ngFor="let topic of formulas" class="topic">
-    <div class="topic-header" (click)="toggleTopic(topic.topic)">
-      <span class="topic-label">{{ topic.topic }}</span>
-      <span class="toggle-icon">{{ isTopicExpanded(topic.topic) ? '▼' : '▶' }}</span>
-    </div>
-    <div *ngIf="isTopicExpanded(topic.topic)" class="subtopics">
-      <div *ngFor="let subtopic of topic.subtopics" class="subtopic">
-        <div class="subtopic-header">
-          <a [routerLink]="['/formula', subtopic.path]" class="subtopic-title">{{ subtopic.title }}</a>
+<p-button icon="pi pi-bars" (click)="toggleSidebar()" styleClass="p-button-rounded p-button-text p-button-plain"></p-button>
+
+<p-sidebar [(visible)]="sidebarVisible" position="left" [baseZIndex]="10000" [modal]="true" [dismissible]="true" [showCloseIcon]="true" (onHide)="sidebarVisible = false">
+  <div class="p-4">
+    <!-- Physics Topics -->
+    <h3 class="text-lg font-semibold mb-4 text-blue-400">Physics Topics</h3>
+    <div class="space-y-2">
+      <div *ngFor="let topic of physicsTopics" class="topic-section">
+        <div class="topic-header cursor-pointer p-2 rounded hover:bg-gray-800 transition-colors" 
+             (click)="toggleTopic(topic.name)">
+          <span class="topic-name font-medium">{{ topic.name }}</span>
+          <span class="expand-icon ml-2">{{ isTopicExpanded(topic.name) ? '▼' : '▶' }}</span>
+        </div>
+        <div *ngIf="isTopicExpanded(topic.name)" class="subtopics ml-4 mt-2 space-y-1">
+          <div *ngFor="let subtopic of topic.subtopics" class="subtopic-section">
+            <div class="subtopic-header cursor-pointer p-1 rounded hover:bg-gray-800 transition-colors" 
+                 (click)="toggleSubtopic(subtopic)">
+              <span class="subtopic-name text-sm">{{ subtopic }}</span>
+              <span class="expand-icon ml-2 text-xs">{{ isSubtopicExpanded(subtopic) ? '▼' : '▶' }}</span>
+            </div>
+            <div *ngIf="isSubtopicExpanded(subtopic)" class="formulas ml-4 mt-1 space-y-1">
+              <div *ngFor="let formula of getFormulasBySubtopic(topic.name, subtopic)" 
+                   class="formula-item cursor-pointer p-1 rounded hover:bg-blue-900 transition-colors text-xs" 
+                   (click)="navigateToFormula(formula.id)">
+                <span class="formula-name">{{ formula.name }}</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+    
+    <div class="mt-4">
+      <button pButton type="button" label="Home with Quotes" icon="pi pi-home" (click)="navigateToHomeWithQuotes()" class="p-button-sm p-button-text"></button>
+    </div>
+    
+    <!-- Member Features Card -->
+    <p-card styleClass="mt-6 bg-surface-card border-surface-border">
+      <ng-template pTemplate="header">
+        <div class="flex items-center">
+          <i class="pi pi-star text-primary-color mr-2"></i>
+          <span class="font-semibold text-primary-color">Member Features</span>
+        </div>
+      </ng-template>
+      
+      <ng-template pTemplate="content">
+        <div class="space-y-2">
+          <div class="flex items-center">
+            <i class="pi pi-bolt text-blue-400 mr-2"></i>
+            <span class="text-sm">Interactive Simulator</span>
+          </div>
+          <div class="flex items-center">
+            <i class="pi pi-comments text-green-400 mr-2"></i>
+            <span class="text-sm">Community Q&A</span>
+          </div>
+          <div class="flex items-center">
+            <i class="pi pi-pencil text-purple-400 mr-2"></i>
+            <span class="text-sm">Custom Formulas</span>
+          </div>
+          <div class="flex items-center">
+            <i class="pi pi-chart-line text-orange-400 mr-2"></i>
+            <span class="text-sm">Learning Paths</span>
+          </div>
+        </div>
+      </ng-template>
+    </p-card>
   </div>
-
-  <div *ngIf="isAuthenticated" class="extra-features">
-    <h3>Exclusive Features</h3>
-    <ul>
-      <li><a routerLink="/learning-paths">Personalized Learning Paths</a></li>
-      <li><a routerLink="/simulations">Interactive Physics Simulations</a></li>
-      <li><a routerLink="/custom-formulas">Custom Formulas</a></li>
-      <li><a routerLink="/community-qa">Community Q&A</a></li>
-    </ul>
-  </div>
-</div>
+</p-sidebar>
