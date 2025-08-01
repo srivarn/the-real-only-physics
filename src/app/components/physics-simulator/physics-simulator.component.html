@@ -1,3 +1,236 @@
-<p>
-  physics-simulator works!
-</p>
+<div class="simulator-container">
+  <div class="mb-6">
+    <h2 class="text-2xl font-bold text-primary-color mb-4">Physics Simulator</h2>
+    <p class="text-surface-border mb-6">
+      Explore fundamental physics concepts through interactive simulations. Adjust parameters and observe real-time physics calculations.
+    </p>
+  </div>
+
+  <!-- Simulation Controls -->
+  <div class="simulator-controls mb-6">
+    <!-- Simulation Type Selection -->
+    <div class="field">
+      <label class="block text-sm font-medium mb-2">Simulation Type</label>
+      <select 
+        [(ngModel)]="simulationType" 
+        (change)="onSimulationTypeChange()"
+        class="w-full p-3 bg-surface-card border border-surface-border rounded text-surface-text">
+        <option value="projectile">Projectile Motion</option>
+        <option value="pendulum">Simple Pendulum</option>
+        <option value="spring">Spring-Mass System</option>
+      </select>
+    </div>
+
+    <!-- Projectile Motion Parameters -->
+    <div *ngIf="simulationType === 'projectile'" class="grid grid-cols-2 gap-4">
+      <div class="field">
+        <label class="block text-sm font-medium mb-2">Initial Velocity (m/s)</label>
+        <input 
+          type="number" 
+          [(ngModel)]="projectileParams.initialVelocity" 
+          class="w-full p-3 bg-surface-card border border-surface-border rounded text-surface-text"
+          min="1" max="200">
+      </div>
+      <div class="field">
+        <label class="block text-sm font-medium mb-2">Launch Angle (degrees)</label>
+        <input 
+          type="number" 
+          [(ngModel)]="projectileParams.angle" 
+          class="w-full p-3 bg-surface-card border border-surface-border rounded text-surface-text"
+          min="0" max="90">
+      </div>
+      <div class="field">
+        <label class="block text-sm font-medium mb-2">Gravity (m/s²)</label>
+        <input 
+          type="number" 
+          [(ngModel)]="projectileParams.gravity" 
+          class="w-full p-3 bg-surface-card border border-surface-border rounded text-surface-text"
+          min="1" max="20" step="0.1">
+      </div>
+      <div class="field">
+        <label class="block text-sm font-medium mb-2">Initial Height (m)</label>
+        <input 
+          type="number" 
+          [(ngModel)]="projectileParams.initialHeight" 
+          class="w-full p-3 bg-surface-card border border-surface-border rounded text-surface-text"
+          min="0" max="100">
+      </div>
+    </div>
+
+    <!-- Pendulum Parameters -->
+    <div *ngIf="simulationType === 'pendulum'" class="grid grid-cols-2 gap-4">
+      <div class="field">
+        <label class="block text-sm font-medium mb-2">Length (m)</label>
+        <input 
+          type="number" 
+          [(ngModel)]="pendulumParams.length" 
+          class="w-full p-3 bg-surface-card border border-surface-border rounded text-surface-text"
+          min="10" max="200">
+      </div>
+      <div class="field">
+        <label class="block text-sm font-medium mb-2">Initial Angle (degrees)</label>
+        <input 
+          type="number" 
+          [(ngModel)]="pendulumParams.initialAngle" 
+          class="w-full p-3 bg-surface-card border border-surface-border rounded text-surface-text"
+          min="0" max="90">
+      </div>
+      <div class="field">
+        <label class="block text-sm font-medium mb-2">Gravity (m/s²)</label>
+        <input 
+          type="number" 
+          [(ngModel)]="pendulumParams.gravity" 
+          class="w-full p-3 bg-surface-card border border-surface-border rounded text-surface-text"
+          min="1" max="20" step="0.1">
+      </div>
+      <div class="field">
+        <label class="block text-sm font-medium mb-2">Damping</label>
+        <input 
+          type="number" 
+          [(ngModel)]="pendulumParams.damping" 
+          class="w-full p-3 bg-surface-card border border-surface-border rounded text-surface-text"
+          min="0.8" max="1" step="0.01">
+      </div>
+    </div>
+
+    <!-- Spring Parameters -->
+    <div *ngIf="simulationType === 'spring'" class="grid grid-cols-2 gap-4">
+      <div class="field">
+        <label class="block text-sm font-medium mb-2">Mass (kg)</label>
+        <input 
+          type="number" 
+          [(ngModel)]="springParams.mass" 
+          class="w-full p-3 bg-surface-card border border-surface-border rounded text-surface-text"
+          min="0.1" max="10" step="0.1">
+      </div>
+      <div class="field">
+        <label class="block text-sm font-medium mb-2">Spring Constant (N/m)</label>
+        <input 
+          type="number" 
+          [(ngModel)]="springParams.springConstant" 
+          class="w-full p-3 bg-surface-card border border-surface-border rounded text-surface-text"
+          min="1" max="50">
+      </div>
+      <div class="field">
+        <label class="block text-sm font-medium mb-2">Damping</label>
+        <input 
+          type="number" 
+          [(ngModel)]="springParams.damping" 
+          class="w-full p-3 bg-surface-card border border-surface-border rounded text-surface-text"
+          min="0" max="5" step="0.1">
+      </div>
+      <div class="field">
+        <label class="block text-sm font-medium mb-2">Initial Displacement (m)</label>
+        <input 
+          type="number" 
+          [(ngModel)]="springParams.initialDisplacement" 
+          class="w-full p-3 bg-surface-card border border-surface-border rounded text-surface-text"
+          min="10" max="100">
+      </div>
+    </div>
+  </div>
+
+  <!-- Simulation Display -->
+  <div class="mb-6">
+    <canvas 
+      #simulationCanvas 
+      class="simulator-canvas w-full"
+      [width]="canvasWidth" 
+      [height]="canvasHeight">
+    </canvas>
+  </div>
+
+  <!-- Control Buttons -->
+  <div class="flex flex-wrap gap-4 mb-6">
+    <button 
+      (click)="startSimulation()" 
+      class="px-6 py-3 bg-primary-color text-white rounded font-medium hover:bg-blue-700 transition-colors"
+      [disabled]="isRunning">
+      <i class="pi pi-play mr-2"></i>Start
+    </button>
+    <button 
+      (click)="stopSimulation()" 
+      class="px-6 py-3 bg-red-600 text-white rounded font-medium hover:bg-red-700 transition-colors"
+      [disabled]="!isRunning">
+      <i class="pi pi-pause mr-2"></i>Stop
+    </button>
+    <button 
+      (click)="resetSimulation()" 
+      class="px-6 py-3 bg-gray-600 text-white rounded font-medium hover:bg-gray-700 transition-colors">
+      <i class="pi pi-refresh mr-2"></i>Reset
+    </button>
+  </div>
+
+  <!-- Display Options -->
+  <div class="grid grid-cols-2 gap-4 mb-6">
+    <div class="flex items-center">
+      <input 
+        type="checkbox" 
+        [(ngModel)]="showTrails" 
+        (change)="toggleTrails()"
+        class="mr-3">
+      <label class="text-sm">Show Trails</label>
+    </div>
+    <div class="flex items-center">
+      <input 
+        type="checkbox" 
+        [(ngModel)]="showVectors" 
+        (change)="toggleVectors()"
+        class="mr-3">
+      <label class="text-sm">Show Vectors</label>
+    </div>
+  </div>
+
+  <!-- Simulation Speed -->
+  <div class="mb-6">
+    <label class="block text-sm font-medium mb-2">Simulation Speed</label>
+    <input 
+      type="range" 
+      [(ngModel)]="simulationSpeed" 
+      min="0.1" 
+      max="3" 
+      step="0.1"
+      class="w-full">
+    <div class="text-center text-sm text-surface-border mt-1">{{ simulationSpeed }}x</div>
+  </div>
+
+  <!-- Physics Information -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="bg-surface-card p-4 rounded border border-surface-border">
+      <h3 class="text-lg font-semibold text-primary-color mb-3">Current State</h3>
+      <div class="space-y-2 text-sm">
+        <div class="flex justify-between">
+          <span class="text-surface-border">Time:</span>
+          <span class="font-mono">{{ currentState.time.toFixed(2) }}s</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-surface-border">Position:</span>
+          <span class="font-mono">({{ currentState.position.x.toFixed(1) }}, {{ currentState.position.y.toFixed(1) }})</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-surface-border">Velocity:</span>
+          <span class="font-mono">({{ currentState.velocity.x.toFixed(1) }}, {{ currentState.velocity.y.toFixed(1) }})</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-surface-border">Acceleration:</span>
+          <span class="font-mono">({{ currentState.acceleration.x.toFixed(1) }}, {{ currentState.acceleration.y.toFixed(1) }})</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-surface-card p-4 rounded border border-surface-border">
+      <h3 class="text-lg font-semibold text-primary-color mb-3">Physics Concepts</h3>
+      <div class="space-y-2 text-sm">
+        <div *ngIf="simulationType === 'projectile'">
+          <p class="text-surface-border">Projectile motion demonstrates the independence of horizontal and vertical motion under gravity.</p>
+        </div>
+        <div *ngIf="simulationType === 'pendulum'">
+          <p class="text-surface-border">Simple harmonic motion shows how a pendulum oscillates with a period independent of amplitude.</p>
+        </div>
+        <div *ngIf="simulationType === 'spring'">
+          <p class="text-surface-border">Spring-mass systems exhibit simple harmonic motion with energy conservation between kinetic and potential energy.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

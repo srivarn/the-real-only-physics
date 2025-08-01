@@ -14,8 +14,8 @@
 }
 
 .topic-header {
-  font-weight: 700;
-  font-size: 1.2rem;
+  font-weight: 600;
+  font-size: 0.875rem;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
@@ -46,6 +46,7 @@
   border-radius: 4px;
   user-select: none;
   color: #bbdefb;
+  font-size: 0.8rem;
 }
 
 .subtopic-header:hover {
@@ -57,6 +58,7 @@
   color: #bbdefb;
   text-decoration: none;
   flex-grow: 1;
+  font-size: 0.8rem;
 }
 
 .subtopic-title:hover {
@@ -68,10 +70,20 @@
   padding: 0.75rem;
   margin-top: 0.5rem;
   border-radius: 4px;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   line-height: 1.4rem;
   color: #cfd8dc;
   margin-left: 1rem;
+}
+
+.formula-name {
+  font-size: 0.65rem;
+  color: var(--text-color-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+  padding: 0.25rem 0;
 }
 
 .auth-links {
@@ -87,6 +99,7 @@
   text-decoration: none;
   font-weight: bold;
   cursor: pointer;
+  font-size: 0.8rem;
 }
 
 .auth-link:hover {

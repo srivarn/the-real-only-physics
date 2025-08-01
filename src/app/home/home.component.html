@@ -6,7 +6,7 @@
         Master Physics with Interactive Learning
       </h1>
       <p class="text-xl text-surface-border mb-8 leading-relaxed">
-        Explore 344+ physics formulas with real-world applications, interactive simulations, and a vibrant community of learners.
+        Explore 344+ physics formulas with real-world applications, interactive simulations, and comprehensive learning resources designed for students and professionals.
       </p>
       <div class="flex justify-center space-x-4">
         <p-button 
@@ -16,10 +16,10 @@
           routerLink="/formula/kinetic-energy">
         </p-button>
         <p-button 
-          label="Join Community" 
-          icon="pi pi-users"
+          label="Try Simulator" 
+          icon="pi pi-bolt"
           styleClass="p-button-outlined p-button-lg"
-          routerLink="/signup">
+          routerLink="/simulator">
         </p-button>
       </div>
     </div>
@@ -37,10 +37,10 @@
       </ng-template>
       <ng-template pTemplate="content">
         <p class="text-surface-border mb-4">
-          Build and experiment with physics models including supercolliders, Stirling engines, and galaxy simulations.
+          Build and experiment with physics models including projectile motion, pendulum systems, and spring-mass oscillators with real-time calculations.
         </p>
         <p-button 
-          label="Try Simulator" 
+          label="Launch Simulator" 
           icon="pi pi-arrow-right"
           styleClass="p-button-outlined w-full"
           routerLink="/simulator">
@@ -48,44 +48,44 @@
       </ng-template>
     </p-card>
 
-    <!-- Community Q&A -->
+    <!-- Formula Database -->
     <p-card styleClass="h-full">
       <ng-template pTemplate="header">
         <div class="text-center p-4">
-          <i class="pi pi-comments text-4xl text-green-400 mb-3"></i>
-          <h3 class="text-xl font-semibold">Community Q&A</h3>
+          <i class="pi pi-book text-4xl text-green-400 mb-3"></i>
+          <h3 class="text-xl font-semibold">Formula Database</h3>
         </div>
       </ng-template>
       <ng-template pTemplate="content">
         <p class="text-surface-border mb-4">
-          Connect with fellow physics enthusiasts, ask questions, and share knowledge in our vibrant community forum.
+          Access a comprehensive collection of physics formulas with detailed explanations, real-world applications, and interactive calculators.
         </p>
         <p-button 
-          label="Join Discussion" 
+          label="Browse Formulas" 
           icon="pi pi-arrow-right"
           styleClass="p-button-outlined w-full"
-          routerLink="/community">
+          routerLink="/formula/kinetic-energy">
         </p-button>
       </ng-template>
     </p-card>
 
-    <!-- Custom Formulas -->
+    <!-- Smart Calculator -->
     <p-card styleClass="h-full">
       <ng-template pTemplate="header">
         <div class="text-center p-4">
-          <i class="pi pi-pencil text-4xl text-purple-400 mb-3"></i>
-          <h3 class="text-xl font-semibold">Custom Formulas</h3>
+          <i class="pi pi-calculator text-4xl text-purple-400 mb-3"></i>
+          <h3 class="text-xl font-semibold">Smart Calculator</h3>
         </div>
       </ng-template>
       <ng-template pTemplate="content">
         <p class="text-surface-border mb-4">
-          Create and share your own physics formulas with detailed explanations and real-world applications.
+          Use our intelligent calculator to solve physics problems with step-by-step solutions and detailed explanations.
         </p>
         <p-button 
-          label="Create Formula" 
+          label="Open Calculator" 
           icon="pi pi-arrow-right"
           styleClass="p-button-outlined w-full"
-          routerLink="/custom-formulas">
+          routerLink="/calculator">
         </p-button>
       </ng-template>
     </p-card>
@@ -100,10 +100,10 @@
       </ng-template>
       <ng-template pTemplate="content">
         <p class="text-surface-border mb-4">
-          Follow personalized learning paths designed to help you master physics concepts step by step.
+          Follow structured learning paths designed to help you master physics concepts systematically from fundamentals to advanced topics.
         </p>
         <p-button 
-          label="Start Path" 
+          label="Explore Paths" 
           icon="pi pi-arrow-right"
           styleClass="p-button-outlined w-full"
           routerLink="/learning-paths">
@@ -121,10 +121,10 @@
       </ng-template>
       <ng-template pTemplate="content">
         <p class="text-surface-border mb-4">
-          Explore real-world physics experiments and see how theoretical concepts apply in practice.
+          Explore real-world physics experiments and see how theoretical concepts apply in practical laboratory settings.
         </p>
         <p-button 
-          label="Explore Experiments" 
+          label="View Experiments" 
           icon="pi pi-arrow-right"
           styleClass="p-button-outlined w-full"
           routerLink="/experiments">
@@ -132,23 +132,23 @@
       </ng-template>
     </p-card>
 
-    <!-- Calculator -->
+    <!-- Community -->
     <p-card styleClass="h-full">
       <ng-template pTemplate="header">
         <div class="text-center p-4">
-          <i class="pi pi-calculator text-4xl text-red-400 mb-3"></i>
-          <h3 class="text-xl font-semibold">Smart Calculator</h3>
+          <i class="pi pi-comments text-4xl text-red-400 mb-3"></i>
+          <h3 class="text-xl font-semibold">Community</h3>
         </div>
       </ng-template>
       <ng-template pTemplate="content">
         <p class="text-surface-border mb-4">
-          Use our intelligent calculator to solve physics problems with step-by-step solutions and explanations.
+          Connect with fellow physics enthusiasts, ask questions, and share knowledge in our vibrant community forum.
         </p>
         <p-button 
-          label="Open Calculator" 
+          label="Join Community" 
           icon="pi pi-arrow-right"
           styleClass="p-button-outlined w-full"
-          routerLink="/calculator">
+          routerLink="/community">
         </p-button>
       </ng-template>
     </p-card>
@@ -183,7 +183,7 @@
         <div class="text-center p-6">
           <h2 class="text-3xl font-bold mb-4">Ready to Master Physics?</h2>
           <p class="text-surface-border mb-6">
-            Join thousands of learners who are already exploring the wonders of physics with KnowPhysics.
+            Join thousands of learners who are already exploring the wonders of physics with TheOnlyPhysics. Start your journey today with our comprehensive learning platform.
           </p>
           <div class="flex justify-center space-x-4">
             <p-button 

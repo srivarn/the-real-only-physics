@@ -1,59 +1,113 @@
-# TheOnlyPhysics
+# TheOnlyPhysics - Interactive Physics Learning Platform
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.1.
+A comprehensive physics learning platform featuring interactive simulations, formula database, and professional learning tools.
 
-## Development server
+## Features
 
-To start a local development server, run:
+### 🎯 Core Features
+- **344+ Physics Formulas** - Comprehensive database with detailed explanations
+- **Interactive Physics Simulator** - Real-time physics simulations
+- **Smart Calculator** - Step-by-step problem solving
+- **Professional UI/UX** - Modern, formal design with excellent user experience
+- **Admin Dashboard** - Complete system management interface
 
+### 🔬 Physics Simulator
+The simulator includes three main simulation types:
+- **Projectile Motion** - Adjust initial velocity, angle, gravity, and height
+- **Simple Pendulum** - Control length, initial angle, gravity, and damping
+- **Spring-Mass System** - Modify mass, spring constant, damping, and displacement
+
+### 📊 Admin Features
+- **User Management** - View and manage user accounts
+- **System Monitoring** - Real-time system health and metrics
+- **Content Management** - Add and edit physics formulas
+- **Analytics Dashboard** - Comprehensive usage statistics
+
+## Getting Started
+
+### Prerequisites
+- Node.js (v16 or higher)
+- npm or yarn
+
+### Installation
 ```bash
-ng serve
+# Clone the repository
+git clone <repository-url>
+cd the-only-physics
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm start
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+The application will be available at `http://localhost:4200`
 
-## Code scaffolding
+## Admin Access
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Admin Credentials
+- **Email**: admin@theonlyphysics.com
+- **Password**: admin123
 
-```bash
-ng generate component component-name
+### Admin Features
+1. **Dashboard Access** - Click "Dashboard" button in header when logged in as admin
+2. **User Management** - View recent users and manage accounts
+3. **System Monitoring** - Monitor CPU, memory, disk usage, and network traffic
+4. **Content Management** - Add new physics formulas and simulations
+
+## Technology Stack
+
+- **Frontend**: Angular 17
+- **UI Framework**: PrimeNG 16
+- **Styling**: Custom CSS with professional design system
+- **Icons**: PrimeIcons
+- **Charts**: PrimeNG Charts (for admin dashboard)
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── admin/                 # Admin dashboard components
+│   ├── auth/                  # Authentication components
+│   ├── components/            # Reusable UI components
+│   │   ├── calculator/        # Physics calculator
+│   │   ├── physics-simulator/ # Interactive simulator
+│   │   └── sidebar/           # Navigation sidebar
+│   ├── data/                  # Physics formulas data
+│   ├── features/              # Feature components
+│   ├── formula-page/          # Formula display pages
+│   └── home/                  # Landing page
+├── styles.css                 # Global styles
+└── main.ts                    # Application entry point
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Physics Content
 
-```bash
-ng generate --help
-```
+The platform includes formulas from major physics domains:
+- **Mechanics** - Kinematics, Dynamics, Energy, Momentum
+- **Thermodynamics** - Gas Laws, Heat Transfer, Entropy
+- **Electromagnetism** - Electric Fields, Magnetic Fields, Circuits
+- **Waves and Optics** - Wave Properties, Sound, Light
+- **Modern Physics** - Relativity, Quantum Physics, Nuclear Physics
 
-## Building
+## Contributing
 
-To build the project run:
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
-```bash
-ng build
-```
+## License
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+This project is licensed under the MIT License.
 
-## Running unit tests
+## Support
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+For support and questions, please contact the development team or create an issue in the repository.
 
-```bash
-ng test
-```
+---
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+**TheOnlyPhysics** - Making physics accessible and engaging for everyone.

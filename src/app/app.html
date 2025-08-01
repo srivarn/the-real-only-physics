@@ -5,24 +5,50 @@
       <ng-template pTemplate="start">
         <div class="logo-container">
           <img src="assets/logo.png" alt="Logo" class="h-10 w-10">
-          <h2>KnowPhysics</h2>
+          <h2>TheOnlyPhysics</h2>
         </div>
       </ng-template>
 
       <ng-template pTemplate="end">
         <div class="flex items-center space-x-3">
-          <p-button
-            label="Sign Up"
-            icon="pi pi-user-plus"
-            styleClass="p-button-outlined p-button-sm"
-            routerLink="/signup">
-          </p-button>
-          <p-button
-            label="Login"
-            icon="pi pi-sign-in"
-            styleClass="p-button-primary p-button-sm"
-            routerLink="/login">
-          </p-button>
+          <!-- User Status -->
+          <div *ngIf="authService.isAuthenticated()" class="flex items-center space-x-2">
+            <div class="text-sm text-surface-border">
+              Welcome, {{ authService.getCurrentUser()?.username }}
+            </div>
+            <span *ngIf="authService.isAdmin()" class="admin-badge">
+              Admin
+            </span>
+            <p-button
+              *ngIf="authService.isAdmin()"
+              label="Dashboard"
+              icon="pi pi-chart-bar"
+              styleClass="p-button-outlined p-button-sm"
+              routerLink="/admin">
+            </p-button>
+            <p-button
+              label="Logout"
+              icon="pi pi-sign-out"
+              styleClass="p-button-outlined p-button-sm"
+              (click)="authService.logout()">
+            </p-button>
+          </div>
+          
+          <!-- Login/Signup buttons for non-authenticated users -->
+          <div *ngIf="!authService.isAuthenticated()" class="flex items-center space-x-3">
+            <p-button
+              label="Sign Up"
+              icon="pi pi-user-plus"
+              styleClass="p-button-outlined p-button-sm"
+              routerLink="/signup">
+            </p-button>
+            <p-button
+              label="Login"
+              icon="pi pi-sign-in"
+              styleClass="p-button-primary p-button-sm"
+              routerLink="/login">
+            </p-button>
+          </div>
         </div>
       </ng-template>
     </p-menubar>
@@ -36,8 +62,8 @@
     </aside>
 
     <!-- Main Content - Takes remaining space -->
-    <main class="main-content overflow-y-auto">
-      <div class="container mx-auto">
+    <main class="main-content overflow-y-auto flex-1">
+      <div class="container mx-auto p-4">
         <router-outlet></router-outlet>
       </div>
     </main>

@@ -6,6 +6,7 @@ import { CalculatorComponent } from './components/calculator/calculator.componen
 import { PhysicsSimulatorComponent } from './components/physics-simulator/physics-simulator.component';
 import { FormulaPageComponent } from './formula-page/formula-page.component';
 import { SimulatorComponent } from './features/simulator.component';
+import { AdminDashboardComponent } from './admin/admin-dashboard.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent }, // Default route
@@ -16,5 +17,6 @@ export const routes: Routes = [
   { path: 'simulator', component: PhysicsSimulatorComponent },
   { path: 'formula/:id', component: FormulaPageComponent },
   { path: 'physics-simulator', component: SimulatorComponent },
+  { path: 'admin', component: AdminDashboardComponent },
   { path: '**', redirectTo: '' } // Wildcard route for unknown paths
 ];

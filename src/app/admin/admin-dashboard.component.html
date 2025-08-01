@@ -1,0 +1,173 @@
+<div class="admin-dashboard">
+  <!-- Header -->
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-primary-color mb-2">Admin Dashboard</h1>
+    <p class="text-surface-border">Welcome back, {{ authService.getCurrentUser()?.username }}. Here's an overview of your system.</p>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <p-card styleClass="h-full">
+      <ng-template pTemplate="content">
+        <div class="text-center">
+          <div class="text-3xl font-bold text-blue-400 mb-2">{{ dashboardStats.totalUsers }}</div>
+          <div class="text-surface-border text-sm">Total Users</div>
+        </div>
+      </ng-template>
+    </p-card>
+
+    <p-card styleClass="h-full">
+      <ng-template pTemplate="content">
+        <div class="text-center">
+          <div class="text-3xl font-bold text-green-400 mb-2">{{ dashboardStats.activeUsers }}</div>
+          <div class="text-surface-border text-sm">Active Users</div>
+        </div>
+      </ng-template>
+    </p-card>
+
+    <p-card styleClass="h-full">
+      <ng-template pTemplate="content">
+        <div class="text-center">
+          <div class="text-3xl font-bold text-purple-400 mb-2">{{ dashboardStats.totalFormulas }}</div>
+          <div class="text-surface-border text-sm">Physics Formulas</div>
+        </div>
+      </ng-template>
+    </p-card>
+
+    <p-card styleClass="h-full">
+      <ng-template pTemplate="content">
+        <div class="text-center">
+          <div class="text-3xl font-bold text-orange-400 mb-2">{{ dashboardStats.totalSimulations }}</div>
+          <div class="text-surface-border text-sm">Simulations</div>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+
+  <!-- System Health and Metrics -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+    <!-- System Health -->
+    <p-card>
+      <ng-template pTemplate="header">
+        <div class="flex items-center">
+          <i class="pi pi-shield text-primary-color mr-2"></i>
+          <span class="font-semibold">System Health</span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="content">
+        <div class="space-y-4">
+          <div class="flex justify-between items-center">
+            <span class="text-surface-border">Overall Status:</span>
+            <span class="font-semibold" [class]="getSystemHealthColor()">{{ dashboardStats.systemHealth }}</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-surface-border">Recent Signups:</span>
+            <span class="font-semibold text-green-400">{{ dashboardStats.recentSignups }}</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-surface-border">System Uptime:</span>
+            <span class="font-semibold text-blue-400">99.9%</span>
+          </div>
+        </div>
+      </ng-template>
+    </p-card>
+
+    <!-- System Metrics -->
+    <p-card>
+      <ng-template pTemplate="header">
+        <div class="flex items-center">
+          <i class="pi pi-chart-line text-primary-color mr-2"></i>
+          <span class="font-semibold">System Metrics</span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="content">
+        <div class="space-y-4">
+          <div class="flex justify-between items-center">
+            <span class="text-surface-border">CPU Usage:</span>
+            <span class="font-semibold" [class]="getMetricColor(systemMetrics.cpuUsage)">{{ systemMetrics.cpuUsage }}%</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-surface-border">Memory Usage:</span>
+            <span class="font-semibold" [class]="getMetricColor(systemMetrics.memoryUsage)">{{ systemMetrics.memoryUsage }}%</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-surface-border">Disk Usage:</span>
+            <span class="font-semibold" [class]="getMetricColor(systemMetrics.diskUsage)">{{ systemMetrics.diskUsage }}%</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-surface-border">Network Traffic:</span>
+            <span class="font-semibold" [class]="getMetricColor(systemMetrics.networkTraffic)">{{ systemMetrics.networkTraffic }}%</span>
+          </div>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+
+  <!-- Recent Users Table -->
+  <p-card>
+    <ng-template pTemplate="header">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <i class="pi pi-users text-primary-color mr-2"></i>
+          <span class="font-semibold">Recent Users</span>
+        </div>
+        <p-button label="View All" icon="pi pi-external-link" styleClass="p-button-sm"></p-button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="content">
+      <p-table [value]="recentUsers" [paginator]="true" [rows]="5" styleClass="p-datatable-sm">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Joined</th>
+            <th>Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+          <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+              <span *ngIf="user.role === 'admin'" class="admin-badge">{{ user.role }}</span>
+              <span *ngIf="user.role === 'user'" class="px-2 py-1 bg-gray-100 text-gray-800 rounded text-xs">{{ user.role }}</span>
+            </td>
+            <td>{{ user.joined }}</td>
+            <td>
+              <div class="flex space-x-2">
+                <p-button icon="pi pi-eye" styleClass="p-button-sm p-button-outlined"></p-button>
+                <p-button icon="pi pi-pencil" styleClass="p-button-sm p-button-outlined"></p-button>
+                <p-button icon="pi pi-trash" styleClass="p-button-sm p-button-outlined p-button-danger"></p-button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </ng-template>
+  </p-card>
+
+  <!-- Quick Actions -->
+  <div class="mt-8">
+    <h2 class="text-2xl font-bold text-primary-color mb-4">Quick Actions</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <p-button 
+        label="Manage Users" 
+        icon="pi pi-users" 
+        styleClass="p-button-outlined w-full h-16">
+      </p-button>
+      <p-button 
+        label="Add Formula" 
+        icon="pi pi-plus" 
+        styleClass="p-button-outlined w-full h-16">
+      </p-button>
+      <p-button 
+        label="System Settings" 
+        icon="pi pi-cog" 
+        styleClass="p-button-outlined w-full h-16">
+      </p-button>
+    </div>
+  </div>
+</div> 

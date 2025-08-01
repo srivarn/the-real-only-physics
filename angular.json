@@ -67,10 +67,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "the-only-physics:build:production"
+              "buildTarget": "the-only-physics:build:production"
             },
             "development": {
-              "browserTarget": "the-only-physics:build:development"
+              "buildTarget": "the-only-physics:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -78,7 +78,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "the-only-physics:build"
+            "buildTarget": "the-only-physics:build"
           }
         },
         "test": {
