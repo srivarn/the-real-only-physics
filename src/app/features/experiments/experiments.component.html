@@ -1,0 +1,202 @@
+<div class="experiments-container">
+  <!-- Header -->
+  <div class="experiments-header">
+    <h1 class="text-4xl font-bold mb-4">Home Physics Experiments</h1>
+    <p class="text-xl text-surface-border mb-8">
+      Discover physics through hands-on experiments you can do at home with everyday materials
+    </p>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-section mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="field">
+        <label class="block text-sm font-medium mb-2">Search Experiments</label>
+        <input 
+          pInputText 
+          [(ngModel)]="searchTerm" 
+          (input)="filterExperiments()"
+          placeholder="Search experiments..."
+          class="w-full">
+      </div>
+      <div class="field">
+        <label class="block text-sm font-medium mb-2">Category</label>
+        <p-dropdown 
+          [(ngModel)]="selectedCategory"
+          [options]="categories"
+          (onChange)="filterExperiments()"
+          optionLabel="label"
+          optionValue="value"
+          styleClass="w-full">
+        </p-dropdown>
+      </div>
+      <div class="field">
+        <label class="block text-sm font-medium mb-2">Difficulty</label>
+        <p-dropdown 
+          [(ngModel)]="selectedDifficulty"
+          [options]="difficulties"
+          (onChange)="filterExperiments()"
+          optionLabel="label"
+          optionValue="value"
+          styleClass="w-full">
+        </p-dropdown>
+      </div>
+    </div>
+  </div>
+
+  <!-- Member Access Notice -->
+  <div *ngIf="!authService.isAuthenticated()" class="member-notice mb-8">
+    <p-card styleClass="bg-green-50 border-green-200">
+      <ng-template pTemplate="content">
+        <div class="text-center p-4">
+          <i class="pi pi-flask text-4xl text-green-400 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">Member-Only Feature</h3>
+          <p class="text-surface-border mb-4">
+            Access to detailed experiment procedures requires a free account
+          </p>
+          <div class="flex justify-center space-x-4">
+            <p-button label="Sign Up Free" icon="pi pi-user-plus" routerLink="/signup"></p-button>
+            <p-button label="Login" icon="pi pi-sign-in" styleClass="p-button-outlined" routerLink="/login"></p-button>
+          </div>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+
+  <!-- Experiments Grid -->
+  <div class="experiments-grid">
+    <div *ngFor="let experiment of filteredExperiments" class="experiment-card">
+      <p-card styleClass="h-full">
+        <ng-template pTemplate="header">
+          <div class="experiment-thumbnail">
+            <img [src]="experiment.images[0]" [alt]="experiment.title" class="w-full h-48 object-cover">
+            <div class="experiment-overlay">
+              <p-tag 
+                [value]="experiment.difficulty" 
+                [severity]="getDifficultyColor(experiment.difficulty)"
+                styleClass="difficulty-tag">
+              </p-tag>
+              <div class="experiment-duration">
+                <i class="pi pi-clock mr-1"></i>
+                {{ experiment.duration }}
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        
+        <ng-template pTemplate="content">
+          <div class="experiment-content">
+            <h3 class="experiment-title">{{ experiment.title }}</h3>
+            <p class="experiment-category">{{ experiment.category }}</p>
+            <p class="experiment-description">{{ experiment.description }}</p>
+            
+            <div class="experiment-meta mb-4">
+              <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center space-x-4">
+                  <div class="flex items-center">
+                    <i class="pi pi-users mr-1"></i>
+                    <span class="text-sm">{{ experiment.completedBy.toLocaleString() }} completed</span>
+                  </div>
+                  <div class="flex items-center">
+                    <i class="pi pi-star-fill mr-1 text-yellow-400"></i>
+                    <span class="text-sm">{{ experiment.rating.toFixed(1) }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Materials Preview -->
+            <div class="materials-preview mb-4" *ngIf="authService.isAuthenticated()">
+              <h4 class="text-sm font-semibold mb-2">Materials Needed:</h4>
+              <div class="materials-list">
+                <span *ngFor="let material of experiment.materials.slice(0, 3)" 
+                      class="material-tag">
+                  {{ material }}
+                </span>
+                <span *ngIf="experiment.materials.length > 3" class="material-tag more">
+                  +{{ experiment.materials.length - 3 }} more
+                </span>
+              </div>
+            </div>
+
+            <!-- Procedure Preview -->
+            <div class="procedure-preview mb-4" *ngIf="authService.isAuthenticated()">
+              <p-accordion>
+                <p-accordionTab header="Experiment Procedure">
+                  <div class="procedure-steps">
+                    <div *ngFor="let step of experiment.procedure" class="procedure-step">
+                      <div class="step-number">{{ step.stepNumber }}</div>
+                      <div class="step-content">
+                        <p class="step-instruction">{{ step.instruction }}</p>
+                        <div *ngIf="step.tip" class="step-tip">
+                          <i class="pi pi-lightbulb mr-1"></i>
+                          <span>{{ step.tip }}</span>
+                        </div>
+                        <div *ngIf="step.warning" class="step-warning">
+                          <i class="pi pi-exclamation-triangle mr-1"></i>
+                          <span>{{ step.warning }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </p-accordionTab>
+                <p-accordionTab header="Expected Results">
+                  <p>{{ experiment.expectedResults }}</p>
+                </p-accordionTab>
+                <p-accordionTab header="Scientific Explanation">
+                  <p>{{ experiment.explanation }}</p>
+                </p-accordionTab>
+                <p-accordionTab header="Real-World Applications">
+                  <ul>
+                    <li *ngFor="let app of experiment.realWorldApplications">{{ app }}</li>
+                  </ul>
+                </p-accordionTab>
+              </p-accordion>
+            </div>
+          </div>
+        </ng-template>
+        
+        <ng-template pTemplate="footer">
+          <div class="experiment-actions">
+            <p-button 
+              *ngIf="authService.isAuthenticated()"
+              label="Start Experiment" 
+              icon="pi pi-play"
+              styleClass="w-full"
+              (click)="startExperiment(experiment.id)">
+            </p-button>
+            <p-button 
+              *ngIf="!authService.isAuthenticated()"
+              label="Login to Access" 
+              icon="pi pi-lock"
+              styleClass="w-full p-button-outlined"
+              routerLink="/login">
+            </p-button>
+          </div>
+        </ng-template>
+      </p-card>
+    </div>
+  </div>
+
+  <!-- Experiment Statistics -->
+  <div class="statistics-section mt-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div class="stat-card">
+        <div class="stat-number">{{ experiments.length }}+</div>
+        <div class="stat-label">Total Experiments</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ experiments.reduce((sum, e) => sum + e.completedBy, 0).toLocaleString() }}+</div>
+        <div class="stat-label">Experiments Completed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ (experiments.reduce((sum, e) => sum + e.rating, 0) / experiments.length).toFixed(1) }}</div>
+        <div class="stat-label">Average Rating</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ experiments.filter(e => e.difficulty === 'Easy').length }}</div>
+        <div class="stat-label">Beginner Friendly</div>
+      </div>
+    </div>
+  </div>
+</div>

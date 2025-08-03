@@ -37,7 +37,7 @@
     </ng-template>
     
     <ng-template pTemplate="content">
-      <div class="space-y-3">
+      <div class="space-y-3" *ngIf="!isAuthenticated">
         <div class="flex items-center">
           <i class="pi pi-bolt text-blue-400 mr-3"></i>
           <span class="text-sm">Interactive Simulator</span>
@@ -47,13 +47,55 @@
           <span class="text-sm">Community Q&A</span>
         </div>
         <div class="flex items-center">
-          <i class="pi pi-pencil text-purple-400 mr-3"></i>
-          <span class="text-sm">Custom Formulas</span>
+          <i class="pi pi-book text-purple-400 mr-3"></i>
+          <span class="text-sm">Physics Courses</span>
         </div>
         <div class="flex items-center">
           <i class="pi pi-chart-line text-orange-400 mr-3"></i>
           <span class="text-sm">Learning Paths</span>
         </div>
+        <div class="flex items-center">
+          <i class="pi pi-users text-cyan-400 mr-3"></i>
+          <span class="text-sm">Study Groups</span>
+        </div>
+        <div class="flex items-center">
+          <i class="pi pi-flask text-red-400 mr-3"></i>
+          <span class="text-sm">Home Experiments</span>
+        </div>
+      </div>
+      
+      <!-- Member Action Buttons -->
+      <div class="space-y-2" *ngIf="isAuthenticated">
+        <p-button 
+          label="Physics Courses" 
+          icon="pi pi-book"
+          styleClass="w-full p-button-outlined p-button-sm"
+          routerLink="/courses">
+        </p-button>
+        <p-button 
+          label="Home Experiments" 
+          icon="pi pi-flask"
+          styleClass="w-full p-button-outlined p-button-sm"
+          routerLink="/experiments">
+        </p-button>
+        <p-button 
+          label="Learning Paths" 
+          icon="pi pi-chart-line"
+          styleClass="w-full p-button-outlined p-button-sm"
+          routerLink="/learning-paths">
+        </p-button>
+        <p-button 
+          label="Community Q&A" 
+          icon="pi pi-comments"
+          styleClass="w-full p-button-outlined p-button-sm"
+          routerLink="/community">
+        </p-button>
+        <p-button 
+          label="Interactive Simulator" 
+          icon="pi pi-bolt"
+          styleClass="w-full p-button-outlined p-button-sm"
+          routerLink="/simulator">
+        </p-button>
       </div>
     </ng-template>
   </p-card>

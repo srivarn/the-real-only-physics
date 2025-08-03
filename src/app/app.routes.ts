@@ -7,6 +7,10 @@ import { PhysicsSimulatorComponent } from './components/physics-simulator/physic
 import { FormulaPageComponent } from './formula-page/formula-page.component';
 import { SimulatorComponent } from './features/simulator.component';
 import { AdminDashboardComponent } from './admin/admin-dashboard.component';
+import { CoursesComponent } from './features/courses/courses.component';
+import { ExperimentsComponent } from './features/experiments/experiments.component';
+import { LearningPathsComponent } from './features/learning-paths/learning-paths.component';
+import { CommunityComponent } from './features/community/community.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent }, // Default route
@@ -18,5 +22,9 @@ export const routes: Routes = [
   { path: 'formula/:id', component: FormulaPageComponent },
   { path: 'physics-simulator', component: SimulatorComponent },
   { path: 'admin', component: AdminDashboardComponent },
+  { path: 'courses', component: CoursesComponent },
+  { path: 'experiments', component: ExperimentsComponent },
+  { path: 'learning-paths', component: LearningPathsComponent },
+  { path: 'community', component: CommunityComponent },
   { path: '**', redirectTo: '' } // Wildcard route for unknown paths
 ];

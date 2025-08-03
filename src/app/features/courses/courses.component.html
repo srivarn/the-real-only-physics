@@ -1,0 +1,173 @@
+<div class="courses-container">
+  <!-- Header -->
+  <div class="courses-header">
+    <h1 class="text-4xl font-bold mb-4">Physics Courses</h1>
+    <p class="text-xl text-surface-border mb-8">
+      Master physics through comprehensive courses designed by expert instructors
+    </p>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-section mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="field">
+        <label class="block text-sm font-medium mb-2">Search Courses</label>
+        <input 
+          pInputText 
+          [(ngModel)]="searchTerm" 
+          (input)="filterCourses()"
+          placeholder="Search by title or description..."
+          class="w-full">
+      </div>
+      <div class="field">
+        <label class="block text-sm font-medium mb-2">Category</label>
+        <p-dropdown 
+          [(ngModel)]="selectedCategory"
+          [options]="categories"
+          (onChange)="filterCourses()"
+          optionLabel="label"
+          optionValue="value"
+          styleClass="w-full">
+        </p-dropdown>
+      </div>
+      <div class="field">
+        <label class="block text-sm font-medium mb-2">Difficulty Level</label>
+        <p-dropdown 
+          [(ngModel)]="selectedLevel"
+          [options]="levels"
+          (onChange)="filterCourses()"
+          optionLabel="label"
+          optionValue="value"
+          styleClass="w-full">
+        </p-dropdown>
+      </div>
+    </div>
+  </div>
+
+  <!-- Member Access Notice -->
+  <div *ngIf="!authService.isAuthenticated()" class="member-notice mb-8">
+    <p-card styleClass="bg-blue-50 border-blue-200">
+      <ng-template pTemplate="content">
+        <div class="text-center p-4">
+          <i class="pi pi-lock text-4xl text-blue-400 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">Member-Only Feature</h3>
+          <p class="text-surface-border mb-4">
+            Access to courses requires a free TheOnlyPhysics account
+          </p>
+          <div class="flex justify-center space-x-4">
+            <p-button label="Sign Up Free" icon="pi pi-user-plus" routerLink="/signup"></p-button>
+            <p-button label="Login" icon="pi pi-sign-in" styleClass="p-button-outlined" routerLink="/login"></p-button>
+          </div>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+
+  <!-- Courses Grid -->
+  <div class="courses-grid">
+    <div *ngFor="let course of filteredCourses" class="course-card">
+      <p-card styleClass="h-full">
+        <ng-template pTemplate="header">
+          <div class="course-thumbnail">
+            <img [src]="course.thumbnail" [alt]="course.title" class="w-full h-48 object-cover">
+            <div class="course-overlay">
+              <p-tag 
+                [value]="course.level" 
+                [severity]="getDifficultyColor(course.level)"
+                styleClass="course-level-tag">
+              </p-tag>
+              <div class="course-price" *ngIf="!course.isFree">
+                ${{ course.price }}
+              </div>
+              <div class="course-price free" *ngIf="course.isFree">
+                FREE
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        
+        <ng-template pTemplate="content">
+          <div class="course-content">
+            <h3 class="course-title">{{ course.title }}</h3>
+            <p class="course-instructor">by {{ course.instructor }}</p>
+            <p class="course-description">{{ course.description }}</p>
+            
+            <div class="course-meta">
+              <div class="flex items-center space-x-4 mb-3">
+                <div class="flex items-center">
+                  <i class="pi pi-clock mr-1"></i>
+                  <span class="text-sm">{{ course.duration }}</span>
+                </div>
+                <div class="flex items-center">
+                  <i class="pi pi-users mr-1"></i>
+                  <span class="text-sm">{{ course.enrolledStudents.toLocaleString() }}</span>
+                </div>
+              </div>
+              
+              <div class="flex items-center justify-between">
+                <p-rating 
+                  [(ngModel)]="course.rating" 
+                  [readonly]="true" 
+                  [cancel]="false"
+                  styleClass="course-rating">
+                </p-rating>
+                <span class="text-sm text-surface-border">{{ course.rating.toFixed(1) }}</span>
+              </div>
+            </div>
+
+            <div class="course-outcomes mb-4">
+              <h4 class="text-sm font-semibold mb-2">What you'll learn:</h4>
+              <ul class="text-sm space-y-1">
+                <li *ngFor="let outcome of course.learningOutcomes.slice(0, 3)" class="flex items-start">
+                  <i class="pi pi-check text-green-400 mr-2 mt-1"></i>
+                  <span>{{ outcome }}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </ng-template>
+        
+        <ng-template pTemplate="footer">
+          <div class="course-actions">
+            <p-button 
+              *ngIf="authService.isAuthenticated()"
+              label="Enroll Now" 
+              icon="pi pi-play"
+              styleClass="w-full"
+              (click)="enrollInCourse(course.id)">
+            </p-button>
+            <p-button 
+              *ngIf="!authService.isAuthenticated()"
+              label="Login to Enroll" 
+              icon="pi pi-lock"
+              styleClass="w-full p-button-outlined"
+              routerLink="/login">
+            </p-button>
+          </div>
+        </ng-template>
+      </p-card>
+    </div>
+  </div>
+
+  <!-- Course Statistics -->
+  <div class="statistics-section mt-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div class="stat-card">
+        <div class="stat-number">{{ courses.length }}+</div>
+        <div class="stat-label">Total Courses</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ courses.reduce((sum, c) => sum + c.enrolledStudents, 0).toLocaleString() }}+</div>
+        <div class="stat-label">Students Enrolled</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ (courses.reduce((sum, c) => sum + c.rating, 0) / courses.length).toFixed(1) }}</div>
+        <div class="stat-label">Average Rating</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ courses.filter(c => c.isFree).length }}</div>
+        <div class="stat-label">Free Courses</div>
+      </div>
+    </div>
+  </div>
+</div>

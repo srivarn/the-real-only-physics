@@ -44,7 +44,7 @@ export class SignUpComponent {
           this.messageService.add({
             severity: 'success',
             summary: 'Sign Up Successful',
-            detail: 'Welcome to KnowPhysics!'
+            detail: 'Welcome to TheOnlyPhysics!'
           });
           this.router.navigate(['/login']);
         },
