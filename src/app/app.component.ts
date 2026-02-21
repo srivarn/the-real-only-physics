@@ -1,27 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RouterOutlet } from '@angular/router';
-import { provideRouter } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
-import { PanelModule } from 'primeng/panel';
 import { MenubarModule } from 'primeng/menubar';
-import { AvatarModule } from 'primeng/avatar';
-import { AvatarGroupModule } from 'primeng/avatargroup';
-import { PHYSICS_FORMULAS, PHYSICS_TOPICS } from './data/physics-formulas';
-import { AuthService } from './auth/auth.service';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, SidebarComponent, RouterOutlet, ButtonModule, PanelModule, MenubarModule, AvatarModule, AvatarGroupModule],
+  imports: [CommonModule, SidebarComponent, RouterOutlet, MenubarModule, ButtonModule],
   templateUrl: './app.html',
   styleUrls: ['../styles.css']
 })
 export class AppComponent {
-  title = 'TheOnlyPhysics';
-  formulas = PHYSICS_FORMULAS;
-  topics = PHYSICS_TOPICS;
+  showTop = false;
 
-  constructor(public authService: AuthService) {}
+  @HostListener('window:scroll')
+  onScroll(): void {
+    this.showTop = window.scrollY > 300;
+  }
+
+  toTop(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }

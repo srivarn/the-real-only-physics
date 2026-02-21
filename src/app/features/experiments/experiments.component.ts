@@ -8,8 +8,7 @@ import { AccordionModule } from 'primeng/accordion';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../auth/auth.service';
-import { PHYSICS_EXPERIMENTS, Experiment } from '../../data/experiments';
+import { PHYSICS_EXPERIMENTS } from '../../data/experiments';
 
 @Component({
   selector: 'app-experiments',
@@ -24,54 +23,42 @@ export class ExperimentsComponent implements OnInit {
   searchTerm = '';
   selectedCategory = '';
   selectedDifficulty = '';
-  
-  categories = [
-    { label: 'All Categories', value: '' },
-    { label: 'Mechanics', value: 'Mechanics' },
-    { label: 'Thermodynamics', value: 'Thermodynamics' },
-    { label: 'Electromagnetism', value: 'Electromagnetism' },
-    { label: 'Waves and Optics', value: 'Waves and Optics' },
-    { label: 'Modern Physics', value: 'Modern Physics' }
-  ];
-  
-  difficulties = [
-    { label: 'All Difficulties', value: '' },
-    { label: 'Easy', value: 'Easy' },
-    { label: 'Medium', value: 'Medium' },
-    { label: 'Hard', value: 'Hard' }
-  ];
+  progress: Record<string, number> = JSON.parse(localStorage.getItem('experimentProgress') || '{}');
 
-  constructor(public authService: AuthService) {}
+  categories = [{ label: 'All Categories', value: '' }, ...Array.from(new Set(PHYSICS_EXPERIMENTS.map((e) => e.category))).map((c) => ({ label: c, value: c }))];
+  difficulties = [{ label: 'All Difficulties', value: '' }, { label: 'Easy', value: 'Easy' }, { label: 'Medium', value: 'Medium' }, { label: 'Hard', value: 'Hard' }];
+
+  totalCompleted = 0;
+  avgRating = '0.0';
+  easyCount = 0;
 
   ngOnInit(): void {
     this.filterExperiments();
+    this.totalCompleted = this.experiments.reduce((sum, e) => sum + e.completedBy, 0);
+    this.avgRating = (this.experiments.reduce((sum, e) => sum + e.rating, 0) / this.experiments.length).toFixed(1);
+    this.easyCount = this.experiments.filter((e) => e.difficulty === 'Easy').length;
   }
 
   filterExperiments(): void {
-    this.filteredExperiments = this.experiments.filter(experiment => {
-      const matchesSearch = experiment.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                           experiment.description.toLowerCase().includes(this.searchTerm.toLowerCase());
+    this.filteredExperiments = this.experiments.filter((experiment) => {
+      const q = this.searchTerm.toLowerCase();
+      const matchesSearch = experiment.title.toLowerCase().includes(q) || experiment.description.toLowerCase().includes(q);
       const matchesCategory = !this.selectedCategory || experiment.category === this.selectedCategory;
       const matchesDifficulty = !this.selectedDifficulty || experiment.difficulty === this.selectedDifficulty;
-      
       return matchesSearch && matchesCategory && matchesDifficulty;
     });
   }
 
   startExperiment(experimentId: string): void {
-    if (!this.authService.isAuthenticated()) {
-      return;
-    }
-    
-    console.log('Starting experiment:', experimentId);
+    const current = this.progress[experimentId] || 0;
+    this.progress[experimentId] = Math.min(current + 1, 100);
+    localStorage.setItem('experimentProgress', JSON.stringify(this.progress));
   }
 
-  getDifficultyColor(difficulty: string): string {
-    switch (difficulty) {
-      case 'Easy': return 'success';
-      case 'Medium': return 'warning';
-      case 'Hard': return 'danger';
-      default: return 'info';
-    }
+  getDifficultyColor(difficulty: string): 'success' | 'warning' | 'danger' | 'info' {
+    if (difficulty === 'Easy') return 'success';
+    if (difficulty === 'Medium') return 'warning';
+    if (difficulty === 'Hard') return 'danger';
+    return 'info';
   }
 }

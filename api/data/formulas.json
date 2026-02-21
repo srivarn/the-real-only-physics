@@ -1,0 +1,5 @@
+[
+  {"id":"kinetic-energy","topic":"Mechanics","latex":"KE = \\frac{1}{2}mv^2","explanation":"Energy due to motion.","relatedTerms":["acceleration"]},
+  {"id":"ideal-gas-law","topic":"Thermodynamics","latex":"PV=nRT","explanation":"Relationship between pressure, volume and temperature.","relatedTerms":["entropy"]},
+  {"id":"mass-energy-equivalence","topic":"Modern Physics","latex":"E=mc^2","explanation":"Mass and energy are equivalent.","relatedTerms":["photon"]}
+]
