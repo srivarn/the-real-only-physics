@@ -1,0 +1,5 @@
+[
+  {"id":"acceleration","term":"Acceleration","definition":"Rate of change of velocity.","example":"A free-falling object accelerates downward.","tags":["mechanics"],"createdAt":"2026-01-01T00:00:00.000Z"},
+  {"id":"entropy","term":"Entropy","definition":"Measure of energy dispersion.","example":"Entropy increases in spontaneous processes.","tags":["thermodynamics"],"createdAt":"2026-01-01T00:00:00.000Z"},
+  {"id":"photon","term":"Photon","definition":"Quantum particle of light.","example":"Solar panels absorb photons.","tags":["quantum"],"createdAt":"2026-01-01T00:00:00.000Z"}
+]

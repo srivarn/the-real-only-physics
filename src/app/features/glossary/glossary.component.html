@@ -1,0 +1,17 @@
+<div class="space-y-4">
+  <h1>Glossary A–Z</h1>
+  <input pInputText [(ngModel)]="search" placeholder="Search terms" class="w-full" />
+
+  <div class="letters">
+    <p-chip *ngFor="let letter of letters" [label]="letter" (click)="activeLetter = letter"></p-chip>
+    <p-chip label="All" (click)="activeLetter = ''"></p-chip>
+  </div>
+
+  <p-card *ngFor="let term of filtered" styleClass="mb-3">
+    <ng-template pTemplate="content">
+      <h3>{{ term.term }}</h3>
+      <p><strong>Meaning:</strong> {{ term.definition }}</p>
+      <p><strong>Example:</strong> {{ term.example }}</p>
+    </ng-template>
+  </p-card>
+</div>

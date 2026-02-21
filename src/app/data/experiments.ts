@@ -76,7 +76,7 @@ export const PHYSICS_EXPERIMENTS: Experiment[] = [
       {
         stepNumber: 6,
         instruction: 'Repeat with different string lengths and record all data.',
-        instruction: 'Try at least 5 different lengths between 20cm and 100cm.'
+        tip: 'Try at least 5 different lengths between 20cm and 100cm.'
       }
     ],
     expectedResults: 'The period should increase with the square root of the length. Doubling the length increases the period by √2 ≈ 1.41.',
@@ -142,7 +142,7 @@ export const PHYSICS_EXPERIMENTS: Experiment[] = [
       {
         stepNumber: 5,
         instruction: 'Try different speeds and directions of magnet movement.',
-        instruction: 'Record how speed affects the brightness or voltage.'
+        tip: 'Record how speed affects the brightness or voltage.'
       },
       {
         stepNumber: 6,
@@ -209,7 +209,7 @@ export const PHYSICS_EXPERIMENTS: Experiment[] = [
       {
         stepNumber: 5,
         instruction: 'Mark the positions where sound is loudest (constructive interference).',
-        instruction: 'Also mark where sound is quietest (destructive interference).'
+        tip: 'Also mark where sound is quietest (destructive interference).'
       },
       {
         stepNumber: 6,
@@ -279,7 +279,7 @@ export const PHYSICS_EXPERIMENTS: Experiment[] = [
       {
         stepNumber: 5,
         instruction: 'Try the experiment with water in a clear container.',
-        instruction: 'Compare the refraction angles with the glass prism.'
+        tip: 'Compare the refraction angles with the glass prism.'
       },
       {
         stepNumber: 6,
@@ -358,7 +358,7 @@ for (let i = 0; i < 115; i++) {
       {
         stepNumber: 4,
         instruction: 'Analyze the collected data and compare with theoretical predictions.',
-        instruction: 'Look for patterns and relationships in your data.'
+        tip: 'Look for patterns and relationships in your data.'
       }
     ],
     expectedResults: `Results should demonstrate the principles of ${category.toLowerCase()} and match theoretical predictions within experimental error.`,

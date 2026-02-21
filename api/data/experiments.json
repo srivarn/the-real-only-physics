@@ -1,0 +1,4 @@
+[
+  {"id":"pendulum-motion","title":"Simple Pendulum Motion Analysis","difficulty":"Easy","location":"indoor","equipment":["string","weight"],"overview":"Test period vs length.","steps":["Prepare pendulum","Measure length","Release and time"],"safetyTips":["Clear area"],"materials":["string","weight","timer"],"timeMinutes":45,"images":["https://images.pexels.com/photos/2280571/pexels-photo-2280571.jpeg"]},
+  {"id":"electromagnetic-induction","title":"Electromagnetic Induction with Magnets","difficulty":"Medium","location":"indoor","equipment":["magnet","wire"],"overview":"Generate voltage with moving magnet.","steps":["Wind coil","Move magnet","Observe LED"],"safetyTips":["Handle magnets carefully"],"materials":["magnet","wire","led"],"timeMinutes":60,"images":["https://images.pexels.com/photos/2280573/pexels-photo-2280573.jpeg"]}
+]
