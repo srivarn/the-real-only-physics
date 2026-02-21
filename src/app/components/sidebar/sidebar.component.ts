@@ -1,41 +1,68 @@
-import { Component } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
 import { PHYSICS_TOPICS, PHYSICS_FORMULAS, PhysicsFormula } from '../../data/physics-formulas';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { BadgeModule } from 'primeng/badge';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ButtonModule, CardModule, BadgeModule],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent {
-  collapsed = false;
-  formulasExpanded = false;
+  @Input() formulas: any[] = [];
+  private authService = inject(AuthService);
+  isAuthenticated: boolean = false;
+  physicsTopics = PHYSICS_TOPICS;
+  physicsFormulas = PHYSICS_FORMULAS;
+
+  constructor(private router: Router) {
+    this.checkAuth();
+  }
+
   expandedTopics: Set<string> = new Set();
   expandedSubtopics: Set<string> = new Set();
-  physicsTopics = PHYSICS_TOPICS;
 
-  constructor(private router: Router) {}
-
-  toggleCollapse(): void { this.collapsed = !this.collapsed; }
-  toggleFormulas(): void { this.formulasExpanded = !this.formulasExpanded; }
   toggleTopic(topic: string): void {
-    this.expandedTopics.has(topic) ? this.expandedTopics.delete(topic) : this.expandedTopics.add(topic);
-  }
-  toggleSubtopic(key: string): void {
-    this.expandedSubtopics.has(key) ? this.expandedSubtopics.delete(key) : this.expandedSubtopics.add(key);
-  }
-
-  topicOpen(topic: string): boolean { return this.expandedTopics.has(topic); }
-  subtopicOpen(key: string): boolean { return this.expandedSubtopics.has(key); }
-
-  formulasBy(topic: string, subtopic: string): PhysicsFormula[] {
-    return PHYSICS_FORMULAS.filter((f) => f.topic === topic && f.subtopic === subtopic);
+    if (this.expandedTopics.has(topic)) {
+      this.expandedTopics.delete(topic);
+    } else {
+      this.expandedTopics.add(topic);
+    }
   }
 
-  navFormula(formulaId: string): void {
+  toggleSubtopic(path: string): void {
+    if (this.expandedSubtopics.has(path)) {
+      this.expandedSubtopics.delete(path);
+    } else {
+      this.expandedSubtopics.add(path);
+    }
+  }
+
+  navigateToFormula(formulaId: string): void {
     this.router.navigate(['/formula', formulaId]);
+  }
+
+  getFormulasBySubtopic(topic: string, subtopic: string): PhysicsFormula[] {
+    return this.physicsFormulas.filter(formula => 
+      formula.topic === topic && formula.subtopic === subtopic
+    );
+  }
+
+  isTopicExpanded(topic: string): boolean {
+    return this.expandedTopics.has(topic);
+  }
+
+  isSubtopicExpanded(path: string): boolean {
+    return this.expandedSubtopics.has(path);
+  }
+
+  checkAuth() {
+    this.isAuthenticated = !!localStorage.getItem('authToken');
   }
 }

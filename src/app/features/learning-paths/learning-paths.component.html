@@ -1,0 +1,198 @@
+<div class="learning-paths-container">
+  <!-- Header -->
+  <div class="paths-header">
+    <h1 class="text-4xl font-bold mb-4">Learning Paths</h1>
+    <p class="text-xl text-surface-border mb-8">
+      Follow structured learning journeys designed to master specific areas of physics
+    </p>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-section mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="field">
+        <label class="block text-sm font-medium mb-2">Search Paths</label>
+        <input 
+          pInputText 
+          [(ngModel)]="searchTerm" 
+          (input)="filterPaths()"
+          placeholder="Search learning paths..."
+          class="w-full">
+      </div>
+      <div class="field">
+        <label class="block text-sm font-medium mb-2">Category</label>
+        <p-dropdown 
+          [(ngModel)]="selectedCategory"
+          [options]="categories"
+          (onChange)="filterPaths()"
+          optionLabel="label"
+          optionValue="value"
+          styleClass="w-full">
+        </p-dropdown>
+      </div>
+      <div class="field">
+        <label class="block text-sm font-medium mb-2">Difficulty Level</label>
+        <p-dropdown 
+          [(ngModel)]="selectedDifficulty"
+          [options]="difficulties"
+          (onChange)="filterPaths()"
+          optionLabel="label"
+          optionValue="value"
+          styleClass="w-full">
+        </p-dropdown>
+      </div>
+    </div>
+  </div>
+
+  <!-- Member Access Notice -->
+  <div *ngIf="!authService.isAuthenticated()" class="member-notice mb-8">
+    <p-card styleClass="bg-purple-50 border-purple-200">
+      <ng-template pTemplate="content">
+        <div class="text-center p-4">
+          <i class="pi pi-map text-4xl text-purple-400 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">Member-Only Feature</h3>
+          <p class="text-surface-border mb-4">
+            Access to personalized learning paths requires a free account
+          </p>
+          <div class="flex justify-center space-x-4">
+            <p-button label="Sign Up Free" icon="pi pi-user-plus" routerLink="/signup"></p-button>
+            <p-button label="Login" icon="pi pi-sign-in" styleClass="p-button-outlined" routerLink="/login"></p-button>
+          </div>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+
+  <!-- Learning Paths Grid -->
+  <div class="paths-grid">
+    <div *ngFor="let path of filteredPaths" class="path-card">
+      <p-card styleClass="h-full">
+        <ng-template pTemplate="header">
+          <div class="path-thumbnail">
+            <img [src]="path.thumbnail" [alt]="path.title" class="w-full h-48 object-cover">
+            <div class="path-overlay">
+              <p-tag 
+                [value]="path.difficulty" 
+                [severity]="getDifficultyColor(path.difficulty)"
+                styleClass="difficulty-tag">
+              </p-tag>
+              <div class="path-duration">
+                <i class="pi pi-calendar mr-1"></i>
+                {{ path.estimatedTime }}
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        
+        <ng-template pTemplate="content">
+          <div class="path-content">
+            <h3 class="path-title">{{ path.title }}</h3>
+            <p class="path-category">{{ path.category }}</p>
+            <p class="path-description">{{ path.description }}</p>
+            
+            <div class="path-stats mb-4">
+              <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center space-x-4">
+                  <div class="flex items-center">
+                    <i class="pi pi-users mr-1"></i>
+                    <span class="text-sm">{{ path.enrolledStudents.toLocaleString() }} enrolled</span>
+                  </div>
+                  <div class="flex items-center">
+                    <i class="pi pi-star-fill mr-1 text-yellow-400"></i>
+                    <span class="text-sm">{{ path.rating.toFixed(1) }}</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="completion-rate mb-3">
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-sm font-medium">Completion Rate</span>
+                  <span class="text-sm">{{ path.completionRate }}%</span>
+                </div>
+                <p-progressBar [value]="path.completionRate" styleClass="completion-progress"></p-progressBar>
+              </div>
+            </div>
+
+            <!-- Learning Outcomes -->
+            <div class="learning-outcomes mb-4" *ngIf="authService.isAuthenticated()">
+              <h4 class="text-sm font-semibold mb-2">Learning Outcomes:</h4>
+              <ul class="text-sm space-y-1">
+                <li *ngFor="let outcome of path.learningOutcomes.slice(0, 3)" class="flex items-start">
+                  <i class="pi pi-check text-green-400 mr-2 mt-1"></i>
+                  <span>{{ outcome }}</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Prerequisites -->
+            <div class="prerequisites mb-4" *ngIf="authService.isAuthenticated() && path.prerequisites.length > 0">
+              <h4 class="text-sm font-semibold mb-2">Prerequisites:</h4>
+              <div class="prereq-tags">
+                <span *ngFor="let prereq of path.prerequisites" class="prereq-tag">
+                  {{ prereq }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Milestones -->
+            <div class="milestones mb-4" *ngIf="authService.isAuthenticated()">
+              <h4 class="text-sm font-semibold mb-2">Milestones:</h4>
+              <div class="milestone-list">
+                <div *ngFor="let milestone of path.milestones" class="milestone-item">
+                  <div class="milestone-icon">
+                    <i class="pi pi-trophy"></i>
+                  </div>
+                  <div class="milestone-info">
+                    <div class="milestone-title">{{ milestone.title }}</div>
+                    <div class="milestone-description">{{ milestone.description }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        
+        <ng-template pTemplate="footer">
+          <div class="path-actions">
+            <p-button 
+              *ngIf="authService.isAuthenticated()"
+              label="Start Learning Path" 
+              icon="pi pi-play"
+              styleClass="w-full"
+              (click)="startLearningPath(path.id)">
+            </p-button>
+            <p-button 
+              *ngIf="!authService.isAuthenticated()"
+              label="Login to Start" 
+              icon="pi pi-lock"
+              styleClass="w-full p-button-outlined"
+              routerLink="/login">
+            </p-button>
+          </div>
+        </ng-template>
+      </p-card>
+    </div>
+  </div>
+
+  <!-- Learning Path Statistics -->
+  <div class="statistics-section mt-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div class="stat-card">
+        <div class="stat-number">{{ learningPaths.length }}+</div>
+        <div class="stat-label">Learning Paths</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ learningPaths.reduce((sum, p) => sum + p.enrolledStudents, 0).toLocaleString() }}+</div>
+        <div class="stat-label">Students Enrolled</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ Math.round(learningPaths.reduce((sum, p) => sum + p.completionRate, 0) / learningPaths.length) }}%</div>
+        <div class="stat-label">Avg Completion Rate</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ (learningPaths.reduce((sum, p) => sum + p.rating, 0) / learningPaths.length).toFixed(1) }}</div>
+        <div class="stat-label">Average Rating</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,29 +1,102 @@
-<div class="sidebar-wrap" [class.collapsed]="collapsed">
-  <button class="collapse-btn" (click)="toggleCollapse()">☰</button>
-
-  <button routerLink="/home" routerLinkActive="active">Homepage</button>
-  <button routerLink="/glossary" routerLinkActive="active">Glossary</button>
-
-  <button (click)="toggleFormulas()" [class.active]="formulasExpanded">Formulas</button>
-  <div *ngIf="formulasExpanded" class="subnav">
-    <div class="topic-block" *ngFor="let topic of physicsTopics">
-      <button class="sub-btn" (click)="toggleTopic(topic.name)">
-        {{ topic.name }} <span>{{ topicOpen(topic.name) ? '▼' : '▶' }}</span>
-      </button>
-      <div class="subnav level-2" *ngIf="topicOpen(topic.name)">
-        <div *ngFor="let subtopic of topic.subtopics">
-          <button class="sub-btn" (click)="toggleSubtopic(topic.name + '::' + subtopic)">
-            {{ subtopic }} <span>{{ subtopicOpen(topic.name + '::' + subtopic) ? '▼' : '▶' }}</span>
-          </button>
-          <div class="subnav level-3" *ngIf="subtopicOpen(topic.name + '::' + subtopic)">
-            <button class="formula-btn" *ngFor="let f of formulasBy(topic.name, subtopic)" (click)="navFormula(f.id)">{{ f.name }}</button>
+<div class="p-4">
+  <!-- Physics Topics -->
+  <h3 class="text-lg font-semibold mb-4 text-primary-color">Physics Topics</h3>
+  <div class="space-y-2">
+    <div *ngFor="let topic of physicsTopics" class="topic-section">
+      <div class="topic-header" 
+           (click)="toggleTopic(topic.name)">
+        <span class="topic-name">{{ topic.name }}</span>
+        <span class="expand-icon ml-2 text-sm">{{ isTopicExpanded(topic.name) ? '▼' : '▶' }}</span>
+      </div>
+      <div *ngIf="isTopicExpanded(topic.name)" class="subtopics ml-4 mt-2 space-y-1">
+        <div *ngFor="let subtopic of topic.subtopics" class="subtopic-section">
+          <div class="subtopic-header" 
+               (click)="toggleSubtopic(subtopic)">
+            <span class="subtopic-name">{{ subtopic }}</span>
+            <span class="expand-icon ml-2 text-xs">{{ isSubtopicExpanded(subtopic) ? '▼' : '▶' }}</span>
+          </div>
+          <div *ngIf="isSubtopicExpanded(subtopic)" class="formulas ml-4 mt-1 space-y-1">
+            <div *ngFor="let formula of getFormulasBySubtopic(topic.name, subtopic)" 
+                 class="formula-item" 
+                 (click)="navigateToFormula(formula.id)">
+              <span class="formula-name">{{ formula.name }}</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  <button routerLink="/experiments" routerLinkActive="active">Experiments</button>
-  <button routerLink="/quotes" routerLinkActive="active">Quotes</button>
-  <a class="contact" href="mailto:knowphysics197&#64;gmail.com">Contact: knowphysics197&#64;gmail.com</a>
+  
+  <!-- Member Features Card -->
+  <p-card styleClass="mt-6">
+    <ng-template pTemplate="header">
+      <div class="flex items-center">
+        <i class="pi pi-star text-primary-color mr-2"></i>
+        <span class="font-semibold text-primary-color text-sm">Member Features</span>
+      </div>
+    </ng-template>
+    
+    <ng-template pTemplate="content">
+      <div class="space-y-3" *ngIf="!isAuthenticated">
+        <div class="flex items-center">
+          <i class="pi pi-bolt text-blue-400 mr-3"></i>
+          <span class="text-sm">Interactive Simulator</span>
+        </div>
+        <div class="flex items-center">
+          <i class="pi pi-comments text-green-400 mr-3"></i>
+          <span class="text-sm">Community Q&A</span>
+        </div>
+        <div class="flex items-center">
+          <i class="pi pi-book text-purple-400 mr-3"></i>
+          <span class="text-sm">Physics Courses</span>
+        </div>
+        <div class="flex items-center">
+          <i class="pi pi-chart-line text-orange-400 mr-3"></i>
+          <span class="text-sm">Learning Paths</span>
+        </div>
+        <div class="flex items-center">
+          <i class="pi pi-users text-cyan-400 mr-3"></i>
+          <span class="text-sm">Study Groups</span>
+        </div>
+        <div class="flex items-center">
+          <i class="pi pi-flask text-red-400 mr-3"></i>
+          <span class="text-sm">Home Experiments</span>
+        </div>
+      </div>
+      
+      <!-- Member Action Buttons -->
+      <div class="space-y-2" *ngIf="isAuthenticated">
+        <p-button 
+          label="Physics Courses" 
+          icon="pi pi-book"
+          styleClass="w-full p-button-outlined p-button-sm"
+          routerLink="/courses">
+        </p-button>
+        <p-button 
+          label="Home Experiments" 
+          icon="pi pi-flask"
+          styleClass="w-full p-button-outlined p-button-sm"
+          routerLink="/experiments">
+        </p-button>
+        <p-button 
+          label="Learning Paths" 
+          icon="pi pi-chart-line"
+          styleClass="w-full p-button-outlined p-button-sm"
+          routerLink="/learning-paths">
+        </p-button>
+        <p-button 
+          label="Community Q&A" 
+          icon="pi pi-comments"
+          styleClass="w-full p-button-outlined p-button-sm"
+          routerLink="/community">
+        </p-button>
+        <p-button 
+          label="Interactive Simulator" 
+          icon="pi pi-bolt"
+          styleClass="w-full p-button-outlined p-button-sm"
+          routerLink="/simulator">
+        </p-button>
+      </div>
+    </ng-template>
+  </p-card>
 </div>

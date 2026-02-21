@@ -1,0 +1,258 @@
+<div class="community-container">
+  <!-- Header -->
+  <div class="community-header">
+    <h1 class="text-4xl font-bold mb-4">Physics Community</h1>
+    <p class="text-xl text-surface-border mb-8">
+      Connect with fellow physics enthusiasts, ask questions, and join study groups
+    </p>
+  </div>
+
+  <!-- Member Access Notice -->
+  <div *ngIf="!authService.isAuthenticated()" class="member-notice mb-8">
+    <p-card styleClass="bg-orange-50 border-orange-200">
+      <ng-template pTemplate="content">
+        <div class="text-center p-4">
+          <i class="pi pi-users text-4xl text-orange-400 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">Member-Only Feature</h3>
+          <p class="text-surface-border mb-4">
+            Join our community to ask questions and participate in study groups
+          </p>
+          <div class="flex justify-center space-x-4">
+            <p-button label="Sign Up Free" icon="pi pi-user-plus" routerLink="/signup"></p-button>
+            <p-button label="Login" icon="pi pi-sign-in" styleClass="p-button-outlined" routerLink="/login"></p-button>
+          </div>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+
+  <!-- Community Tabs -->
+  <div *ngIf="authService.isAuthenticated()">
+    <p-tabView>
+      <!-- Q&A Tab -->
+      <p-tabPanel header="Q&A Forum" leftIcon="pi pi-comments">
+        <!-- Filters -->
+        <div class="filters-section mb-6">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="field">
+              <label class="block text-sm font-medium mb-2">Search Questions</label>
+              <input 
+                pInputText 
+                [(ngModel)]="searchTerm" 
+                (input)="filterQuestions()"
+                placeholder="Search questions..."
+                class="w-full">
+            </div>
+            <div class="field">
+              <label class="block text-sm font-medium mb-2">Category</label>
+              <p-dropdown 
+                [(ngModel)]="selectedCategory"
+                [options]="categories"
+                (onChange)="filterQuestions()"
+                optionLabel="label"
+                optionValue="value"
+                styleClass="w-full">
+              </p-dropdown>
+            </div>
+            <div class="field">
+              <label class="block text-sm font-medium mb-2">Difficulty</label>
+              <p-dropdown 
+                [(ngModel)]="selectedDifficulty"
+                [options]="difficulties"
+                (onChange)="filterQuestions()"
+                optionLabel="label"
+                optionValue="value"
+                styleClass="w-full">
+              </p-dropdown>
+            </div>
+          </div>
+          
+          <div class="text-center mt-4">
+            <p-button 
+              label="Ask a Question" 
+              icon="pi pi-plus"
+              styleClass="p-button-primary"
+              (click)="askQuestion()">
+            </p-button>
+          </div>
+        </div>
+
+        <!-- Questions List -->
+        <div class="questions-list">
+          <div *ngFor="let question of filteredQuestions" class="question-card mb-4">
+            <p-card>
+              <ng-template pTemplate="content">
+                <div class="question-content">
+                  <div class="question-header">
+                    <div class="question-meta">
+                      <p-avatar 
+                        [image]="question.authorAvatar" 
+                        size="small" 
+                        shape="circle"
+                        styleClass="mr-3">
+                      </p-avatar>
+                      <div class="author-info">
+                        <div class="author-name">{{ question.author }}</div>
+                        <div class="question-date">{{ getTimeSince(question.createdAt) }}</div>
+                      </div>
+                    </div>
+                    <div class="question-stats">
+                      <div class="stat-item">
+                        <i class="pi pi-thumbs-up mr-1"></i>
+                        <span>{{ question.votes }}</span>
+                      </div>
+                      <div class="stat-item">
+                        <i class="pi pi-eye mr-1"></i>
+                        <span>{{ question.views }}</span>
+                      </div>
+                      <div class="stat-item">
+                        <i class="pi pi-comments mr-1"></i>
+                        <span>{{ question.answers.length }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <h3 class="question-title">{{ question.title }}</h3>
+                  <p class="question-excerpt">{{ question.content.substring(0, 200) }}...</p>
+                  
+                  <div class="question-footer">
+                    <div class="question-tags">
+                      <p-tag 
+                        *ngFor="let tag of question.tags.slice(0, 3)" 
+                        [value]="tag"
+                        styleClass="mr-2 mb-2">
+                      </p-tag>
+                      <p-tag 
+                        [value]="question.difficulty" 
+                        [severity]="getDifficultyColor(question.difficulty)"
+                        styleClass="mr-2 mb-2">
+                      </p-tag>
+                    </div>
+                    <div class="question-actions">
+                      <p-button 
+                        label="View Discussion" 
+                        icon="pi pi-arrow-right"
+                        styleClass="p-button-outlined p-button-sm">
+                      </p-button>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </p-card>
+          </div>
+        </div>
+      </p-tabPanel>
+
+      <!-- Study Groups Tab -->
+      <p-tabPanel header="Study Groups" leftIcon="pi pi-users">
+        <!-- Study Groups Grid -->
+        <div class="groups-grid">
+          <div *ngFor="let group of filteredGroups" class="group-card">
+            <p-card styleClass="h-full">
+              <ng-template pTemplate="header">
+                <div class="group-thumbnail">
+                  <img [src]="group.thumbnail" [alt]="group.name" class="w-full h-32 object-cover">
+                  <div class="group-overlay">
+                    <div class="group-privacy" [class.private]="group.isPrivate">
+                      <i [class]="group.isPrivate ? 'pi pi-lock' : 'pi pi-globe'"></i>
+                      {{ group.isPrivate ? 'Private' : 'Public' }}
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+              
+              <ng-template pTemplate="content">
+                <div class="group-content">
+                  <h3 class="group-name">{{ group.name }}</h3>
+                  <p class="group-category">{{ group.category }}</p>
+                  <p class="group-description">{{ group.description }}</p>
+                  
+                  <div class="group-stats mb-4">
+                    <div class="flex items-center justify-between mb-2">
+                      <div class="flex items-center space-x-4">
+                        <div class="flex items-center">
+                          <i class="pi pi-users mr-1"></i>
+                          <span class="text-sm">{{ group.members.length }}/{{ group.maxMembers }}</span>
+                        </div>
+                        <div class="flex items-center">
+                          <i class="pi pi-calendar mr-1"></i>
+                          <span class="text-sm">{{ getTimeSince(group.lastActivity) }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="group-schedule mb-4" *ngIf="group.meetingSchedule">
+                    <div class="flex items-center">
+                      <i class="pi pi-clock mr-2 text-blue-400"></i>
+                      <span class="text-sm">{{ group.meetingSchedule }}</span>
+                    </div>
+                  </div>
+
+                  <div class="group-topics mb-4">
+                    <h4 class="text-sm font-semibold mb-2">Discussion Topics:</h4>
+                    <div class="topic-tags">
+                      <span *ngFor="let topic of group.topics.slice(0, 3)" class="topic-tag">
+                        {{ topic }}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="group-members">
+                    <h4 class="text-sm font-semibold mb-2">Active Members:</h4>
+                    <div class="members-avatars">
+                      <p-avatar 
+                        *ngFor="let member of group.members.slice(0, 5)"
+                        [image]="member.avatar"
+                        size="small"
+                        shape="circle"
+                        [title]="member.username"
+                        styleClass="mr-1">
+                      </p-avatar>
+                      <span *ngIf="group.members.length > 5" class="more-members">
+                        +{{ group.members.length - 5 }} more
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+              
+              <ng-template pTemplate="footer">
+                <div class="group-actions">
+                  <p-button 
+                    label="Join Group" 
+                    icon="pi pi-plus"
+                    styleClass="w-full"
+                    (click)="joinGroup(group.id)">
+                  </p-button>
+                </div>
+              </ng-template>
+            </p-card>
+          </div>
+        </div>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+
+  <!-- Community Statistics -->
+  <div class="statistics-section mt-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div class="stat-card">
+        <div class="stat-number">{{ questions.length }}+</div>
+        <div class="stat-label">Questions Asked</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ questions.reduce((sum, q) => sum + q.answers.length, 0) }}+</div>
+        <div class="stat-label">Answers Provided</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ studyGroups.length }}+</div>
+        <div class="stat-label">Study Groups</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ studyGroups.reduce((sum, g) => sum + g.members.length, 0) }}+</div>
+        <div class="stat-label">Community Members</div>
+      </div>
+    </div>
+  </div>
+</div>
