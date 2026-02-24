@@ -1,145 +1,216 @@
-<div class="calculator-integrated">
-  <!-- Formula Calculator Section -->
-  <div class="formula-calculator-section">
-    <h3 class="calculator-title">Formula Calculator</h3>
+<div class="formula-calculator-container">
+  <!-- Calculator Mode Toggle -->
+  <div class="calculator-mode-toggle">
+    <p-button 
+      [label]="'Formula Calculator'"
+      [styleClass]="calculatorMode === 'formula' ? 'p-button-raised' : 'p-button-outlined'"
+      (click)="calculatorMode = 'formula'"
+      icon="pi pi-calculator">
+    </p-button>
+    <p-button 
+      [label]="'Scientific Calculator'"
+      [styleClass]="calculatorMode === 'scientific' ? 'p-button-raised' : 'p-button-outlined'"
+      (click)="calculatorMode = 'scientific'"
+      icon="pi pi-th">
+    </p-button>
+  </div>
+
+  <!-- Formula-Specific Calculator -->
+  <div *ngIf="calculatorMode === 'formula'" class="custom-formula-calculator">
+    <div class="calculator-header">
+      <h3 class="calculator-title">
+        <i class="pi pi-calculator"></i>
+        {{ getFormulaDisplayName() }} Calculator
+      </h3>
+      <div class="formula-preview">{{ getFormulaExpression() }}</div>
+    </div>
     
-    <!-- Calculator Form -->
-    <div class="calculator-form">
-      <div *ngFor="let variable of formulaVariables" class="field">
-        <label [for]="variable.key" class="block text-sm font-medium mb-2 text-primary-color">
-          {{ variable.key }} ({{ variable.unit }})
-        </label>
-        <p-inputNumber 
-          [id]="variable.key"
-          [(ngModel)]="variable.value"
-          [placeholder]="'Enter ' + variable.key"
-          [minFractionDigits]="2"
-          [maxFractionDigits]="6"
-          styleClass="w-full">
-        </p-inputNumber>
-        <small class="text-surface-border">{{ variable.description }}</small>
+    <!-- Input Variables Grid -->
+    <div class="variables-input-grid">
+      <div *ngFor="let variable of formulaVariables; let i = index" 
+           class="variable-input-card" 
+           [class.constant-variable]="variable.value !== null && isConstant(variable.key)"
+           [style.animation-delay.s]="i * 0.1">
+        
+        <div class="variable-header">
+          <div class="variable-symbol">{{ variable.key }}</div>
+          <div class="variable-name">{{ variable.description }}</div>
+          <div class="variable-unit" *ngIf="variable.unit">[{{ variable.unit }}]</div>
+        </div>
+        
+        <div class="variable-input">
+          <p-inputNumber 
+            [id]="variable.key"
+            [(ngModel)]="variable.value"
+            [placeholder]="getPlaceholder(variable)"
+            [minFractionDigits]="getDecimalPlaces(variable.key)"
+            [maxFractionDigits]="8"
+            [disabled]="isConstant(variable.key)"
+            styleClass="w-full custom-input"
+            [class]="getInputClass(variable.key)">
+          </p-inputNumber>
+          
+          <div class="variable-info" *ngIf="getVariableInfo(variable.key)">
+            <i class="pi pi-info-circle"></i>
+            {{ getVariableInfo(variable.key) }}
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Calculate Button -->
-    <div class="text-center mb-4">
+    <!-- Quick Value Buttons -->
+    <div class="quick-values" *ngIf="getQuickValues().length > 0">
+      <h4>Common Values:</h4>
+      <div class="quick-buttons">
+        <p-button 
+          *ngFor="let quickVal of getQuickValues()" 
+          [label]="quickVal.label"
+          styleClass="p-button-outlined p-button-sm"
+          (click)="setQuickValue(quickVal)"
+          [pTooltip]="quickVal.description">
+        </p-button>
+      </div>
+    </div>
+
+    <!-- Calculate Section -->
+    <div class="calculate-section">
+      <div class="calculation-preview" *ngIf="canCalculate()">
+        <div class="preview-formula">{{ getCalculationPreview() }}</div>
+      </div>
+      
       <p-button 
-        label="Calculate" 
-        icon="pi pi-calculator"
-        styleClass="p-button-primary"
+        [label]="getCalculateButtonText()"
+        icon="pi pi-play"
+        styleClass="p-button-lg calculate-btn"
         (click)="calculate()"
-        [disabled]="!canCalculate()">
+        [disabled]="!canCalculate()"
+        [loading]="calculating">
       </p-button>
+      
+      <div class="input-validation" *ngIf="!canCalculate() && hasAnyInput()">
+        <i class="pi pi-exclamation-triangle"></i>
+        {{ getValidationMessage() }}
+      </div>
     </div>
 
-    <!-- Result Display -->
-    <div *ngIf="result" class="calculator-result">
-      <div class="result-value">{{ result.value.toFixed(4) }}</div>
-      <div class="result-unit">{{ result.unit }}</div>
-    </div>
-  </div>
-
-  <!-- Scientific Calculator Section -->
-  <div class="scientific-calculator-section">
-    <div class="flex justify-between items-center mb-4">
-      <h3 class="calculator-title">Scientific Calculator</h3>
-      <div class="flex space-x-2">
+    <!-- Enhanced Result Display -->
+    <div *ngIf="result" class="enhanced-result">
+      <div class="result-header">
+        <h4>Result</h4>
         <p-button 
-          [label]="scientificMode ? 'Basic' : 'Scientific'"
-          icon="pi pi-calculator"
-          styleClass="p-button-outlined p-button-sm"
-          (click)="toggleScientificMode()">
-        </p-button>
-        <p-button 
-          [label]="angleUnit"
-          icon="pi pi-angle"
-          styleClass="p-button-outlined p-button-sm"
-          (click)="toggleAngleUnit()">
+          icon="pi pi-copy" 
+          styleClass="p-button-text p-button-sm"
+          (click)="copyResult()"
+          pTooltip="Copy result">
         </p-button>
       </div>
-    </div>
-
-    <!-- Display -->
-    <div class="calculator-display">
-      <div class="display-value">{{ displayValue }}</div>
-      <div class="display-info">
-        <span class="angle-unit">{{ angleUnit }}</span>
-        <span class="memory-indicator" *ngIf="memory !== 0">M</span>
+      
+      <div class="result-main">
+        <div class="result-value">{{ formatResult(result.value) }}</div>
+        <div class="result-unit">{{ result.unit }}</div>
+      </div>
+      
+      <div class="result-interpretations" *ngIf="getResultInterpretation()">
+        <div class="interpretation-item" *ngFor="let interp of getResultInterpretation()">
+          <strong>{{ interp.label }}:</strong> {{ interp.value }}
+        </div>
+      </div>
+      
+      <div class="result-context" *ngIf="getResultContext()">
+        <i class="pi pi-lightbulb"></i>
+        {{ getResultContext() }}
       </div>
     </div>
 
-    <!-- Calculator Buttons -->
-    <div class="calculator-buttons">
-      <!-- Memory Row -->
-      <div class="button-row">
-        <button class="calc-btn memory-btn" (click)="memoryClear()">MC</button>
-        <button class="calc-btn memory-btn" (click)="memoryRecall()">MR</button>
-        <button class="calc-btn memory-btn" (click)="memoryAdd()">M+</button>
-        <button class="calc-btn memory-btn" (click)="memorySubtract()">M-</button>
-        <button class="calc-btn memory-btn" (click)="memoryStore()">MS</button>
-      </div>
-
-      <!-- Scientific Functions Row -->
-      <div class="button-row" *ngIf="scientificMode">
-        <button class="calc-btn function-btn" (click)="sin()">sin</button>
-        <button class="calc-btn function-btn" (click)="cos()">cos</button>
-        <button class="calc-btn function-btn" (click)="tan()">tan</button>
-        <button class="calc-btn function-btn" (click)="log()">log</button>
-        <button class="calc-btn function-btn" (click)="ln()">ln</button>
-      </div>
-
-      <!-- Scientific Functions Row 2 -->
-      <div class="button-row" *ngIf="scientificMode">
-        <button class="calc-btn function-btn" (click)="sqrt()">√</button>
-        <button class="calc-btn function-btn" (click)="square()">x²</button>
-        <button class="calc-btn function-btn" (click)="inverse()">1/x</button>
-        <button class="calc-btn function-btn" (click)="performOperation('^')">x^y</button>
-        <button class="calc-btn function-btn" (click)="clear()">C</button>
-      </div>
-
-      <!-- Number Pad -->
-      <div class="button-row">
-        <button class="calc-btn number-btn" (click)="inputDigit('7')">7</button>
-        <button class="calc-btn number-btn" (click)="inputDigit('8')">8</button>
-        <button class="calc-btn number-btn" (click)="inputDigit('9')">9</button>
-        <button class="calc-btn operator-btn" (click)="performOperation('/')">÷</button>
-        <button class="calc-btn clear-btn" (click)="clear()">AC</button>
-      </div>
-
-      <div class="button-row">
-        <button class="calc-btn number-btn" (click)="inputDigit('4')">4</button>
-        <button class="calc-btn number-btn" (click)="inputDigit('5')">5</button>
-        <button class="calc-btn number-btn" (click)="inputDigit('6')">6</button>
-        <button class="calc-btn operator-btn" (click)="performOperation('*')">×</button>
-        <button class="calc-btn function-btn" (click)="sqrt()">√</button>
-      </div>
-
-      <div class="button-row">
-        <button class="calc-btn number-btn" (click)="inputDigit('1')">1</button>
-        <button class="calc-btn number-btn" (click)="inputDigit('2')">2</button>
-        <button class="calc-btn number-btn" (click)="inputDigit('3')">3</button>
-        <button class="calc-btn operator-btn" (click)="performOperation('-')">−</button>
-        <button class="calc-btn function-btn" (click)="square()">x²</button>
-      </div>
-
-      <div class="button-row">
-        <button class="calc-btn number-btn" (click)="inputDigit('0')">0</button>
-        <button class="calc-btn number-btn" (click)="inputDecimal()">.</button>
-        <button class="calc-btn equals-btn" (click)="performOperation('=')">=</button>
-        <button class="calc-btn operator-btn" (click)="performOperation('+')">+</button>
-        <button class="calc-btn function-btn" (click)="inverse()">1/x</button>
+    <!-- Formula Explanation -->
+    <div class="formula-explanation" *ngIf="!result">
+      <h4>About This Formula</h4>
+      <p>{{ getFormulaExplanation() }}</p>
+      <div class="formula-tips" *ngIf="getFormulaTips().length > 0">
+        <h5>Tips:</h5>
+        <ul>
+          <li *ngFor="let tip of getFormulaTips()">{{ tip }}</li>
+        </ul>
       </div>
     </div>
   </div>
 
-  <!-- History Section -->
-  <div *ngIf="calculationHistory.length > 0" class="history-section">
-    <h3 class="text-lg font-semibold mb-3 text-primary-color">Calculation History</h3>
-    <div class="space-y-2 max-h-40 overflow-y-auto">
-      <div *ngFor="let calc of calculationHistory.slice(-5)" class="history-item">
-        <div class="text-sm text-surface-border">{{ calc.timestamp | date:'short' }}</div>
-        <div class="font-mono text-sm">{{ calc.inputs | json }}</div>
-        <div class="text-primary-color font-semibold">= {{ calc.result.toFixed(4) }} {{ calc.unit }}</div>
+  <!-- Scientific Calculator -->
+  <div *ngIf="calculatorMode === 'scientific'" class="scientific-calculator">
+    <div class="calculator-container">
+      <div class="display">{{ displayValue }}</div>
+      
+      <div class="mode-toggle">
+        <button class="mode-btn" (click)="toggleAngleUnit()">
+          {{ angleUnit === 'deg' ? 'DEG' : 'RAD' }}
+        </button>
+      </div>
+
+      <div class="scientific-functions">
+        <div class="sci-row">
+          <button class="sci-btn" (click)="sin()">sin</button>
+          <button class="sci-btn" (click)="cos()">cos</button>
+          <button class="sci-btn" (click)="tan()">tan</button>
+          <button class="sci-btn" (click)="log()">log</button>
+        </div>
+        <div class="sci-row">
+          <button class="sci-btn" (click)="ln()">ln</button>
+          <button class="sci-btn" (click)="sqrt()">√</button>
+          <button class="sci-btn" (click)="square()">x²</button>
+          <button class="sci-btn" (click)="performOperation('^')">xʸ</button>
+        </div>
+        <div class="sci-row">
+          <button class="sci-btn" (click)="inverse()">1/x</button>
+          <button class="sci-btn" (click)="memoryStore()">MS</button>
+          <button class="sci-btn" (click)="memoryRecall()">MR</button>
+          <button class="sci-btn" (click)="memoryClear()">MC</button>
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button class="clear-btn" (click)="clear()">C</button>
+        <button class="ce-btn" (click)="clearEntry()">CE</button>
+        <button class="backspace-btn" (click)="backspace()">⌫</button>
+        <button class="operator-btn" (click)="performOperation('/')">/</button>
+
+        <button class="number-btn" (click)="inputDigit('7')">7</button>
+        <button class="number-btn" (click)="inputDigit('8')">8</button>
+        <button class="number-btn" (click)="inputDigit('9')">9</button>
+        <button class="operator-btn" (click)="performOperation('*')">×</button>
+
+        <button class="number-btn" (click)="inputDigit('4')">4</button>
+        <button class="number-btn" (click)="inputDigit('5')">5</button>
+        <button class="number-btn" (click)="inputDigit('6')">6</button>
+        <button class="operator-btn" (click)="performOperation('-')">-</button>
+
+        <button class="number-btn" (click)="inputDigit('1')">1</button>
+        <button class="number-btn" (click)="inputDigit('2')">2</button>
+        <button class="number-btn" (click)="inputDigit('3')">3</button>
+        <button class="operator-btn" (click)="performOperation('+')">+</button>
+
+        <button class="number-btn zero-btn" (click)="inputDigit('0')">0</button>
+        <button class="number-btn" (click)="inputDecimal()">.</button>
+        <button class="equals-btn" (click)="performOperation('=')">=</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Calculation History (shown for both modes) -->
+  <div *ngIf="calculationHistory.length > 0" class="calculation-history">
+    <h4>Recent Calculations</h4>
+    <div class="history-list">
+      <div *ngFor="let calc of calculationHistory.slice(-3)" class="history-item">
+        <div class="history-timestamp">{{ calc.timestamp | date:'short' }}</div>
+        <div class="history-calculation">
+          <span class="history-inputs">{{ formatHistoryInputs(calc.inputs) }}</span>
+          <span class="history-result">= {{ formatNumber(calc.result) }} {{ calc.unit }}</span>
+        </div>
+        <p-button 
+          icon="pi pi-refresh" 
+          styleClass="p-button-text p-button-sm"
+          (click)="loadFromHistory(calc)"
+          pTooltip="Load these values">
+        </p-button>
       </div>
     </div>
   </div>

@@ -678,19 +678,348 @@ export const PHYSICS_FORMULAS: PhysicsFormula[] = [
       'M': 'mass of black hole',
       'c': 'speed of light'
     }
+  },
+
+  // MECHANICS - ROTATION
+  {
+    id: 'angular-velocity',
+    name: 'Angular Velocity',
+    formula: 'ω = Δθ/Δt',
+    description: 'The rate of change of angular displacement with respect to time. Angular velocity describes how fast an object rotates.',
+    realLifeUse: 'Used in motor design, turbine engineering, gyroscope applications, robotics, and sports analysis for spinning objects.',
+    meaning: 'Angular velocity measures how fast something rotates. It is analogous to linear velocity but for rotational motion.',
+    topic: 'Mechanics',
+    subtopic: 'Rotation',
+    units: 'rad/s',
+    variables: {
+      'ω': 'angular velocity',
+      'Δθ': 'change in angle',
+      'Δt': 'change in time'
+    }
+  },
+  {
+    id: 'moment-of-inertia',
+    name: 'Moment of Inertia',
+    formula: 'I = mr²',
+    description: 'The rotational equivalent of mass. It measures an object\'s resistance to changes in rotational motion.',
+    realLifeUse: 'Applied in flywheel design, figure skating analysis, mechanical engineering, and understanding rotational dynamics.',
+    meaning: 'Moment of inertia is the rotational equivalent of mass. Objects with mass farther from the axis are harder to rotate.',
+    topic: 'Mechanics',
+    subtopic: 'Rotation',
+    units: 'kg·m²',
+    variables: {
+      'I': 'moment of inertia',
+      'm': 'mass',
+      'r': 'distance from axis'
+    }
+  },
+  {
+    id: 'torque',
+    name: 'Torque',
+    formula: 'τ = rF sin(θ)',
+    description: 'The rotational equivalent of force. Torque causes angular acceleration and is crucial for understanding rotational motion.',
+    realLifeUse: 'Essential in engine design, wrench and tool design, door hinge design, and mechanical systems.',
+    meaning: 'Torque is the rotational force. It depends on the force magnitude, distance from axis, and angle of application.',
+    topic: 'Mechanics',
+    subtopic: 'Rotation',
+    units: 'N·m',
+    variables: {
+      'τ': 'torque',
+      'r': 'distance from axis',
+      'F': 'force',
+      'θ': 'angle'
+    }
+  },
+  {
+    id: 'angular-momentum',
+    name: 'Angular Momentum',
+    formula: 'L = Iω',
+    description: 'The rotational equivalent of linear momentum. Angular momentum is conserved in isolated systems.',
+    realLifeUse: 'Used in gyroscope design, figure skating analysis, satellite stabilization, and understanding planetary motion.',
+    meaning: 'Angular momentum is the rotational equivalent of momentum. It is conserved, explaining why spinning objects maintain their orientation.',
+    topic: 'Mechanics',
+    subtopic: 'Rotation',
+    units: 'kg·m²/s',
+    variables: {
+      'L': 'angular momentum',
+      'I': 'moment of inertia',
+      'ω': 'angular velocity'
+    }
+  },
+
+  // MECHANICS - FLUIDS
+  {
+    id: 'pressure',
+    name: 'Pressure',
+    formula: 'P = F/A',
+    description: 'The force per unit area applied perpendicular to a surface. Pressure is fundamental to understanding fluid behavior.',
+    realLifeUse: 'Used in hydraulic systems, tire pressure monitoring, weather forecasting, diving calculations, and medical blood pressure measurement.',
+    meaning: 'Pressure is force distributed over an area. The same force over a smaller area creates higher pressure.',
+    topic: 'Mechanics',
+    subtopic: 'Fluids',
+    units: 'Pa',
+    variables: {
+      'P': 'pressure',
+      'F': 'force',
+      'A': 'area'
+    }
+  },
+  {
+    id: 'buoyancy',
+    name: 'Buoyant Force (Archimedes)',
+    formula: 'F_b = ρVg',
+    description: 'The upward force exerted by a fluid on an immersed object. This force equals the weight of the displaced fluid.',
+    realLifeUse: 'Applied in ship design, submarine operation, hot air balloon design, and understanding why objects float or sink.',
+    meaning: 'Buoyancy is the upward force on objects in fluids. Objects float when buoyant force equals their weight.',
+    topic: 'Mechanics',
+    subtopic: 'Fluids',
+    units: 'N',
+    variables: {
+      'F_b': 'buoyant force',
+      'ρ': 'fluid density',
+      'V': 'displaced volume',
+      'g': 'gravity'
+    }
+  },
+  {
+    id: 'continuity-equation',
+    name: 'Continuity Equation',
+    formula: 'A₁v₁ = A₂v₂',
+    description: 'The principle of mass conservation in fluid flow. The product of cross-sectional area and velocity remains constant.',
+    realLifeUse: 'Used in pipe design, blood flow analysis, river flow calculations, and aerodynamic design.',
+    meaning: 'Fluid flows faster through narrow sections and slower through wide sections to conserve mass.',
+    topic: 'Mechanics',
+    subtopic: 'Fluids',
+    units: 'm³/s',
+    variables: {
+      'A₁, A₂': 'cross-sectional areas',
+      'v₁, v₂': 'fluid velocities'
+    }
+  },
+  {
+    id: 'bernoulli-equation',
+    name: 'Bernoulli\'s Equation',
+    formula: 'P + ½ρv² + ρgh = constant',
+    description: 'The principle of energy conservation in fluid flow. The sum of pressure, kinetic, and potential energy per unit volume is constant.',
+    realLifeUse: 'Applied in airplane wing design, venturi meter design, blood flow analysis, and understanding fluid dynamics.',
+    meaning: 'In flowing fluids, pressure decreases as velocity increases. This explains how airplane wings generate lift.',
+    topic: 'Mechanics',
+    subtopic: 'Fluids',
+    units: 'Pa',
+    variables: {
+      'P': 'pressure',
+      'ρ': 'fluid density',
+      'v': 'velocity',
+      'g': 'gravity',
+      'h': 'height'
+    }
+  },
+
+  // THERMODYNAMICS - ENTROPY
+  {
+    id: 'entropy-change',
+    name: 'Entropy Change',
+    formula: 'ΔS = Q/T',
+    description: 'The change in entropy when heat is transferred at constant temperature. Entropy measures disorder in a system.',
+    realLifeUse: 'Used in refrigeration design, heat engine analysis, chemical process engineering, and understanding thermodynamic efficiency.',
+    meaning: 'Entropy measures disorder. Heat transfer increases entropy, and natural processes tend to increase total entropy.',
+    topic: 'Thermodynamics',
+    subtopic: 'Entropy',
+    units: 'J/K',
+    variables: {
+      'ΔS': 'entropy change',
+      'Q': 'heat transferred',
+      'T': 'temperature'
+    }
+  },
+  {
+    id: 'carnot-efficiency',
+    name: 'Carnot Efficiency',
+    formula: 'η = 1 - T_c/T_h',
+    description: 'The maximum theoretical efficiency of a heat engine operating between two temperatures. No real engine can exceed this efficiency.',
+    realLifeUse: 'Used in power plant design, engine efficiency analysis, refrigeration system design, and thermodynamic optimization.',
+    meaning: 'The Carnot efficiency sets the theoretical limit for heat engine efficiency. Real engines are always less efficient.',
+    topic: 'Thermodynamics',
+    subtopic: 'Engines',
+    units: 'dimensionless',
+    variables: {
+      'η': 'efficiency',
+      'T_c': 'cold reservoir temperature',
+      'T_h': 'hot reservoir temperature'
+    }
+  },
+  {
+    id: 'heat-engine-work',
+    name: 'Heat Engine Work',
+    formula: 'W = Q_h - Q_c',
+    description: 'The work output of a heat engine equals the difference between heat absorbed and heat rejected.',
+    realLifeUse: 'Applied in power plant design, car engine analysis, refrigeration systems, and energy conversion systems.',
+    meaning: 'Heat engines convert heat to work. The work output is the difference between heat input and heat output.',
+    topic: 'Thermodynamics',
+    subtopic: 'Engines',
+    units: 'J',
+    variables: {
+      'W': 'work output',
+      'Q_h': 'heat absorbed',
+      'Q_c': 'heat rejected'
+    }
+  },
+
+  // WAVES - SOUND
+  {
+    id: 'sound-intensity',
+    name: 'Sound Intensity',
+    formula: 'I = P/A',
+    description: 'The power per unit area carried by a sound wave. Intensity determines how loud a sound appears.',
+    realLifeUse: 'Used in speaker design, noise pollution measurement, hearing protection, acoustic engineering, and audio system design.',
+    meaning: 'Sound intensity measures the energy flow per unit area. Higher intensity means louder sound.',
+    topic: 'Waves and Optics',
+    subtopic: 'Sound',
+    units: 'W/m²',
+    variables: {
+      'I': 'intensity',
+      'P': 'power',
+      'A': 'area'
+    }
+  },
+  {
+    id: 'sound-level',
+    name: 'Sound Level (Decibels)',
+    formula: 'β = 10 log(I/I₀)',
+    description: 'The logarithmic measure of sound intensity in decibels. This scale matches human perception of loudness.',
+    realLifeUse: 'Used in noise measurement, hearing protection standards, audio engineering, and environmental noise assessment.',
+    meaning: 'The decibel scale is logarithmic. A 10 dB increase represents a 10-fold increase in intensity.',
+    topic: 'Waves and Optics',
+    subtopic: 'Sound',
+    units: 'dB',
+    variables: {
+      'β': 'sound level',
+      'I': 'intensity',
+      'I₀': 'reference intensity'
+    }
+  },
+
+  // WAVES - LIGHT
+  {
+    id: 'snells-law',
+    name: 'Snell\'s Law',
+    formula: 'n₁ sin(θ₁) = n₂ sin(θ₂)',
+    description: 'The law of refraction describing how light bends when passing between different media.',
+    realLifeUse: 'Used in lens design, fiber optics, eyeglass design, camera optics, and understanding atmospheric refraction.',
+    meaning: 'Light bends when entering a different medium. The amount of bending depends on the refractive indices.',
+    topic: 'Waves and Optics',
+    subtopic: 'Light',
+    units: 'dimensionless',
+    variables: {
+      'n₁, n₂': 'refractive indices',
+      'θ₁, θ₂': 'angles from normal'
+    }
+  },
+  {
+    id: 'lens-equation',
+    name: 'Thin Lens Equation',
+    formula: '1/f = 1/d_o + 1/d_i',
+    description: 'The relationship between focal length, object distance, and image distance for thin lenses.',
+    realLifeUse: 'Applied in camera design, eyeglass prescription, microscope design, telescope design, and optical instruments.',
+    meaning: 'This equation relates object position, image position, and focal length for lenses.',
+    topic: 'Waves and Optics',
+    subtopic: 'Light',
+    units: 'm⁻¹',
+    variables: {
+      'f': 'focal length',
+      'd_o': 'object distance',
+      'd_i': 'image distance'
+    }
+  },
+
+  // ELECTROMAGNETISM - ELECTROMAGNETIC WAVES
+  {
+    id: 'em-wave-speed',
+    name: 'Electromagnetic Wave Speed',
+    formula: 'c = 1/√(ε₀μ₀)',
+    description: 'The speed of electromagnetic waves in vacuum, derived from electric and magnetic constants.',
+    realLifeUse: 'Fundamental to understanding light, radio waves, telecommunications, and electromagnetic theory.',
+    meaning: 'The speed of light is determined by fundamental electromagnetic properties of space.',
+    topic: 'Electromagnetism',
+    subtopic: 'Electromagnetic Waves',
+    units: 'm/s',
+    variables: {
+      'c': 'speed of light',
+      'ε₀': 'permittivity of free space',
+      'μ₀': 'permeability of free space'
+    }
+  },
+  {
+    id: 'em-energy-density',
+    name: 'EM Energy Density',
+    formula: 'u = ½(ε₀E² + B²/μ₀)',
+    description: 'The energy per unit volume stored in electromagnetic fields.',
+    realLifeUse: 'Used in antenna design, electromagnetic shielding, microwave engineering, and understanding electromagnetic radiation.',
+    meaning: 'Electromagnetic waves carry energy in both electric and magnetic fields.',
+    topic: 'Electromagnetism',
+    subtopic: 'Electromagnetic Waves',
+    units: 'J/m³',
+    variables: {
+      'u': 'energy density',
+      'E': 'electric field',
+      'B': 'magnetic field',
+      'ε₀, μ₀': 'fundamental constants'
+    }
+  },
+
+  // PARTICLE PHYSICS
+  {
+    id: 'rest-energy',
+    name: 'Rest Energy',
+    formula: 'E₀ = m₀c²',
+    description: 'The energy equivalent of an object\'s rest mass. This is the energy an object has when at rest.',
+    realLifeUse: 'Used in particle physics experiments, nuclear reactions, and understanding matter-antimatter annihilation.',
+    meaning: 'Every particle has energy even when at rest, equal to its mass times the speed of light squared.',
+    topic: 'Modern Physics',
+    subtopic: 'Particle Physics',
+    units: 'J',
+    variables: {
+      'E₀': 'rest energy',
+      'm₀': 'rest mass',
+      'c': 'speed of light'
+    }
+  },
+  {
+    id: 'relativistic-energy',
+    name: 'Relativistic Total Energy',
+    formula: 'E = γm₀c²',
+    description: 'The total energy of a particle moving at relativistic speeds, including rest energy and kinetic energy.',
+    realLifeUse: 'Essential in particle accelerator design, cosmic ray studies, and high-energy physics experiments.',
+    meaning: 'At high speeds, energy increases dramatically due to relativistic effects.',
+    topic: 'Modern Physics',
+    subtopic: 'Particle Physics',
+    units: 'J',
+    variables: {
+      'E': 'total energy',
+      'γ': 'Lorentz factor',
+      'm₀': 'rest mass',
+      'c': 'speed of light'
+    }
+  },
+  {
+    id: 'compton-scattering',
+    name: 'Compton Wavelength Shift',
+    formula: 'Δλ = (h/m_e c)(1 - cos(θ))',
+    description: 'The change in wavelength when a photon scatters off an electron. This demonstrates the particle nature of light.',
+    realLifeUse: 'Used in X-ray analysis, medical imaging, material science, and understanding photon-matter interactions.',
+    meaning: 'Photons transfer momentum to electrons when scattering, changing the photon wavelength.',
+    topic: 'Modern Physics',
+    subtopic: 'Particle Physics',
+    units: 'm',
+    variables: {
+      'Δλ': 'wavelength shift',
+      'h': 'Planck constant',
+      'm_e': 'electron mass',
+      'c': 'speed of light',
+      'θ': 'scattering angle'
+    }
   }
 ];
-
-// Add more formulas to reach 344 total...
-// This is a sample of key formulas. The complete list would include:
-// - All mechanics formulas (kinematics, dynamics, energy, momentum, rotation)
-// - All thermodynamics formulas (gas laws, heat transfer, entropy)
-// - All electromagnetism formulas (electric fields, magnetic fields, circuits)
-// - All waves and optics formulas (sound, light, interference, diffraction)
-// - All modern physics formulas (relativity, quantum mechanics, nuclear physics)
-// - All fluid mechanics formulas (pressure, buoyancy, flow)
-// - All atomic and nuclear physics formulas
-// - All astrophysics formulas
 
 export const PHYSICS_TOPICS = [
   {

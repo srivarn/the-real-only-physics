@@ -17,7 +17,9 @@ import { PHYSICS_FORMULAS } from '../data/physics-formulas';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  private daySeed = Math.floor(Date.now() / 86400000);
+  // Sidereal day: 23 hours, 56 minutes, 4 seconds = 86164 seconds
+  private readonly SIDEREAL_DAY_MS = 86164000; // milliseconds
+  private daySeed = Math.floor(Date.now() / this.SIDEREAL_DAY_MS);
 
   readonly quoteOfDay = PHYSICS_QUOTES[this.daySeed % PHYSICS_QUOTES.length];
   experimentOfDay = PHYSICS_EXPERIMENTS[this.daySeed % PHYSICS_EXPERIMENTS.length];

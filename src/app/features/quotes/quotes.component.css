@@ -20,11 +20,11 @@
 
 @keyframes headerGlow {
   0%, 100% {
-    filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.5));
+    filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.35));
     transform: scale(1);
   }
   50% {
-    filter: drop-shadow(0 0 25px rgba(139, 92, 246, 0.8));
+    filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.6));
     transform: scale(1.02);
   }
 }
@@ -46,7 +46,7 @@
 
 .quote-icon {
   font-size: 3rem;
-  color: rgba(139, 92, 246, 0.4);
+  color: rgba(139, 92, 246, 0.3);
   font-family: Georgia, serif;
   margin-bottom: 0.5rem;
   animation: quoteFloat 3s ease-in-out infinite;
