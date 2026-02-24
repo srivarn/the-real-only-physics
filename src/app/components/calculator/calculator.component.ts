@@ -59,26 +59,179 @@ export class CalculatorComponent implements OnInit {
   }
 
   initializeFormulaVariables(): void {
-    // Initialize based on formula ID
+    // Initialize based on formula ID - comprehensive list
     switch (this.formulaId) {
+      // MECHANICS - KINEMATICS
+      case 'velocity':
+        this.formulaVariables = [
+          { key: 'Δx', value: null, unit: 'm', description: 'Change in displacement' },
+          { key: 'Δt', value: null, unit: 's', description: 'Change in time' }
+        ];
+        break;
+      case 'acceleration':
+        this.formulaVariables = [
+          { key: 'Δv', value: null, unit: 'm/s', description: 'Change in velocity' },
+          { key: 'Δt', value: null, unit: 's', description: 'Change in time' }
+        ];
+        break;
+      case 'displacement':
+        this.formulaVariables = [
+          { key: 'v₀', value: null, unit: 'm/s', description: 'Initial velocity' },
+          { key: 't', value: null, unit: 's', description: 'Time elapsed' },
+          { key: 'a', value: null, unit: 'm/s²', description: 'Acceleration' }
+        ];
+        break;
+      case 'free-fall':
+        this.formulaVariables = [
+          { key: 'g', value: 9.8, unit: 'm/s²', description: 'Gravity (9.8 m/s²)' },
+          { key: 't', value: null, unit: 's', description: 'Time elapsed' }
+        ];
+        break;
+      case 'projectile-range':
+        this.formulaVariables = [
+          { key: 'v₀', value: null, unit: 'm/s', description: 'Initial velocity' },
+          { key: 'θ', value: null, unit: '°', description: 'Launch angle (degrees)' },
+          { key: 'g', value: 9.8, unit: 'm/s²', description: 'Gravity' }
+        ];
+        break;
+
+      // MECHANICS - DYNAMICS
+      case 'newton-second':
+        this.formulaVariables = [
+          { key: 'm', value: null, unit: 'kg', description: 'Mass' },
+          { key: 'a', value: null, unit: 'm/s²', description: 'Acceleration' }
+        ];
+        break;
+      case 'weight':
+        this.formulaVariables = [
+          { key: 'm', value: null, unit: 'kg', description: 'Mass' },
+          { key: 'g', value: 9.8, unit: 'm/s²', description: 'Gravity' }
+        ];
+        break;
+      case 'friction':
+        this.formulaVariables = [
+          { key: 'μ', value: null, unit: '', description: 'Coefficient of friction' },
+          { key: 'N', value: null, unit: 'N', description: 'Normal force' }
+        ];
+        break;
+      case 'centripetal-force':
+        this.formulaVariables = [
+          { key: 'm', value: null, unit: 'kg', description: 'Mass' },
+          { key: 'v', value: null, unit: 'm/s', description: 'Velocity' },
+          { key: 'r', value: null, unit: 'm', description: 'Radius' }
+        ];
+        break;
+
+      // MECHANICS - ENERGY
       case 'kinetic-energy':
         this.formulaVariables = [
           { key: 'm', value: null, unit: 'kg', description: 'Mass' },
           { key: 'v', value: null, unit: 'm/s', description: 'Velocity' }
         ];
         break;
-      case 'gravitational-force':
+      case 'potential-energy':
         this.formulaVariables = [
-          { key: 'G', value: 6.67430e-11, unit: 'N⋅m²/kg²', description: 'Gravitational constant' },
-          { key: 'm1', value: null, unit: 'kg', description: 'Mass 1' },
-          { key: 'm2', value: null, unit: 'kg', description: 'Mass 2' },
+          { key: 'm', value: null, unit: 'kg', description: 'Mass' },
+          { key: 'g', value: 9.8, unit: 'm/s²', description: 'Gravity' },
+          { key: 'h', value: null, unit: 'm', description: 'Height' }
+        ];
+        break;
+      case 'work':
+        this.formulaVariables = [
+          { key: 'F', value: null, unit: 'N', description: 'Force' },
+          { key: 'd', value: null, unit: 'm', description: 'Displacement' },
+          { key: 'θ', value: null, unit: '°', description: 'Angle (degrees)' }
+        ];
+        break;
+      case 'power':
+        this.formulaVariables = [
+          { key: 'W', value: null, unit: 'J', description: 'Work done' },
+          { key: 't', value: null, unit: 's', description: 'Time' }
+        ];
+        break;
+
+      // MECHANICS - MOMENTUM
+      case 'momentum':
+        this.formulaVariables = [
+          { key: 'm', value: null, unit: 'kg', description: 'Mass' },
+          { key: 'v', value: null, unit: 'm/s', description: 'Velocity' }
+        ];
+        break;
+      case 'impulse':
+        this.formulaVariables = [
+          { key: 'F', value: null, unit: 'N', description: 'Force' },
+          { key: 'Δt', value: null, unit: 's', description: 'Time interval' }
+        ];
+        break;
+
+      // THERMODYNAMICS
+      case 'ideal-gas-law':
+        this.formulaVariables = [
+          { key: 'P', value: null, unit: 'Pa', description: 'Pressure' },
+          { key: 'V', value: null, unit: 'm³', description: 'Volume' },
+          { key: 'n', value: null, unit: 'mol', description: 'Number of moles' },
+          { key: 'R', value: 8.314, unit: 'J/mol·K', description: 'Gas constant' },
+          { key: 'T', value: null, unit: 'K', description: 'Temperature' }
+        ];
+        break;
+      case 'heat-capacity':
+        this.formulaVariables = [
+          { key: 'm', value: null, unit: 'kg', description: 'Mass' },
+          { key: 'c', value: null, unit: 'J/kg·K', description: 'Specific heat capacity' },
+          { key: 'ΔT', value: null, unit: 'K', description: 'Temperature change' }
+        ];
+        break;
+
+      // ELECTROMAGNETISM
+      case 'coulombs-law':
+        this.formulaVariables = [
+          { key: 'k', value: 8.99e9, unit: 'N·m²/C²', description: 'Coulomb constant' },
+          { key: 'q₁', value: null, unit: 'C', description: 'Charge 1' },
+          { key: 'q₂', value: null, unit: 'C', description: 'Charge 2' },
           { key: 'r', value: null, unit: 'm', description: 'Distance' }
         ];
         break;
+      case 'ohms-law':
+        this.formulaVariables = [
+          { key: 'I', value: null, unit: 'A', description: 'Current' },
+          { key: 'R', value: null, unit: 'Ω', description: 'Resistance' }
+        ];
+        break;
+      case 'magnetic-force':
+        this.formulaVariables = [
+          { key: 'q', value: null, unit: 'C', description: 'Charge' },
+          { key: 'v', value: null, unit: 'm/s', description: 'Velocity' },
+          { key: 'B', value: null, unit: 'T', description: 'Magnetic field' },
+          { key: 'θ', value: null, unit: '°', description: 'Angle (degrees)' }
+        ];
+        break;
+
+      // WAVES AND OPTICS
+      case 'wave-speed':
+        this.formulaVariables = [
+          { key: 'f', value: null, unit: 'Hz', description: 'Frequency' },
+          { key: 'λ', value: null, unit: 'm', description: 'Wavelength' }
+        ];
+        break;
+
+      // MODERN PHYSICS
+      case 'einstein-mass-energy':
+        this.formulaVariables = [
+          { key: 'm', value: null, unit: 'kg', description: 'Mass' },
+          { key: 'c', value: 3e8, unit: 'm/s', description: 'Speed of light' }
+        ];
+        break;
+      case 'planck-energy':
+        this.formulaVariables = [
+          { key: 'h', value: 6.626e-34, unit: 'J·s', description: 'Planck constant' },
+          { key: 'f', value: null, unit: 'Hz', description: 'Frequency' }
+        ];
+        break;
+
       default:
         this.formulaVariables = [
-          { key: 'x', value: null, unit: '', description: 'Variable' },
-          { key: 'y', value: null, unit: '', description: 'Variable' }
+          { key: 'x', value: null, unit: '', description: 'Variable X' },
+          { key: 'y', value: null, unit: '', description: 'Variable Y' }
         ];
     }
   }
@@ -100,21 +253,123 @@ export class CalculatorComponent implements OnInit {
     let calculatedValue: number;
     let unit: string;
 
+    const getVar = (key: string) => this.formulaVariables.find(v => v.key === key)?.value || 0;
+    const toRadians = (degrees: number) => degrees * Math.PI / 180;
+
     switch (this.formulaId) {
-      case 'kinetic-energy':
-        const m = this.formulaVariables.find(v => v.key === 'm')?.value || 0;
-        const v = this.formulaVariables.find(v => v.key === 'v')?.value || 0;
-        calculatedValue = 0.5 * m * v * v;
-        unit = 'J';
+      // KINEMATICS
+      case 'velocity':
+        calculatedValue = getVar('Δx') / getVar('Δt');
+        unit = 'm/s';
         break;
-      case 'gravitational-force':
-        const G = this.formulaVariables.find(v => v.key === 'G')?.value || 0;
-        const m1 = this.formulaVariables.find(v => v.key === 'm1')?.value || 0;
-        const m2 = this.formulaVariables.find(v => v.key === 'm2')?.value || 0;
-        const r = this.formulaVariables.find(v => v.key === 'r')?.value || 0;
-        calculatedValue = G * m1 * m2 / (r * r);
+      case 'acceleration':
+        calculatedValue = getVar('Δv') / getVar('Δt');
+        unit = 'm/s²';
+        break;
+      case 'displacement':
+        calculatedValue = getVar('v₀') * getVar('t') + 0.5 * getVar('a') * getVar('t') ** 2;
+        unit = 'm';
+        break;
+      case 'free-fall':
+        calculatedValue = 0.5 * getVar('g') * getVar('t') ** 2;
+        unit = 'm';
+        break;
+      case 'projectile-range':
+        const v0 = getVar('v₀');
+        const theta = toRadians(getVar('θ'));
+        calculatedValue = (v0 ** 2 * Math.sin(2 * theta)) / getVar('g');
+        unit = 'm';
+        break;
+
+      // DYNAMICS
+      case 'newton-second':
+        calculatedValue = getVar('m') * getVar('a');
         unit = 'N';
         break;
+      case 'weight':
+        calculatedValue = getVar('m') * getVar('g');
+        unit = 'N';
+        break;
+      case 'friction':
+        calculatedValue = getVar('μ') * getVar('N');
+        unit = 'N';
+        break;
+      case 'centripetal-force':
+        calculatedValue = getVar('m') * getVar('v') ** 2 / getVar('r');
+        unit = 'N';
+        break;
+
+      // ENERGY
+      case 'kinetic-energy':
+        calculatedValue = 0.5 * getVar('m') * getVar('v') ** 2;
+        unit = 'J';
+        break;
+      case 'potential-energy':
+        calculatedValue = getVar('m') * getVar('g') * getVar('h');
+        unit = 'J';
+        break;
+      case 'work':
+        const angle = toRadians(getVar('θ'));
+        calculatedValue = getVar('F') * getVar('d') * Math.cos(angle);
+        unit = 'J';
+        break;
+      case 'power':
+        calculatedValue = getVar('W') / getVar('t');
+        unit = 'W';
+        break;
+
+      // MOMENTUM
+      case 'momentum':
+        calculatedValue = getVar('m') * getVar('v');
+        unit = 'kg·m/s';
+        break;
+      case 'impulse':
+        calculatedValue = getVar('F') * getVar('Δt');
+        unit = 'N·s';
+        break;
+
+      // THERMODYNAMICS
+      case 'ideal-gas-law':
+        // Solving for P: P = nRT/V
+        calculatedValue = (getVar('n') * getVar('R') * getVar('T')) / getVar('V');
+        unit = 'Pa';
+        break;
+      case 'heat-capacity':
+        calculatedValue = getVar('m') * getVar('c') * getVar('ΔT');
+        unit = 'J';
+        break;
+
+      // ELECTROMAGNETISM
+      case 'coulombs-law':
+        calculatedValue = getVar('k') * getVar('q₁') * getVar('q₂') / (getVar('r') ** 2);
+        unit = 'N';
+        break;
+      case 'ohms-law':
+        calculatedValue = getVar('I') * getVar('R');
+        unit = 'V';
+        break;
+      case 'magnetic-force':
+        const magAngle = toRadians(getVar('θ'));
+        calculatedValue = getVar('q') * getVar('v') * getVar('B') * Math.sin(magAngle);
+        unit = 'N';
+        break;
+
+      // WAVES
+      case 'wave-speed':
+        calculatedValue = getVar('f') * getVar('λ');
+        unit = 'm/s';
+        break;
+
+      // MODERN PHYSICS
+      case 'einstein-mass-energy':
+        calculatedValue = getVar('m') * getVar('c') ** 2;
+        unit = 'J';
+        break;
+      case 'planck-energy':
+        calculatedValue = getVar('h') * getVar('f');
+        unit = 'J';
+        break;
+
       default:
         calculatedValue = 0;
         unit = '';
@@ -133,8 +388,15 @@ export class CalculatorComponent implements OnInit {
     this.messageService.add({
       severity: 'success',
       summary: 'Calculation Complete',
-      detail: `Result: ${calculatedValue.toFixed(4)} ${unit}`
+      detail: `Result: ${this.formatNumber(calculatedValue)} ${unit}`
     });
+  }
+
+  formatNumber(num: number): string {
+    if (Math.abs(num) < 0.001 || Math.abs(num) > 10000) {
+      return num.toExponential(4);
+    }
+    return num.toFixed(4);
   }
 
   // Scientific Calculator Methods

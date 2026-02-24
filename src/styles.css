@@ -216,9 +216,16 @@ body::before {
   box-shadow: 4px 0 20px rgba(59, 130, 246, 0.15);
   width: 320px;
   min-width: 320px;
-  position: relative;
+  position: sticky;
+  top: 0;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   animation: slideInLeft 0.5s ease-out;
+  max-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex-shrink: 0;
+  z-index: 100;
+  align-self: flex-start;
 }
 
 @keyframes slideInLeft {
@@ -271,6 +278,7 @@ body::before {
   min-height: calc(100vh - 64px);
   padding: 1.5rem;
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
@@ -306,7 +314,7 @@ body::before {
   box-shadow: 0 4px 20px rgba(59, 130, 246, 0.2);
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 200;
   animation: slideDown 0.5s ease-out;
 }
 
@@ -324,9 +332,11 @@ body::before {
 .logo-container {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 0.5rem;
+  gap: 1.5rem;
+  padding: 0.5rem 1rem;
   animation: fadeIn 0.8s ease-out;
+  position: relative;
+  z-index: 300;
 }
 
 @keyframes fadeIn {
@@ -334,16 +344,22 @@ body::before {
   to { opacity: 1; }
 }
 
-.logo-container img {
-  width: 48px;
-  height: 48px;
+.logo-container img,
+.logo-container .logo-image {
+  width: 64px !important;
+  height: 64px !important;
   border-radius: 50%;
   box-shadow: 0 0 20px rgba(59, 130, 246, 0.6), 0 0 40px rgba(139, 92, 246, 0.4);
-  border: 3px solid rgba(59, 130, 246, 0.5);
+  border: 4px solid rgba(59, 130, 246, 0.5);
   transition: all 0.3s ease;
   animation: pulse 2s ease-in-out infinite;
   background: white;
   padding: 2px;
+  object-fit: cover;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  flex-shrink: 0;
 }
 
 @keyframes pulse {
@@ -357,8 +373,9 @@ body::before {
   }
 }
 
-.logo-container img:hover {
-  transform: scale(1.1) rotate(5deg);
+.logo-container img:hover,
+.logo-container .logo-image:hover {
+  transform: scale(1.15) rotate(5deg);
   box-shadow: 0 0 30px rgba(59, 130, 246, 0.8), 0 0 60px rgba(139, 92, 246, 0.6);
 }
 
@@ -368,11 +385,13 @@ body::before {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-weight: 800;
-  font-size: 1.75rem;
+  font-size: 2.25rem;
   letter-spacing: -0.03em;
   font-family: 'Poppins', sans-serif;
   animation: textGlow 3s ease-in-out infinite;
   position: relative;
+  margin: 0;
+  white-space: nowrap;
 }
 
 @keyframes textGlow {
@@ -466,7 +485,7 @@ h3 { font-size: 1.5rem; }
 .bg-surface-ground { background: var(--surface-ground); }
 .overflow-y-auto { overflow-y: auto; }
 .flex-shrink-0 { flex-shrink: 0; }
-.flex-1 { flex: 1; }
+.flex-1 { flex: 1; min-width: 0; }
 
 /* Responsive Grid */
 .grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
