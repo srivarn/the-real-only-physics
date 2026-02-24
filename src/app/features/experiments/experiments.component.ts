@@ -7,13 +7,14 @@ import { TagModule } from 'primeng/tag';
 import { AccordionModule } from 'primeng/accordion';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
+import { AnimateOnScrollModule } from 'primeng/animateonscroll';
 import { FormsModule } from '@angular/forms';
 import { PHYSICS_EXPERIMENTS } from '../../data/experiments';
 
 @Component({
   selector: 'app-experiments',
   standalone: true,
-  imports: [CommonModule, RouterModule, CardModule, ButtonModule, TagModule, AccordionModule, DropdownModule, InputTextModule, FormsModule],
+  imports: [CommonModule, RouterModule, CardModule, ButtonModule, TagModule, AccordionModule, DropdownModule, InputTextModule, FormsModule, AnimateOnScrollModule],
   templateUrl: './experiments.component.html',
   styleUrls: ['./experiments.component.css']
 })

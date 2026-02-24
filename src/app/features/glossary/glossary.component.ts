@@ -2,14 +2,16 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
-import { ChipModule } from 'primeng/chip';
+import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { TagModule } from 'primeng/tag';
+import { AnimateOnScrollModule } from 'primeng/animateonscroll';
 import { GLOSSARY_TERMS } from '../../data/glossary';
 
 @Component({
   selector: 'app-glossary',
   standalone: true,
-  imports: [CommonModule, FormsModule, InputTextModule, ChipModule, CardModule],
+  imports: [CommonModule, FormsModule, InputTextModule, ButtonModule, CardModule, TagModule, AnimateOnScrollModule],
   templateUrl: './glossary.component.html',
   styleUrls: ['./glossary.component.css']
 })

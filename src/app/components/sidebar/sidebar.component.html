@@ -5,17 +5,17 @@
   <button routerLink="/glossary" routerLinkActive="active">Glossary</button>
 
   <button (click)="toggleFormulas()" [class.active]="formulasExpanded">Formulas</button>
-  <div *ngIf="formulasExpanded" class="subnav">
+  <div class="subnav" [class.open]="formulasExpanded">
     <div class="topic-block" *ngFor="let topic of physicsTopics">
       <button class="sub-btn" (click)="toggleTopic(topic.name)">
         {{ topic.name }} <span>{{ topicOpen(topic.name) ? '▼' : '▶' }}</span>
       </button>
-      <div class="subnav level-2" *ngIf="topicOpen(topic.name)">
+      <div class="subnav level-2" [class.open]="topicOpen(topic.name)">
         <div *ngFor="let subtopic of topic.subtopics">
           <button class="sub-btn" (click)="toggleSubtopic(topic.name + '::' + subtopic)">
             {{ subtopic }} <span>{{ subtopicOpen(topic.name + '::' + subtopic) ? '▼' : '▶' }}</span>
           </button>
-          <div class="subnav level-3" *ngIf="subtopicOpen(topic.name + '::' + subtopic)">
+          <div class="subnav level-3" [class.open]="subtopicOpen(topic.name + '::' + subtopic)">
             <button class="formula-btn" *ngFor="let f of formulasBy(topic.name, subtopic)" (click)="navFormula(f.id)">{{ f.name }}</button>
           </div>
         </div>
@@ -25,5 +25,5 @@
 
   <button routerLink="/experiments" routerLinkActive="active">Experiments</button>
   <button routerLink="/quotes" routerLinkActive="active">Quotes</button>
-  <a class="contact" href="mailto:knowphysics197&#64;gmail.com">Contact: knowphysics197&#64;gmail.com</a>
+  <a class="contact" href="mailto:knowphysics197&#64;gmail.com?subject=KnowPhysics%20Contact&body=Hello%20KnowPhysics%20Team,">Contact: knowphysics197&#64;gmail.com</a>
 </div>

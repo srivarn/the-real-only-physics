@@ -1,17 +1,46 @@
-<div class="space-y-4">
-  <h1>Glossary A–Z</h1>
-  <input pInputText [(ngModel)]="search" placeholder="Search terms" class="w-full" />
-
-  <div class="letters">
-    <p-chip *ngFor="let letter of letters" [label]="letter" (click)="activeLetter = letter"></p-chip>
-    <p-chip label="All" (click)="activeLetter = ''"></p-chip>
+<div class="glossary-container" pAnimateOnScroll enterClass="fadeinup">
+  <div class="glossary-header">
+    <h1>Physics Glossary A–Z</h1>
+    <p class="subtitle">Essential physics terms and definitions</p>
   </div>
 
-  <p-card *ngFor="let term of filtered" styleClass="mb-3">
-    <ng-template pTemplate="content">
-      <h3>{{ term.term }}</h3>
-      <p><strong>Meaning:</strong> {{ term.definition }}</p>
-      <p><strong>Example:</strong> {{ term.example }}</p>
-    </ng-template>
-  </p-card>
+  <div class="search-section">
+    <span class="p-input-icon-left w-full">
+      <i class="pi pi-search"></i>
+      <input pInputText [(ngModel)]="search" placeholder="Search terms, definitions, or examples..." class="w-full" />
+    </span>
+    
+    <div class="letters">
+      <p-button label="All" [outlined]="activeLetter !== ''" (onClick)="activeLetter = ''" styleClass="p-button-sm"></p-button>
+      <p-button *ngFor="let letter of letters" [label]="letter" [outlined]="activeLetter !== letter" (onClick)="activeLetter = letter" styleClass="p-button-sm"></p-button>
+    </div>
+  </div>
+
+  <div class="glossary-grid">
+    <p-card *ngFor="let term of filtered" styleClass="glossary-card">
+      <ng-template pTemplate="header">
+        <div class="term-header">
+          <h3 class="term-title">{{ term.term }}</h3>
+          <p-tag [value]="term.tags[0]" severity="info"></p-tag>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="content">
+        <div class="term-content">
+          <div class="term-section">
+            <span class="section-label">Definition:</span>
+            <p class="section-text">{{ term.definition }}</p>
+          </div>
+          <div class="term-section">
+            <span class="section-label">Example:</span>
+            <p class="section-text example">{{ term.example }}</p>
+          </div>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+
+  <div class="no-results" *ngIf="filtered.length === 0">
+    <i class="pi pi-search" style="font-size: 3rem; color: #64748b;"></i>
+    <p>No terms found matching your search.</p>
+  </div>
 </div>

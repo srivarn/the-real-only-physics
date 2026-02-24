@@ -1,10 +1,27 @@
-<h1 class="mb-4">Quotes</h1>
-<div class="grid gap-3">
-  <p-card *ngFor="let quote of quotes">
-    <ng-template pTemplate="content">
-      <blockquote>“{{ quote.text }}”</blockquote>
-      <p>— {{ quote.author }}</p>
-      <p-button [label]="isPinned(quote.id) ? 'Unpin' : 'Pin'" styleClass="p-button-outlined" (click)="togglePin(quote)"></p-button>
-    </ng-template>
-  </p-card>
+<div class="quotes-container" pAnimateOnScroll enterClass="fadeinup">
+  <div class="quotes-header">
+    <h1>Physics Quotes Collection</h1>
+    <p class="subtitle">Wisdom from the greatest minds in physics</p>
+  </div>
+
+  <div class="quotes-grid">
+    <p-card *ngFor="let quote of quotes" styleClass="quote-card">
+      <ng-template pTemplate="content">
+        <div class="quote-content">
+          <div class="quote-icon">"</div>
+          <p class="quote-text">{{ quote.text }}</p>
+        </div>
+        <div class="quote-footer">
+          <p class="quote-author">— {{ quote.author }}</p>
+          <p-button 
+            [icon]="isPinned(quote.id) ? 'pi pi-star-fill' : 'pi pi-star'" 
+            (onClick)="togglePin(quote)"
+            [styleClass]="isPinned(quote.id) ? 'p-button-rounded p-button-warning' : 'p-button-rounded p-button-outlined'"
+            [pTooltip]="isPinned(quote.id) ? 'Unpin quote' : 'Pin quote'"
+            tooltipPosition="top">
+          </p-button>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
 </div>

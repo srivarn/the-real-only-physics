@@ -4,15 +4,15 @@ import { RouterModule } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
+import { AnimateOnScrollModule } from 'primeng/animateonscroll';
 import { PHYSICS_QUOTES } from '../data/quotes';
 import { PHYSICS_EXPERIMENTS } from '../data/experiments';
 import { PHYSICS_FORMULAS } from '../data/physics-formulas';
-import { AnimateOnScrollDirective } from '../directives/animate-on-scroll.directive';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule, CardModule, ButtonModule, TagModule, AnimateOnScrollDirective],
+  imports: [CommonModule, RouterModule, CardModule, ButtonModule, TagModule, AnimateOnScrollModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })

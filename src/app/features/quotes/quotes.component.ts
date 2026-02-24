@@ -2,12 +2,14 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
+import { TooltipModule } from 'primeng/tooltip';
+import { AnimateOnScrollModule } from 'primeng/animateonscroll';
 import { PHYSICS_QUOTES, Quote } from '../../data/quotes';
 
 @Component({
   selector: 'app-quotes',
   standalone: true,
-  imports: [CommonModule, CardModule, ButtonModule],
+  imports: [CommonModule, CardModule, ButtonModule, TooltipModule, AnimateOnScrollModule],
   templateUrl: './quotes.component.html',
   styleUrls: ['./quotes.component.css']
 })

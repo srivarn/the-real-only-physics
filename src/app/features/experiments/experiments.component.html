@@ -1,4 +1,4 @@
-<div class="experiments-container">
+<div class="experiments-container" pAnimateOnScroll enterClass="fadeinup">
   <div class="experiments-header">
     <h1 class="text-4xl font-bold mb-4">Home Physics Experiments</h1>
     <p class="text-xl text-surface-border mb-8">Hands-on experiments with safety tips and progress tracking.</p>
@@ -13,9 +13,6 @@
   <div class="experiments-grid">
     <div *ngFor="let experiment of filteredExperiments" class="experiment-card">
       <p-card styleClass="h-full">
-        <ng-template pTemplate="header">
-          <img [src]="experiment.images[0]" [alt]="experiment.title" class="w-full h-48 object-cover">
-        </ng-template>
         <ng-template pTemplate="content">
           <h3>{{ experiment.title }}</h3>
           <p-tag [value]="experiment.difficulty" [severity]="getDifficultyColor(experiment.difficulty)"></p-tag>
@@ -30,15 +27,6 @@
           <div class="actions"><p-button label="Start experiment" icon="pi pi-play" (click)="startExperiment(experiment.id)"></p-button><p-button label="Open details" styleClass="p-button-outlined" [routerLink]="['/experiments', experiment.id]"></p-button></div>
         </ng-template>
       </p-card>
-    </div>
-  </div>
-
-  <div class="statistics-section mt-12">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-      <div class="stat-card"><div class="stat-number">{{ experiments.length }}</div><div class="stat-label">Total Experiments</div></div>
-      <div class="stat-card"><div class="stat-number">{{ totalCompleted.toLocaleString() }}</div><div class="stat-label">Experiments Completed</div></div>
-      <div class="stat-card"><div class="stat-number">{{ avgRating }}</div><div class="stat-label">Average Rating</div></div>
-      <div class="stat-card"><div class="stat-number">{{ easyCount }}</div><div class="stat-label">Beginner Friendly</div></div>
     </div>
   </div>
 </div>

@@ -1,39 +1,158 @@
-<div class="space-y-8">
-  <section class="hero" appAnimateOnScroll>
-    <h1>KnowPhysics</h1>
-    <p>Professional physics learning with formulas, experiments, glossary meanings, and daily inspiration.</p>
-    <p-button label="Explore Formulas" icon="pi pi-calculator" styleClass="p-button-lg" routerLink="/formulas"></p-button>
+<div class="home-container">
+  <!-- Hero Section -->
+  <section class="hero" pAnimateOnScroll enterClass="fadeinup">
+    <div class="hero-content">
+      <p-tag value="🚀 Your Physics Learning Journey Starts Here" severity="info" styleClass="hero-badge"></p-tag>
+      <h1 class="hero-title">
+        <span class="gradient-text">Know</span><span class="gradient-text-alt">Physics</span>
+      </h1>
+      <p class="hero-subtitle">
+        Explore the fascinating world of physics through interactive experiments, 
+        comprehensive formulas, and inspiring quotes from the greatest minds in science.
+      </p>
+      <div class="hero-buttons">
+        <p-button label="Explore 32+ Formulas" icon="pi pi-calculator" routerLink="/formulas" styleClass="p-button-lg"></p-button>
+        <p-button label="Try Experiments" icon="pi pi-bolt" routerLink="/experiments" styleClass="p-button-lg p-button-outlined"></p-button>
+      </div>
+    </div>
+    <div class="hero-decoration">
+      <div class="floating-icon">⚛️</div>
+      <div class="floating-icon">🔬</div>
+      <div class="floating-icon">🌌</div>
+    </div>
   </section>
 
-  <section class="daily-grid" appAnimateOnScroll>
-    <p-card>
-      <ng-template pTemplate="header"><h3>Quote of the Day</h3></ng-template>
-      <ng-template pTemplate="content">
-        <blockquote>“{{ quoteOfDay.text }}”</blockquote>
-        <p class="author">— {{ quoteOfDay.author }}</p>
-      </ng-template>
-    </p-card>
-
-    <p-card>
-      <ng-template pTemplate="header"><h3>Experiment of the Day</h3></ng-template>
-      <ng-template pTemplate="content">
-        <img [src]="experimentOfDay.images[0]" [alt]="experimentOfDay.title" class="exp-image" />
-        <h4>{{ experimentOfDay.title }}</h4>
-        <p-tag [value]="experimentOfDay.difficulty"></p-tag>
-        <p class="mt-2">{{ experimentOfDay.description }}</p>
-      </ng-template>
-      <ng-template pTemplate="footer">
-        <div class="actions">
-          <p-button label="Open details" [routerLink]="['/experiments', experimentOfDay.id]"></p-button>
-          <p-button label="Shuffle" styleClass="p-button-outlined" (click)="shuffleExperiment()"></p-button>
-        </div>
-      </ng-template>
-    </p-card>
+  <!-- Features Grid -->
+  <section class="features-section" pAnimateOnScroll enterClass="fadeinup">
+    <h2 class="section-title">What You'll Discover</h2>
+    <div class="features-grid">
+      <p-card styleClass="feature-card" (click)="$event.stopPropagation()" [routerLink]="['/formulas']">
+        <ng-template pTemplate="header">
+          <div class="feature-icon">📐</div>
+        </ng-template>
+        <ng-template pTemplate="title">Physics Formulas</ng-template>
+        <ng-template pTemplate="content">
+          <p>32+ comprehensive formulas with detailed explanations and real-world applications</p>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <span class="feature-link">Explore Formulas →</span>
+        </ng-template>
+      </p-card>
+      
+      <p-card styleClass="feature-card" (click)="$event.stopPropagation()" [routerLink]="['/experiments']">
+        <ng-template pTemplate="header">
+          <div class="feature-icon">🧪</div>
+        </ng-template>
+        <ng-template pTemplate="title">Fun Experiments</ng-template>
+        <ng-template pTemplate="content">
+          <p>73+ hands-on experiments you can do at home with everyday materials</p>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <span class="feature-link">Try Experiments →</span>
+        </ng-template>
+      </p-card>
+      
+      <p-card styleClass="feature-card" (click)="$event.stopPropagation()" [routerLink]="['/glossary']">
+        <ng-template pTemplate="header">
+          <div class="feature-icon">�</div>
+        </ng-template>
+        <ng-template pTemplate="title">Physics Glossary</ng-template>
+        <ng-template pTemplate="content">
+          <p>101 essential physics terms with clear definitions and practical examples</p>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <span class="feature-link">Browse Glossary →</span>
+        </ng-template>
+      </p-card>
+      
+      <p-card styleClass="feature-card" (click)="$event.stopPropagation()" [routerLink]="['/quotes']">
+        <ng-template pTemplate="header">
+          <div class="feature-icon">💭</div>
+        </ng-template>
+        <ng-template pTemplate="title">Inspiring Quotes</ng-template>
+        <ng-template pTemplate="content">
+          <p>101+ quotes from legendary physicists to spark your curiosity</p>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <span class="feature-link">Read Quotes →</span>
+        </ng-template>
+      </p-card>
+    </div>
   </section>
 
-  <section class="stats">
-    <div class="stat"><strong>{{ formulaCount }}</strong><span>Formulas</span></div>
-    <div class="stat"><strong>{{ experimentCount }}</strong><span>Experiments</span></div>
-    <div class="stat"><strong>{{ quoteCount }}</strong><span>Quotes</span></div>
+  <!-- Daily Highlights -->
+  <section class="daily-section" pAnimateOnScroll enterClass="fadeinup">
+    <h2 class="section-title">Today's Highlights</h2>
+    <div class="daily-grid">
+      <!-- Quote of the Day -->
+      <p-card styleClass="daily-card quote-card">
+        <ng-template pTemplate="header">
+          <p-tag value="💡 Quote of the Day" severity="success"></p-tag>
+        </ng-template>
+        <ng-template pTemplate="content">
+          <div class="quote-icon">"</div>
+          <p class="quote-text">{{ quoteOfDay.text }}</p>
+          <p class="quote-author">— {{ quoteOfDay.author }}</p>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <p-button label="View All Quotes" routerLink="/quotes" styleClass="p-button-text"></p-button>
+        </ng-template>
+      </p-card>
+
+      <!-- Experiment of the Day -->
+      <p-card styleClass="daily-card experiment-card">
+        <ng-template pTemplate="header">
+          <p-tag value="🔬 Experiment of the Day" severity="warning"></p-tag>
+        </ng-template>
+        <ng-template pTemplate="content">
+          <h3 class="exp-title">{{ experimentOfDay.title }}</h3>
+          <div class="exp-meta">
+            <p-tag [value]="experimentOfDay.difficulty" 
+                   [severity]="experimentOfDay.difficulty === 'Easy' ? 'success' : experimentOfDay.difficulty === 'Medium' ? 'warning' : 'danger'">
+            </p-tag>
+            <span class="duration">⏱️ {{ experimentOfDay.duration }}</span>
+          </div>
+          <p class="exp-description">{{ experimentOfDay.description }}</p>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <div class="card-actions">
+            <p-button label="Start Experiment" icon="pi pi-play" [routerLink]="['/experiments', experimentOfDay.id]"></p-button>
+            <p-button label="🎲 Shuffle" (onClick)="shuffleExperiment()" styleClass="p-button-outlined"></p-button>
+          </div>
+        </ng-template>
+      </p-card>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats-section" pAnimateOnScroll enterClass="fadeinup">
+    <p-card styleClass="stat-card">
+      <ng-template pTemplate="content">
+        <div class="stat-icon">�</div>
+        <div class="stat-number">32</div>
+        <div class="stat-label">Physics Formulas</div>
+      </ng-template>
+    </p-card>
+    <p-card styleClass="stat-card">
+      <ng-template pTemplate="content">
+        <div class="stat-icon">🧪</div>
+        <div class="stat-number">73</div>
+        <div class="stat-label">Experiments</div>
+      </ng-template>
+    </p-card>
+    <p-card styleClass="stat-card">
+      <ng-template pTemplate="content">
+        <div class="stat-icon">💭</div>
+        <div class="stat-number">101</div>
+        <div class="stat-label">Inspiring Quotes</div>
+      </ng-template>
+    </p-card>
+    <p-card styleClass="stat-card">
+      <ng-template pTemplate="content">
+        <div class="stat-icon">📚</div>
+        <div class="stat-number">101</div>
+        <div class="stat-label">Glossary Terms</div>
+      </ng-template>
+    </p-card>
   </section>
 </div>

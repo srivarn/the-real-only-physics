@@ -4,8 +4,6 @@
   <p>{{ experiment.description }}</p>
   <p><strong>Estimated time:</strong> {{ experiment.duration }}</p>
 
-  <img [src]="experiment.images[0]" [alt]="experiment.title" class="detail-image" />
-
   <section>
     <h3>Safety Tips</h3>
     <ul><li *ngFor="let tip of experiment.safetyNotes">{{ tip }}</li></ul>
