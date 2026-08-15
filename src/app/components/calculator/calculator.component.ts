@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -35,7 +35,7 @@ interface CalculationHistory {
   templateUrl: './calculator.component.html',
   styleUrls: ['./calculator.component.css']
 })
-export class CalculatorComponent implements OnInit {
+export class CalculatorComponent implements OnInit, OnDestroy {
   @Input() formulaId: string = '';
 
   formulaVariables: FormulaVariable[] = [];
@@ -56,11 +56,53 @@ export class CalculatorComponent implements OnInit {
   // New properties for enhanced calculator
   calculating = false;
   calculatorMode: 'formula' | 'scientific' = 'formula';
+
+  // Track if scientific calc has focus for keyboard input
+  sciCalcActive = false;
   
   constructor(private messageService: MessageService) {}
 
   ngOnInit(): void {
     this.initializeFormulaVariables();
+  }
+
+  ngOnDestroy(): void {
+    // cleanup handled by @HostListener automatically
+  }
+
+  /** Keyboard support for scientific calculator */
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(e: KeyboardEvent): void {
+    if (this.calculatorMode !== 'scientific') return;
+
+    // Don't intercept when typing in an input field
+    const tag = (e.target as HTMLElement).tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+
+    switch (e.key) {
+      case '0': case '1': case '2': case '3': case '4':
+      case '5': case '6': case '7': case '8': case '9':
+        e.preventDefault(); this.inputDigit(e.key); break;
+      case '.': case ',':
+        e.preventDefault(); this.inputDecimal(); break;
+      case '+': e.preventDefault(); this.performOperation('+'); break;
+      case '-': e.preventDefault(); this.performOperation('-'); break;
+      case '*': e.preventDefault(); this.performOperation('*'); break;
+      case '/': e.preventDefault(); this.performOperation('/'); break;
+      case 'Enter': case '=':
+        e.preventDefault(); this.performOperation('='); break;
+      case 'Backspace':
+        e.preventDefault(); this.backspace(); break;
+      case 'Escape': case 'Delete':
+        e.preventDefault(); this.clear(); break;
+      case '^':
+        e.preventDefault(); this.performOperation('^'); break;
+      case 's': this.sin(); break;
+      case 'c': this.cos(); break;
+      case 't': this.tan(); break;
+      case 'l': this.log(); break;
+      case 'r': this.sqrt(); break;
+    }
   }
 
   // Enhanced formula-specific methods

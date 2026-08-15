@@ -18,7 +18,33 @@
   <div class="nav-separator"></div>
   <span class="nav-section-label">Content</span>
 
-  <!-- Formulas expandable -->
+  <!-- Formula search -->
+  <div class="formula-search-wrap" [class.hidden-collapsed]="collapsed">
+    <i class="pi pi-search formula-search-icon"></i>
+    <input pInputText
+           [(ngModel)]="formulaSearch"
+           placeholder="Search formulas…"
+           class="formula-search-input"
+           autocomplete="off" />
+    <p-button *ngIf="formulaSearch" icon="pi pi-times"
+              styleClass="p-button-text formula-search-clear"
+              (click)="formulaSearch = ''" pTooltip="Clear">
+    </p-button>
+  </div>
+
+  <!-- Search results -->
+  <div *ngIf="isSearching" class="search-results-list">
+    <a *ngFor="let f of searchResults"
+       class="formula-btn search-result-item"
+       (click)="navFormula(f.id); formulaSearch = ''" pRipple>
+      <span class="search-result-name">{{ f.name }}</span>
+      <span class="search-result-topic">{{ f.subtopic }}</span>
+    </a>
+    <p *ngIf="searchResults.length === 0" class="search-no-results">No formulas found</p>
+  </div>
+
+  <!-- Formulas expandable (only shown when not searching) -->
+  <ng-container *ngIf="!isSearching">
   <a class="nav-item" [class.active]="formulasExpanded" (click)="toggleFormulas()" pRipple>
     <i class="pi pi-calculator nav-icon"></i>
     <span class="nav-label">Formulas</span>
@@ -47,6 +73,7 @@
       </div>
     </div>
   </div>
+  </ng-container>
 
   <a class="nav-item" routerLink="/experiments" routerLinkActive="active" pRipple>
     <i class="pi pi-bolt nav-icon"></i>
@@ -61,6 +88,11 @@
   <a class="nav-item" routerLink="/glossary" routerLinkActive="active" pRipple>
     <i class="pi pi-book nav-icon"></i>
     <span class="nav-label">Glossary</span>
+  </a>
+
+  <a class="nav-item" routerLink="/converter" routerLinkActive="active" pRipple>
+    <i class="pi pi-sort-alt nav-icon"></i>
+    <span class="nav-label">Unit Converter</span>
   </a>
 
   <div class="nav-separator"></div>

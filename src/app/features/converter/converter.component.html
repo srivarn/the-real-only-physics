@@ -1,0 +1,95 @@
+<div class="converter-container fadeinup">
+
+  <div class="converter-header">
+    <h1>Unit Converter</h1>
+    <p class="subtitle">Convert between physical units instantly</p>
+  </div>
+
+  <!-- Category selector -->
+  <div class="category-row">
+    <p-dropdown
+      [options]="categories"
+      [(ngModel)]="selectedCategory"
+      optionLabel="label"
+      placeholder="Select category"
+      styleClass="category-dropdown"
+      (onChange)="onCategoryChange()">
+    </p-dropdown>
+  </div>
+
+  <!-- Converter card -->
+  <div class="converter-card">
+
+    <!-- From row -->
+    <div class="field-group">
+      <label class="field-label">From</label>
+      <div class="input-row">
+        <p-dropdown
+          [options]="currentUnits"
+          [(ngModel)]="fromUnit"
+          optionLabel="label"
+          placeholder="Unit"
+          styleClass="unit-dropdown"
+          (onChange)="convert()">
+        </p-dropdown>
+        <p-inputNumber
+          [(ngModel)]="inputValue"
+          [minFractionDigits]="0"
+          [maxFractionDigits]="10"
+          placeholder="Enter value"
+          styleClass="value-input"
+          (onInput)="convert()"
+          (onBlur)="convert()">
+        </p-inputNumber>
+      </div>
+    </div>
+
+    <!-- Swap icon -->
+    <div class="swap-row">
+      <i class="pi pi-arrows-v swap-icon"></i>
+    </div>
+
+    <!-- To row -->
+    <div class="field-group">
+      <label class="field-label">To</label>
+      <div class="input-row">
+        <p-dropdown
+          [options]="currentUnits"
+          [(ngModel)]="toUnit"
+          optionLabel="label"
+          placeholder="Unit"
+          styleClass="unit-dropdown"
+          (onChange)="convert()">
+        </p-dropdown>
+
+        <!-- Result display -->
+        <div class="result-box" [class.has-result]="result !== null">
+          <span class="result-value" *ngIf="result !== null">
+            {{ result | number: '1.0-10' }}
+          </span>
+          <span class="result-placeholder" *ngIf="result === null">
+            Result
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Formula -->
+    <div class="formula-row" *ngIf="formulaText">
+      <i class="pi pi-calculator formula-icon"></i>
+      <span class="formula-text">{{ formulaText }}</span>
+    </div>
+
+  </div>
+
+  <!-- Convert button -->
+  <div class="action-row">
+    <p-button
+      label="Convert"
+      icon="pi pi-refresh"
+      styleClass="p-button-sm"
+      (onClick)="convert()">
+    </p-button>
+  </div>
+
+</div>

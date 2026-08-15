@@ -1,16 +1,18 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { RippleModule } from 'primeng/ripple';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
+import { InputTextModule } from 'primeng/inputtext';
 import { PHYSICS_TOPICS, PHYSICS_FORMULAS, PhysicsFormula } from '../../data/physics-formulas';
 import { SidebarService } from '../../services/sidebar.service';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterModule, RippleModule, ButtonModule, TooltipModule],
+  imports: [CommonModule, RouterModule, FormsModule, RippleModule, ButtonModule, TooltipModule, InputTextModule],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
@@ -20,6 +22,19 @@ export class SidebarComponent {
   expandedTopics: Set<string> = new Set();
   expandedSubtopics: Set<string> = new Set();
   physicsTopics = PHYSICS_TOPICS;
+
+  // Formula search
+  formulaSearch = '';
+  get searchResults(): PhysicsFormula[] {
+    const q = this.formulaSearch.trim().toLowerCase();
+    if (!q) return [];
+    return PHYSICS_FORMULAS.filter(f =>
+      f.name.toLowerCase().includes(q) ||
+      f.formula.toLowerCase().includes(q) ||
+      f.topic.toLowerCase().includes(q)
+    ).slice(0, 12);
+  }
+  get isSearching(): boolean { return this.formulaSearch.trim().length > 0; }
 
   constructor(private router: Router, private sidebarService: SidebarService) {}
 

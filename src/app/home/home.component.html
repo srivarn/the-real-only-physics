@@ -17,7 +17,7 @@
       <div class="hero-buttons">
         <p-button [label]="'Explore ' + formulaCount + ' Formulas'" icon="pi pi-calculator" routerLink="/formulas"></p-button>
         <p-button label="Try Experiments" icon="pi pi-bolt" routerLink="/experiments" styleClass="p-button-outlined"></p-button>
-        <p-button label="Read Quotes" icon="pi pi-comment" routerLink="/quotes" styleClass="p-button-text"></p-button>
+        <p-button label="Unit Converter" icon="pi pi-sort-alt" routerLink="/converter" styleClass="p-button-text"></p-button>
       </div>
     </div>
   </section>
@@ -29,7 +29,6 @@
       <div class="section-line"></div>
     </div>
     <div class="features-grid">
-
       <p-card [routerLink]="['/formulas']" styleClass="feature-card">
         <ng-template pTemplate="content">
           <div class="feature-card-inner">
@@ -40,7 +39,6 @@
           </div>
         </ng-template>
       </p-card>
-
       <p-card [routerLink]="['/experiments']" styleClass="feature-card">
         <ng-template pTemplate="content">
           <div class="feature-card-inner">
@@ -51,28 +49,74 @@
           </div>
         </ng-template>
       </p-card>
-
       <p-card [routerLink]="['/glossary']" styleClass="feature-card">
         <ng-template pTemplate="content">
           <div class="feature-card-inner">
             <div class="feature-icon">📚</div>
             <h3>Glossary</h3>
-            <p>101 essential physics terms with clear definitions, examples, and A–Z filtering.</p>
+            <p>{{ glossaryCount }} essential physics terms with clear definitions, examples, and A–Z filtering.</p>
             <span class="feature-link">Browse <i class="pi pi-arrow-right" style="font-size:.7rem"></i></span>
           </div>
         </ng-template>
       </p-card>
-
-      <p-card [routerLink]="['/quotes']" styleClass="feature-card">
+      <p-card [routerLink]="['/converter']" styleClass="feature-card">
         <ng-template pTemplate="content">
           <div class="feature-card-inner">
-            <div class="feature-icon">💭</div>
-            <h3>Quotes</h3>
-            <p>{{ quoteCount }} quotes from Einstein, Feynman, Curie and more. Pin your favourites.</p>
-            <span class="feature-link">Read <i class="pi pi-arrow-right" style="font-size:.7rem"></i></span>
+            <div class="feature-icon">⚖️</div>
+            <h3>Unit Converter</h3>
+            <p>Instantly convert speed, energy, temperature, length, mass, pressure, power and more.</p>
+            <span class="feature-link">Convert <i class="pi pi-arrow-right" style="font-size:.7rem"></i></span>
           </div>
         </ng-template>
       </p-card>
+    </div>
+  </section>
+
+  <!-- ── Progress dashboard ── -->
+  <section class="progress-section fadeinup" *ngIf="visitedFormulasCount > 0 || completedExperimentsCount > 0 || streak > 1">
+    <div class="section-header">
+      <span class="section-label">Your progress</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="progress-grid">
+
+      <div class="progress-card" *ngIf="streak > 0">
+        <div class="progress-card-icon streak">🔥</div>
+        <div class="progress-card-body">
+          <div class="progress-card-value">{{ streak }}</div>
+          <div class="progress-card-label">Day streak</div>
+        </div>
+      </div>
+
+      <div class="progress-card" *ngIf="visitedFormulasCount > 0">
+        <div class="progress-card-icon formulas">📐</div>
+        <div class="progress-card-body">
+          <div class="progress-card-value">{{ visitedFormulasCount }}</div>
+          <div class="progress-card-label">Formulas explored</div>
+          <div class="progress-bar-mini">
+            <div class="progress-bar-fill" [style.width.%]="(visitedFormulasCount / formulaCount) * 100"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="progress-card" *ngIf="completedExperimentsCount > 0">
+        <div class="progress-card-icon experiments">🧪</div>
+        <div class="progress-card-body">
+          <div class="progress-card-value">{{ completedExperimentsCount }}</div>
+          <div class="progress-card-label">Experiments done</div>
+          <div class="progress-bar-mini">
+            <div class="progress-bar-fill green" [style.width.%]="(completedExperimentsCount / experimentCount) * 100"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="progress-card" *ngIf="pinnedQuotesCount > 0">
+        <div class="progress-card-icon quotes">⭐</div>
+        <div class="progress-card-body">
+          <div class="progress-card-value">{{ pinnedQuotesCount }}</div>
+          <div class="progress-card-label">Pinned quotes</div>
+        </div>
+      </div>
 
     </div>
   </section>
@@ -84,7 +128,6 @@
       <div class="section-line"></div>
     </div>
     <div class="daily-grid">
-
       <p-card>
         <ng-template pTemplate="content">
           <div class="quote-card-inner">
@@ -98,7 +141,6 @@
           <p-button label="See all quotes" routerLink="/quotes" styleClass="p-button-text p-button-sm"></p-button>
         </ng-template>
       </p-card>
-
       <p-card>
         <ng-template pTemplate="content">
           <div class="exp-card-inner">
@@ -122,7 +164,6 @@
           </div>
         </ng-template>
       </p-card>
-
     </div>
   </section>
 
@@ -133,7 +174,6 @@
       <div class="section-line"></div>
     </div>
     <div class="stats-grid">
-
       <p-card>
         <ng-template pTemplate="content">
           <div class="stat-card-inner">
@@ -143,7 +183,6 @@
           </div>
         </ng-template>
       </p-card>
-
       <p-card>
         <ng-template pTemplate="content">
           <div class="stat-card-inner">
@@ -153,7 +192,6 @@
           </div>
         </ng-template>
       </p-card>
-
       <p-card>
         <ng-template pTemplate="content">
           <div class="stat-card-inner">
@@ -163,17 +201,15 @@
           </div>
         </ng-template>
       </p-card>
-
       <p-card>
         <ng-template pTemplate="content">
           <div class="stat-card-inner">
             <div class="stat-icon-wrap orange">📚</div>
-            <div class="stat-number">101</div>
+            <div class="stat-number">{{ glossaryCount }}</div>
             <div class="stat-label">Glossary Terms</div>
           </div>
         </ng-template>
       </p-card>
-
     </div>
   </section>
 

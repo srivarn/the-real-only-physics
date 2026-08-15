@@ -5,15 +5,17 @@ import { ExperimentsComponent } from './features/experiments/experiments.compone
 import { GlossaryComponent } from './features/glossary/glossary.component';
 import { QuotesComponent } from './features/quotes/quotes.component';
 import { ExperimentDetailComponent } from './features/experiment-detail/experiment-detail.component';
+import { ConverterComponent } from './features/converter/converter.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'glossary', component: GlossaryComponent },
-  { path: 'quotes', component: QuotesComponent },
-  { path: 'experiments', component: ExperimentsComponent },
+  { path: '',              component: HomeComponent },
+  { path: 'home',         component: HomeComponent },
+  { path: 'glossary',     component: GlossaryComponent },
+  { path: 'quotes',       component: QuotesComponent },
+  { path: 'experiments',  component: ExperimentsComponent },
   { path: 'experiments/:id', component: ExperimentDetailComponent },
-  { path: 'formulas', redirectTo: '/formula/kinetic-energy', pathMatch: 'full' },
-  { path: 'formula/:id', component: FormulaPageComponent },
-  { path: '**', redirectTo: '' }
+  { path: 'formulas',     redirectTo: '/formula/kinetic-energy', pathMatch: 'full' },
+  { path: 'formula/:id',  component: FormulaPageComponent },
+  { path: 'converter',    component: ConverterComponent },
+  { path: '**',           redirectTo: '' }
 ];

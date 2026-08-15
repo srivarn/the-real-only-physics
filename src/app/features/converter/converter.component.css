@@ -1,0 +1,160 @@
+.converter-container {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* ── Header ── */
+.converter-header {
+  margin-bottom: 1.75rem;
+}
+.converter-header h1 {
+  margin-bottom: .25rem;
+}
+.subtitle {
+  color: var(--text-muted);
+  font-size: .9375rem;
+}
+
+/* ── Category row ── */
+.category-row {
+  margin-bottom: 1.25rem;
+}
+.category-dropdown {
+  width: 100% !important;
+}
+
+/* ── Converter card ── */
+.converter-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+  overflow: hidden;
+}
+.converter-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(99,102,241,.4), transparent);
+}
+
+/* ── Field groups ── */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  padding: .75rem 0;
+}
+.field-label {
+  font-size: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--text-subtle);
+}
+
+/* ── Input row ── */
+.input-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: .75rem;
+  align-items: center;
+}
+
+.unit-dropdown {
+  width: 100% !important;
+}
+
+.value-input {
+  width: 100% !important;
+}
+.value-input .p-inputnumber-input {
+  width: 100% !important;
+}
+
+/* ── Swap row ── */
+.swap-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: .25rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.swap-icon {
+  color: var(--text-subtle);
+  font-size: .875rem;
+}
+
+/* ── Result box ── */
+.result-box {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: .5rem .75rem;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  transition: border-color var(--transition);
+}
+.result-box.has-result {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(99,102,241,.15);
+}
+.result-value {
+  font-size: .9375rem;
+  font-weight: 600;
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+}
+.result-placeholder {
+  font-size: .875rem;
+  color: var(--text-subtle);
+}
+
+/* ── Formula row ── */
+.formula-row {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  background: var(--accent-muted);
+  border: 1px solid rgba(99,102,241,.2);
+  border-radius: var(--radius);
+  padding: .5rem .875rem;
+  margin-top: .875rem;
+}
+.formula-icon {
+  color: var(--accent);
+  font-size: .8125rem;
+  flex-shrink: 0;
+}
+.formula-text {
+  font-size: .8125rem;
+  color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+}
+
+/* ── Action row ── */
+.action-row {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .input-row {
+    grid-template-columns: 1fr;
+  }
+  .converter-card {
+    padding: 1rem;
+  }
+}

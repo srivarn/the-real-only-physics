@@ -8,6 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { TagModule } from 'primeng/tag';
 import { DividerModule } from 'primeng/divider';
+import { ProgressService } from '../services/progress.service';
 
 @Component({
   selector: 'app-formula-page',
@@ -18,11 +19,11 @@ import { DividerModule } from 'primeng/divider';
 })
 export class FormulaPageComponent implements OnInit {
   formula: PhysicsFormula | null = null;
-  explanationExpanded: boolean = false;
-  realLifeApplicationExpanded: boolean = false;
-  calculatorKey: string = '';
+  explanationExpanded = false;
+  realLifeApplicationExpanded = false;
+  calculatorKey = '';
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private progressService: ProgressService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -31,6 +32,7 @@ export class FormulaPageComponent implements OnInit {
       this.explanationExpanded = false;
       this.realLifeApplicationExpanded = false;
       this.calculatorKey = formulaId;
+      if (formulaId) this.progressService.trackFormulaVisit(formulaId);
     });
   }
 

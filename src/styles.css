@@ -393,3 +393,65 @@ a:hover { text-decoration: underline; }
 @media (min-width: 769px) and (max-width: 1024px) {
   .sidebar { width: 210px; min-width: 210px; }
 }
+
+/* ─────────────────────────────────
+   Light theme overrides
+───────────────────────────────── */
+:root.light-theme {
+  --bg:            #ffffff;
+  --bg-card:       #f9f9fb;
+  --bg-hover:      #f0f0f5;
+  --border:        #e4e4e7;
+  --border-focus:  #a1a1aa;
+  --text:          #09090b;
+  --text-muted:    #52525b;
+  --text-subtle:   #a1a1aa;
+}
+
+:root.light-theme body {
+  background: var(--bg);
+  background-image: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(99,102,241,.07) 0%, transparent 70%);
+}
+
+/* Ensure PrimeNG components respect light variables */
+:root.light-theme .p-card {
+  background: var(--bg-card) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+:root.light-theme .p-inputtext,
+:root.light-theme .p-inputnumber-input {
+  background: var(--bg) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+:root.light-theme .p-dropdown { background: var(--bg) !important; border-color: var(--border) !important; }
+:root.light-theme .p-dropdown-panel { background: var(--bg-card) !important; border-color: var(--border) !important; }
+:root.light-theme .p-dropdown-item { color: var(--text-muted) !important; }
+:root.light-theme .p-dropdown-label { color: var(--text-muted) !important; }
+:root.light-theme .p-accordion .p-accordion-header .p-accordion-header-link {
+  background: var(--bg-card) !important;
+  color: var(--text-muted) !important;
+}
+:root.light-theme .p-accordion .p-accordion-content {
+  background: var(--bg) !important;
+  color: var(--text-muted) !important;
+}
+:root.light-theme .p-checkbox .p-checkbox-box { background: var(--bg) !important; border-color: var(--border) !important; }
+:root.light-theme .p-toast .p-toast-message { background: var(--bg-card) !important; }
+
+/* ── Theme toggle button in header ── */
+.theme-toggle-btn.p-button {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  padding: 0 !important;
+  border-radius: var(--radius) !important;
+  border: 1px solid var(--border) !important;
+  flex-shrink: 0 !important;
+}
+.theme-toggle-btn.p-button:hover {
+  border-color: var(--border-focus) !important;
+  background: var(--bg-hover) !important;
+  opacity: 1 !important;
+}
