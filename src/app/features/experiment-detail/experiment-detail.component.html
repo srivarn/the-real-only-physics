@@ -1,39 +1,243 @@
-<div *ngIf="experiment; else missing" class="space-y-5">
-  <h1>{{ experiment.title }}</h1>
-  <p-tag [value]="experiment.difficulty"></p-tag>
-  <p>{{ experiment.description }}</p>
-  <p><strong>Estimated time:</strong> {{ experiment.duration }}</p>
+<ng-container *ngIf="experiment; else missing">
+  <div class="exp-detail fadeinup">
 
-  <section>
-    <h3>Safety Tips</h3>
-    <ul><li *ngFor="let tip of experiment.safetyNotes">{{ tip }}</li></ul>
-  </section>
+    <!-- Back -->
+    <a class="back-link" routerLink="/experiments">
+      <i class="pi pi-arrow-left"></i> Back to experiments
+    </a>
 
-  <section>
-    <h3>Required Materials</h3>
-    <div *ngFor="let material of experiment.materials" class="material-item">
-      <p-checkbox [binary]="true" [ngModel]="checkedMaterials.includes(material)" (onChange)="toggleMaterial(material, $event.checked)"></p-checkbox>
-      <span>{{ material }}</span>
+    <!-- ── Phase stepper ── -->
+    <div class="phase-stepper">
+      <div *ngFor="let p of phases; let i = index"
+           class="phase-step"
+           [class.active]="phase === p"
+           [class.done]="phaseIndex > i"
+           (click)="goPhase(p)">
+        <div class="step-dot">
+          <i *ngIf="phaseIndex > i" class="pi pi-check"></i>
+          <span *ngIf="phaseIndex <= i">{{ i + 1 }}</span>
+        </div>
+        <span class="step-label">{{ phaseLabels[p] }}</span>
+      </div>
     </div>
-  </section>
 
-  <section>
-    <h3>Guided mode</h3>
-    <p><strong>Progress:</strong> {{ progress }}%</p>
-    <div class="step-card">
-      <h4>Step {{ experiment.procedure[currentStep].stepNumber }}</h4>
-      <p>{{ experiment.procedure[currentStep].instruction }}</p>
-      <p *ngIf="experiment.procedure[currentStep].tip"><strong>Tip:</strong> {{ experiment.procedure[currentStep].tip }}</p>
-      <p *ngIf="experiment.procedure[currentStep].warning"><strong>Warning:</strong> {{ experiment.procedure[currentStep].warning }}</p>
+    <!-- ══════════════════════
+         PHASE: OVERVIEW
+    ══════════════════════ -->
+    <div *ngIf="phase === 'overview'" class="phase-content">
+      <div class="phase-header">
+        <h1>{{ experiment.title }}</h1>
+        <div class="exp-meta">
+          <p-tag [value]="experiment.difficulty"
+                 [severity]="experiment.difficulty === 'Easy' ? 'success' : experiment.difficulty === 'Medium' ? 'warning' : 'danger'">
+          </p-tag>
+          <span class="meta-chip"><i class="pi pi-clock"></i> {{ experiment.duration }}</span>
+          <span class="meta-chip"><i class="pi pi-tag"></i> {{ experiment.category }}</span>
+          <span class="meta-chip"><i class="pi pi-list"></i> {{ experiment.procedure.length }} steps</span>
+        </div>
+      </div>
+
+      <p class="exp-description">{{ experiment.description }}</p>
+
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="info-card-label"><i class="pi pi-star"></i> What you'll learn</div>
+          <p class="info-card-body">{{ experiment.explanation }}</p>
+        </div>
+        <div class="info-card">
+          <div class="info-card-label"><i class="pi pi-check-circle"></i> Expected result</div>
+          <p class="info-card-body">{{ experiment.expectedResults }}</p>
+        </div>
+      </div>
+
+      <div class="info-card" style="margin-top:1rem">
+        <div class="info-card-label"><i class="pi pi-globe"></i> Real-world applications</div>
+        <ul class="app-list">
+          <li *ngFor="let app of experiment.realWorldApplications">{{ app }}</li>
+        </ul>
+      </div>
+
+      <div class="phase-actions">
+        <p-button label="Start Experiment" icon="pi pi-play" (click)="nextPhase()"></p-button>
+      </div>
     </div>
-    <div class="actions">
-      <p-button label="Previous" styleClass="p-button-outlined" (click)="prevStep()"></p-button>
-      <p-button label="Next" (click)="nextStep()"></p-button>
+
+    <!-- ══════════════════════
+         PHASE: SAFETY
+    ══════════════════════ -->
+    <div *ngIf="phase === 'safety'" class="phase-content">
+      <div class="phase-header">
+        <h2>Safety First</h2>
+        <p>Read all safety notes before you begin.</p>
+      </div>
+
+      <div class="safety-list">
+        <div *ngFor="let tip of experiment.safetyNotes; let i = index" class="safety-item">
+          <div class="safety-number">{{ i + 1 }}</div>
+          <p>{{ tip }}</p>
+        </div>
+      </div>
+
+      <div class="phase-actions">
+        <p-button label="Back" icon="pi pi-arrow-left" styleClass="p-button-outlined" (click)="prevPhase()"></p-button>
+        <p-button label="I understand, continue" icon="pi pi-arrow-right" iconPos="right" (click)="nextPhase()"></p-button>
+      </div>
     </div>
-  </section>
-</div>
+
+    <!-- ══════════════════════
+         PHASE: MATERIALS
+    ══════════════════════ -->
+    <div *ngIf="phase === 'materials'" class="phase-content">
+      <div class="phase-header">
+        <h2>Gather Your Materials</h2>
+        <p>Check off each item as you collect it. You need all of them before starting.</p>
+      </div>
+
+      <div class="materials-progress">
+        <div class="mat-progress-text">
+          <span>{{ checkedMaterials.length }} / {{ experiment.materials.length }} collected</span>
+          <span *ngIf="allMaterialsChecked" style="color:var(--green);font-weight:600">✓ All ready!</span>
+        </div>
+        <div class="mat-progress-bar">
+          <div class="mat-progress-fill"
+               [style.width.%]="(checkedMaterials.length / experiment.materials.length) * 100">
+          </div>
+        </div>
+      </div>
+
+      <div class="materials-list">
+        <div *ngFor="let material of experiment.materials" class="material-row"
+             [class.checked]="checkedMaterials.includes(material)"
+             (click)="toggleMaterial(material, !checkedMaterials.includes(material))">
+          <p-checkbox
+            [binary]="true"
+            [ngModel]="checkedMaterials.includes(material)"
+            (onChange)="toggleMaterial(material, $event.checked)"
+            (click)="$event.stopPropagation()">
+          </p-checkbox>
+          <span class="material-name">{{ material }}</span>
+          <i *ngIf="checkedMaterials.includes(material)" class="pi pi-check mat-check-icon"></i>
+        </div>
+      </div>
+
+      <div class="phase-actions">
+        <p-button label="Back" icon="pi pi-arrow-left" styleClass="p-button-outlined" (click)="prevPhase()"></p-button>
+        <p-button
+          label="Start Experiment"
+          icon="pi pi-play"
+          iconPos="right"
+          (click)="nextPhase()"
+          [pTooltip]="!allMaterialsChecked ? 'Collect all materials first' : ''"
+          [disabled]="false">
+        </p-button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════
+         PHASE: STEPS
+    ══════════════════════ -->
+    <div *ngIf="phase === 'steps'" class="phase-content">
+      <div class="phase-header">
+        <h2>Step {{ currentStep + 1 }} of {{ experiment.procedure.length }}</h2>
+        <div class="step-progress-row">
+          <div class="step-progress-bar">
+            <div class="step-progress-fill" [style.width.%]="progress"></div>
+          </div>
+          <span class="step-progress-pct">{{ progress }}%</span>
+        </div>
+      </div>
+
+      <!-- Step dots -->
+      <div class="step-dots">
+        <div *ngFor="let s of experiment.procedure; let i = index"
+             class="step-dot-mini"
+             [class.active]="i === currentStep"
+             [class.done]="i < currentStep"
+             (click)="currentStep = i; recomputeProgress()">
+        </div>
+      </div>
+
+      <!-- Current step card -->
+      <div class="step-teaching-card">
+        <div class="step-num-badge">Step {{ experiment.procedure[currentStep].stepNumber }}</div>
+
+        <p class="step-instruction">{{ experiment.procedure[currentStep].instruction }}</p>
+
+        <div class="step-tip" *ngIf="experiment.procedure[currentStep].tip">
+          <i class="pi pi-lightbulb"></i>
+          <div>
+            <strong>Tip:</strong> {{ experiment.procedure[currentStep].tip }}
+          </div>
+        </div>
+
+        <div class="step-warning" *ngIf="experiment.procedure[currentStep].warning">
+          <i class="pi pi-exclamation-triangle"></i>
+          <div>
+            <strong>Warning:</strong> {{ experiment.procedure[currentStep].warning }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Science context for this step -->
+      <div class="science-context" *ngIf="currentStep === experiment.procedure.length - 1">
+        <div class="sci-ctx-label"><i class="pi pi-info-circle"></i> Why this works</div>
+        <p>{{ experiment.explanation }}</p>
+      </div>
+
+      <div class="phase-actions">
+        <p-button label="Previous" icon="pi pi-arrow-left" styleClass="p-button-outlined"
+                  (click)="prevStep()" [disabled]="currentStep === 0"></p-button>
+        <p-button
+          [label]="currentStep === experiment.procedure.length - 1 ? 'See Results' : 'Next Step'"
+          icon="pi pi-arrow-right" iconPos="right"
+          (click)="nextStep()">
+        </p-button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════
+         PHASE: RESULTS
+    ══════════════════════ -->
+    <div *ngIf="phase === 'results'" class="phase-content">
+      <div class="phase-header results-header">
+        <div class="results-badge">🎉</div>
+        <h2>Experiment Complete!</h2>
+        <p>Here's what you should have observed and why it happened.</p>
+      </div>
+
+      <div class="result-block">
+        <div class="result-block-label"><i class="pi pi-eye"></i> What you should have seen</div>
+        <p>{{ experiment.expectedResults }}</p>
+      </div>
+
+      <div class="result-block">
+        <div class="result-block-label"><i class="pi pi-book"></i> The science behind it</div>
+        <p>{{ experiment.explanation }}</p>
+      </div>
+
+      <div class="result-block">
+        <div class="result-block-label"><i class="pi pi-globe"></i> Where this appears in the real world</div>
+        <ul class="app-list">
+          <li *ngFor="let app of experiment.realWorldApplications">{{ app }}</li>
+        </ul>
+      </div>
+
+      <div class="phase-actions">
+        <p-button label="Do it again" icon="pi pi-refresh" styleClass="p-button-outlined"
+                  (click)="resetExperiment()"></p-button>
+        <p-button label="Browse more experiments" icon="pi pi-arrow-right" iconPos="right"
+                  routerLink="/experiments"></p-button>
+      </div>
+    </div>
+
+  </div>
+</ng-container>
 
 <ng-template #missing>
-  <h2>Experiment not found</h2>
-  <p-button label="Back to experiments" routerLink="/experiments"></p-button>
+  <div style="text-align:center;padding:3rem 1rem">
+    <i class="pi pi-exclamation-triangle" style="font-size:2.5rem;color:var(--text-subtle)"></i>
+    <h2 style="margin-top:1rem">Experiment not found</h2>
+    <p style="margin:.5rem 0 1.5rem">The experiment you're looking for doesn't exist.</p>
+    <p-button label="Back to experiments" icon="pi pi-arrow-left" routerLink="/experiments" styleClass="p-button-outlined"></p-button>
+  </div>
 </ng-template>

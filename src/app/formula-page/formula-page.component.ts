@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { PHYSICS_FORMULAS, PhysicsFormula } from '../data/physics-formulas';
 import { CommonModule } from '@angular/common';
 import { CalculatorComponent } from '../components/calculator/calculator.component';
@@ -12,7 +12,7 @@ import { DividerModule } from 'primeng/divider';
 @Component({
   selector: 'app-formula-page',
   standalone: true,
-  imports: [CommonModule, CalculatorComponent, CardModule, ButtonModule, PanelModule, TagModule, DividerModule],
+  imports: [CommonModule, RouterModule, CalculatorComponent, CardModule, ButtonModule, PanelModule, TagModule, DividerModule],
   templateUrl: './formula-page.component.html',
   styleUrls: ['./formula-page.component.css']
 })

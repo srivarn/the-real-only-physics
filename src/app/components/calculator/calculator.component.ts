@@ -896,13 +896,23 @@ export class CalculatorComponent implements OnInit {
   performOperation(nextOperation: string): void {
     const inputValue = parseFloat(this.displayValue);
 
+    if (nextOperation === '=') {
+      // Evaluate immediately
+      if (this.operation && this.previousValue !== null) {
+        const newValue = this.performCalculation(this.previousValue, inputValue);
+        this.displayValue = String(parseFloat(newValue.toFixed(10)));
+        this.previousValue = null;
+        this.operation = null;
+        this.waitingForOperand = true;
+      }
+      return;
+    }
+
     if (this.previousValue === null) {
       this.previousValue = inputValue;
     } else if (this.operation) {
-      const currentValue = this.previousValue || 0;
-      const newValue = this.performCalculation(currentValue, inputValue);
-
-      this.displayValue = String(newValue);
+      const newValue = this.performCalculation(this.previousValue, inputValue);
+      this.displayValue = String(parseFloat(newValue.toFixed(10)));
       this.previousValue = newValue;
     }
 
@@ -922,48 +932,32 @@ export class CalculatorComponent implements OnInit {
   }
 
   // Scientific Functions
+  private setDisplay(value: number): void {
+    const rounded = parseFloat(value.toFixed(10));
+    this.displayValue = String(rounded);
+    this.waitingForOperand = true;
+  }
+
   sin(): void {
-    const value = parseFloat(this.displayValue);
-    const result = this.angleUnit === 'deg' ? Math.sin(value * Math.PI / 180) : Math.sin(value);
-    this.displayValue = String(result);
+    const v = parseFloat(this.displayValue);
+    this.setDisplay(this.angleUnit === 'deg' ? Math.sin(v * Math.PI / 180) : Math.sin(v));
   }
 
   cos(): void {
-    const value = parseFloat(this.displayValue);
-    const result = this.angleUnit === 'deg' ? Math.cos(value * Math.PI / 180) : Math.cos(value);
-    this.displayValue = String(result);
+    const v = parseFloat(this.displayValue);
+    this.setDisplay(this.angleUnit === 'deg' ? Math.cos(v * Math.PI / 180) : Math.cos(v));
   }
 
   tan(): void {
-    const value = parseFloat(this.displayValue);
-    const result = this.angleUnit === 'deg' ? Math.tan(value * Math.PI / 180) : Math.tan(value);
-    this.displayValue = String(result);
+    const v = parseFloat(this.displayValue);
+    this.setDisplay(this.angleUnit === 'deg' ? Math.tan(v * Math.PI / 180) : Math.tan(v));
   }
 
-  log(): void {
-    const value = parseFloat(this.displayValue);
-    this.displayValue = String(Math.log10(value));
-  }
-
-  ln(): void {
-    const value = parseFloat(this.displayValue);
-    this.displayValue = String(Math.log(value));
-  }
-
-  sqrt(): void {
-    const value = parseFloat(this.displayValue);
-    this.displayValue = String(Math.sqrt(value));
-  }
-
-  square(): void {
-    const value = parseFloat(this.displayValue);
-    this.displayValue = String(value * value);
-  }
-
-  inverse(): void {
-    const value = parseFloat(this.displayValue);
-    this.displayValue = String(1 / value);
-  }
+  log(): void { this.setDisplay(Math.log10(parseFloat(this.displayValue))); }
+  ln(): void  { this.setDisplay(Math.log(parseFloat(this.displayValue))); }
+  sqrt(): void { this.setDisplay(Math.sqrt(parseFloat(this.displayValue))); }
+  square(): void { const v = parseFloat(this.displayValue); this.setDisplay(v * v); }
+  inverse(): void { this.setDisplay(1 / parseFloat(this.displayValue)); }
 
   toggleScientificMode(): void {
     this.scientificMode = !this.scientificMode;

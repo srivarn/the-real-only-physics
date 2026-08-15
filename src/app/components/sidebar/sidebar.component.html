@@ -1,29 +1,75 @@
 <div class="sidebar-wrap" [class.collapsed]="collapsed">
-  <button class="collapse-btn" (click)="toggleCollapse()">☰</button>
 
-  <button routerLink="/home" routerLinkActive="active">Homepage</button>
-  <button routerLink="/glossary" routerLinkActive="active">Glossary</button>
+  <!-- Collapse toggle -->
+  <p-button
+    [icon]="collapsed ? 'pi pi-chevron-right' : 'pi pi-chevron-left'"
+    styleClass="p-button-text collapse-btn"
+    [pTooltip]="collapsed ? 'Expand sidebar' : 'Collapse sidebar'"
+    (click)="toggleCollapse()">
+  </p-button>
 
-  <button (click)="toggleFormulas()" [class.active]="formulasExpanded">Formulas</button>
+  <span class="nav-section-label">Navigation</span>
+
+  <a class="nav-item" routerLink="/home" routerLinkActive="active" pRipple>
+    <i class="pi pi-home nav-icon"></i>
+    <span class="nav-label">Home</span>
+  </a>
+
+  <div class="nav-separator"></div>
+  <span class="nav-section-label">Content</span>
+
+  <!-- Formulas expandable -->
+  <a class="nav-item" [class.active]="formulasExpanded" (click)="toggleFormulas()" pRipple>
+    <i class="pi pi-calculator nav-icon"></i>
+    <span class="nav-label">Formulas</span>
+    <i class="pi pi-chevron-right chevron" [class.open]="formulasExpanded"></i>
+  </a>
+
   <div class="subnav" [class.open]="formulasExpanded">
-    <div class="topic-block" *ngFor="let topic of physicsTopics">
-      <button class="sub-btn" (click)="toggleTopic(topic.name)">
-        {{ topic.name }} <span>{{ topicOpen(topic.name) ? '▼' : '▶' }}</span>
-      </button>
+    <div *ngFor="let topic of physicsTopics">
+      <a class="sub-btn" (click)="toggleTopic(topic.name)" pRipple>
+        <span>{{ topic.name }}</span>
+        <i class="pi chevron-sm" [class.pi-chevron-down]="topicOpen(topic.name)" [class.pi-chevron-right]="!topicOpen(topic.name)"></i>
+      </a>
       <div class="subnav level-2" [class.open]="topicOpen(topic.name)">
         <div *ngFor="let subtopic of topic.subtopics">
-          <button class="sub-btn" (click)="toggleSubtopic(topic.name + '::' + subtopic)">
-            {{ subtopic }} <span>{{ subtopicOpen(topic.name + '::' + subtopic) ? '▼' : '▶' }}</span>
-          </button>
+          <a class="sub-btn" (click)="toggleSubtopic(topic.name + '::' + subtopic)" pRipple>
+            <span>{{ subtopic }}</span>
+            <i class="pi chevron-sm" [class.pi-chevron-down]="subtopicOpen(topic.name + '::' + subtopic)" [class.pi-chevron-right]="!subtopicOpen(topic.name + '::' + subtopic)"></i>
+          </a>
           <div class="subnav level-3" [class.open]="subtopicOpen(topic.name + '::' + subtopic)">
-            <button class="formula-btn" *ngFor="let f of formulasBy(topic.name, subtopic)" (click)="navFormula(f.id)">{{ f.name }}</button>
+            <a class="formula-btn" *ngFor="let f of formulasBy(topic.name, subtopic)"
+               (click)="navFormula(f.id)" pRipple>
+              {{ f.name }}
+            </a>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <button routerLink="/experiments" routerLinkActive="active">Experiments</button>
-  <button routerLink="/quotes" routerLinkActive="active">Quotes</button>
-  <a class="contact" href="mailto:knowphysics197&#64;gmail.com?subject=KnowPhysics%20Contact&body=Hello%20KnowPhysics%20Team,">Contact: knowphysics197&#64;gmail.com</a>
+  <a class="nav-item" routerLink="/experiments" routerLinkActive="active" pRipple>
+    <i class="pi pi-bolt nav-icon"></i>
+    <span class="nav-label">Experiments</span>
+  </a>
+
+  <a class="nav-item" routerLink="/quotes" routerLinkActive="active" pRipple>
+    <i class="pi pi-comment nav-icon"></i>
+    <span class="nav-label">Quotes</span>
+  </a>
+
+  <a class="nav-item" routerLink="/glossary" routerLinkActive="active" pRipple>
+    <i class="pi pi-book nav-icon"></i>
+    <span class="nav-label">Glossary</span>
+  </a>
+
+  <div class="nav-separator"></div>
+
+  <a class="contact-link"
+     href="mailto:knowphysics197@gmail.com?subject=KnowPhysics%20Contact&body=Hello%20KnowPhysics%20Team,"
+     pRipple>
+    <i class="pi pi-envelope nav-icon"></i>
+    <span class="nav-label">Contact</span>
+  </a>
+
 </div>

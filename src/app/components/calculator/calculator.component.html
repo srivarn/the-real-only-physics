@@ -141,56 +141,59 @@
       <div class="display">{{ displayValue }}</div>
       
       <div class="mode-toggle">
-        <button class="mode-btn" (click)="toggleAngleUnit()">
-          {{ angleUnit === 'deg' ? 'DEG' : 'RAD' }}
-        </button>
+        <p-button
+          [label]="angleUnit === 'deg' ? 'DEG' : 'RAD'"
+          styleClass="p-button-outlined p-button-sm mode-btn"
+          (click)="toggleAngleUnit()"
+          pTooltip="Toggle degrees/radians">
+        </p-button>
       </div>
 
       <div class="scientific-functions">
         <div class="sci-row">
-          <button class="sci-btn" (click)="sin()">sin</button>
-          <button class="sci-btn" (click)="cos()">cos</button>
-          <button class="sci-btn" (click)="tan()">tan</button>
-          <button class="sci-btn" (click)="log()">log</button>
+          <p-button label="sin" styleClass="p-button-text sci-btn" (click)="sin()"></p-button>
+          <p-button label="cos" styleClass="p-button-text sci-btn" (click)="cos()"></p-button>
+          <p-button label="tan" styleClass="p-button-text sci-btn" (click)="tan()"></p-button>
+          <p-button label="log" styleClass="p-button-text sci-btn" (click)="log()"></p-button>
         </div>
         <div class="sci-row">
-          <button class="sci-btn" (click)="ln()">ln</button>
-          <button class="sci-btn" (click)="sqrt()">√</button>
-          <button class="sci-btn" (click)="square()">x²</button>
-          <button class="sci-btn" (click)="performOperation('^')">xʸ</button>
+          <p-button label="ln"  styleClass="p-button-text sci-btn" (click)="ln()"></p-button>
+          <p-button label="√"   styleClass="p-button-text sci-btn" (click)="sqrt()"></p-button>
+          <p-button label="x²"  styleClass="p-button-text sci-btn" (click)="square()"></p-button>
+          <p-button label="xʸ"  styleClass="p-button-text sci-btn" (click)="performOperation('^')"></p-button>
         </div>
         <div class="sci-row">
-          <button class="sci-btn" (click)="inverse()">1/x</button>
-          <button class="sci-btn" (click)="memoryStore()">MS</button>
-          <button class="sci-btn" (click)="memoryRecall()">MR</button>
-          <button class="sci-btn" (click)="memoryClear()">MC</button>
+          <p-button label="1/x" styleClass="p-button-text sci-btn" (click)="inverse()"></p-button>
+          <p-button label="MS"  styleClass="p-button-text sci-btn" (click)="memoryStore()"  pTooltip="Memory Store"></p-button>
+          <p-button label="MR"  styleClass="p-button-text sci-btn" (click)="memoryRecall()" pTooltip="Memory Recall"></p-button>
+          <p-button label="MC"  styleClass="p-button-text sci-btn" (click)="memoryClear()"  pTooltip="Memory Clear"></p-button>
         </div>
       </div>
 
       <div class="buttons">
-        <button class="clear-btn" (click)="clear()">C</button>
-        <button class="ce-btn" (click)="clearEntry()">CE</button>
-        <button class="backspace-btn" (click)="backspace()">⌫</button>
-        <button class="operator-btn" (click)="performOperation('/')">/</button>
+        <p-button label="C"  styleClass="p-button-text calc-btn clear-btn"   (click)="clear()"></p-button>
+        <p-button label="CE" styleClass="p-button-text calc-btn ce-btn"      (click)="clearEntry()"></p-button>
+        <p-button label="⌫"  styleClass="p-button-text calc-btn backspace-btn" (click)="backspace()"></p-button>
+        <p-button label="/"  styleClass="p-button-text calc-btn operator-btn" (click)="performOperation('/')"></p-button>
 
-        <button class="number-btn" (click)="inputDigit('7')">7</button>
-        <button class="number-btn" (click)="inputDigit('8')">8</button>
-        <button class="number-btn" (click)="inputDigit('9')">9</button>
-        <button class="operator-btn" (click)="performOperation('*')">×</button>
+        <p-button label="7" styleClass="p-button-text calc-btn number-btn" (click)="inputDigit('7')"></p-button>
+        <p-button label="8" styleClass="p-button-text calc-btn number-btn" (click)="inputDigit('8')"></p-button>
+        <p-button label="9" styleClass="p-button-text calc-btn number-btn" (click)="inputDigit('9')"></p-button>
+        <p-button label="×" styleClass="p-button-text calc-btn operator-btn" (click)="performOperation('*')"></p-button>
 
-        <button class="number-btn" (click)="inputDigit('4')">4</button>
-        <button class="number-btn" (click)="inputDigit('5')">5</button>
-        <button class="number-btn" (click)="inputDigit('6')">6</button>
-        <button class="operator-btn" (click)="performOperation('-')">-</button>
+        <p-button label="4" styleClass="p-button-text calc-btn number-btn" (click)="inputDigit('4')"></p-button>
+        <p-button label="5" styleClass="p-button-text calc-btn number-btn" (click)="inputDigit('5')"></p-button>
+        <p-button label="6" styleClass="p-button-text calc-btn number-btn" (click)="inputDigit('6')"></p-button>
+        <p-button label="-" styleClass="p-button-text calc-btn operator-btn" (click)="performOperation('-')"></p-button>
 
-        <button class="number-btn" (click)="inputDigit('1')">1</button>
-        <button class="number-btn" (click)="inputDigit('2')">2</button>
-        <button class="number-btn" (click)="inputDigit('3')">3</button>
-        <button class="operator-btn" (click)="performOperation('+')">+</button>
+        <p-button label="1" styleClass="p-button-text calc-btn number-btn" (click)="inputDigit('1')"></p-button>
+        <p-button label="2" styleClass="p-button-text calc-btn number-btn" (click)="inputDigit('2')"></p-button>
+        <p-button label="3" styleClass="p-button-text calc-btn number-btn" (click)="inputDigit('3')"></p-button>
+        <p-button label="+" styleClass="p-button-text calc-btn operator-btn" (click)="performOperation('+')"></p-button>
 
-        <button class="number-btn zero-btn" (click)="inputDigit('0')">0</button>
-        <button class="number-btn" (click)="inputDecimal()">.</button>
-        <button class="equals-btn" (click)="performOperation('=')">=</button>
+        <p-button label="0" styleClass="p-button-text calc-btn number-btn zero-btn" (click)="inputDigit('0')"></p-button>
+        <p-button label="." styleClass="p-button-text calc-btn number-btn" (click)="inputDecimal()"></p-button>
+        <p-button label="=" styleClass="calc-btn equals-btn" (click)="performOperation('=')"></p-button>
       </div>
     </div>
   </div>

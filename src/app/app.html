@@ -1,34 +1,54 @@
-<div class="min-h-screen bg-surface-ground">
+<div class="app-shell">
   <header class="header">
-    <p-menubar styleClass="bg-transparent border-none shadow-none">
-      <ng-template pTemplate="start">
-        <button class="mobile-menu-btn" (click)="toggleMobileMenu()" aria-label="Toggle menu">
-          <i class="pi pi-bars"></i>
-        </button>
-        <div class="logo-container">
-          <img src="assets/file.svg" alt="KnowPhysics Logo" class="logo-image" loading="eager" onerror="this.style.display='none'">
-          <h2>KnowPhysics</h2>
-        </div>
-      </ng-template>
-    </p-menubar>
+    <p-button
+      icon="pi pi-bars"
+      styleClass="p-button-text mobile-menu-btn"
+      (click)="toggleMobileMenu()"
+      pTooltip="Toggle menu"
+      aria-label="Toggle menu">
+    </p-button>
+    <div class="logo-container">
+      <img src="assets/file.svg" alt="KnowPhysics Logo" class="logo-image"
+           loading="eager" onerror="this.style.display='none'">
+      <h2>KnowPhysics</h2>
+    </div>
   </header>
 
-  <div class="flex">
+  <div class="body-layout">
     <div class="mobile-overlay" [class.active]="mobileMenuOpen" (click)="toggleMobileMenu()"></div>
-    <aside class="sidebar overflow-y-auto flex-shrink-0" [class.mobile-open]="mobileMenuOpen">
-      <button class="mobile-close-btn" (click)="toggleMobileMenu()" aria-label="Close menu">
-        <i class="pi pi-times"></i>
-      </button>
+
+    <aside class="sidebar" [class.collapsed]="sidebarCollapsed" [class.mobile-open]="mobileMenuOpen">
+      <p-button
+        icon="pi pi-times"
+        styleClass="p-button-text mobile-close-btn"
+        (click)="toggleMobileMenu()"
+        aria-label="Close menu">
+      </p-button>
       <app-sidebar></app-sidebar>
     </aside>
-    <main class="main-content flex-1" [class.sidebar-collapsed]="sidebarCollapsed">
-      <div class="container mx-auto p-4"><router-outlet></router-outlet></div>
+
+    <main class="main-content">
+      <div class="page-content">
+        <router-outlet></router-outlet>
+      </div>
       <footer class="site-footer">
-        <span>Contact: <a href="mailto:knowphysics197&#64;gmail.com?subject=KnowPhysics%20Contact&body=Hello%20KnowPhysics%20Team,">knowphysics197&#64;gmail.com</a></span>
-        <a href="mailto:knowphysics197&#64;gmail.com?subject=KnowPhysics%20Feedback&body=I%20would%20like%20to%20share%20feedback:">Send feedback</a>
+        <span>© 2025 KnowPhysics &middot;
+          <a href="mailto:knowphysics197&#64;gmail.com?subject=KnowPhysics%20Contact&body=Hello%20KnowPhysics%20Team,">
+            knowphysics197&#64;gmail.com
+          </a>
+        </span>
+        <a href="mailto:knowphysics197&#64;gmail.com?subject=KnowPhysics%20Feedback&body=I%20would%20like%20to%20share%20feedback:">
+          Send feedback
+        </a>
       </footer>
     </main>
   </div>
 
-  <button *ngIf="showTop" class="scroll-top" (click)="toTop()">↑</button>
+  <p-button
+    *ngIf="showTop"
+    icon="pi pi-arrow-up"
+    styleClass="p-button-text scroll-top"
+    (click)="toTop()"
+    pTooltip="Back to top">
+  </p-button>
 </div>

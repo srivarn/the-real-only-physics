@@ -1,21 +1,45 @@
-<div class="glossary-container" pAnimateOnScroll enterClass="fadeinup">
+<div class="glossary-container fadeinup">
+
   <div class="glossary-header">
     <h1>Physics Glossary A–Z</h1>
     <p class="subtitle">Essential physics terms and definitions</p>
   </div>
 
   <div class="search-section">
-    <span class="p-input-icon-left w-full">
-      <i class="pi pi-search"></i>
-      <input pInputText [(ngModel)]="search" placeholder="Search terms, definitions, or examples..." class="w-full" />
-    </span>
-    
+    <!-- Search bar with properly positioned icon -->
+    <div class="search-wrap">
+      <i class="pi pi-search search-icon"></i>
+      <input pInputText
+             [(ngModel)]="search"
+             placeholder="Search terms, definitions, or examples…"
+             class="search-input w-full" />
+      <button *ngIf="search" class="search-clear" (click)="search=''" title="Clear">
+        <i class="pi pi-times"></i>
+      </button>
+    </div>
+
+    <!-- Letter filter using p-button -->
     <div class="letters">
-      <p-button label="All" [outlined]="activeLetter !== ''" (onClick)="activeLetter = ''" styleClass="p-button-sm"></p-button>
-      <p-button *ngFor="let letter of letters" [label]="letter" [outlined]="activeLetter !== letter" (onClick)="activeLetter = letter" styleClass="p-button-sm"></p-button>
+      <p-button
+        label="All"
+        [styleClass]="activeLetter === '' ? 'p-button-sm' : 'p-button-sm p-button-outlined'"
+        (onClick)="activeLetter = ''">
+      </p-button>
+      <p-button
+        *ngFor="let letter of letters"
+        [label]="letter"
+        [styleClass]="activeLetter === letter ? 'p-button-sm' : 'p-button-sm p-button-outlined'"
+        (onClick)="activeLetter = letter">
+      </p-button>
     </div>
   </div>
 
+  <!-- Results count -->
+  <p class="results-count" *ngIf="search || activeLetter">
+    {{ filtered.length }} result{{ filtered.length !== 1 ? 's' : '' }}<span *ngIf="activeLetter"> starting with "{{ activeLetter }}"</span><span *ngIf="search"> matching "{{ search }}"</span>
+  </p>
+
+  <!-- Terms grid -->
   <div class="glossary-grid">
     <p-card *ngFor="let term of filtered" styleClass="glossary-card">
       <ng-template pTemplate="header">
@@ -27,11 +51,11 @@
       <ng-template pTemplate="content">
         <div class="term-content">
           <div class="term-section">
-            <span class="section-label">Definition:</span>
+            <span class="section-label">Definition</span>
             <p class="section-text">{{ term.definition }}</p>
           </div>
           <div class="term-section">
-            <span class="section-label">Example:</span>
+            <span class="section-label">Example</span>
             <p class="section-text example">{{ term.example }}</p>
           </div>
         </div>
@@ -39,8 +63,13 @@
     </p-card>
   </div>
 
+  <!-- Empty state -->
   <div class="no-results" *ngIf="filtered.length === 0">
-    <i class="pi pi-search" style="font-size: 3rem; color: #64748b;"></i>
-    <p>No terms found matching your search.</p>
+    <i class="pi pi-search"></i>
+    <p>No terms found for your search.</p>
+    <p-button label="Clear filters" styleClass="p-button-outlined p-button-sm"
+              (onClick)="search=''; activeLetter=''">
+    </p-button>
   </div>
+
 </div>

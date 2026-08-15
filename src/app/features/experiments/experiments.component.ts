@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
@@ -33,6 +33,8 @@ export class ExperimentsComponent implements OnInit {
   avgRating = '0.0';
   easyCount = 0;
 
+  constructor(private router: Router) {}
+
   ngOnInit(): void {
     this.filterExperiments();
     this.totalCompleted = this.experiments.reduce((sum, e) => sum + e.completedBy, 0);
@@ -50,10 +52,9 @@ export class ExperimentsComponent implements OnInit {
     });
   }
 
+  /** Navigate to experiment detail and begin guided steps */
   startExperiment(experimentId: string): void {
-    const current = this.progress[experimentId] || 0;
-    this.progress[experimentId] = Math.min(current + 1, 100);
-    localStorage.setItem('experimentProgress', JSON.stringify(this.progress));
+    this.router.navigate(['/experiments', experimentId]);
   }
 
   getDifficultyColor(difficulty: string): 'success' | 'warning' | 'danger' | 'info' {
@@ -61,5 +62,9 @@ export class ExperimentsComponent implements OnInit {
     if (difficulty === 'Medium') return 'warning';
     if (difficulty === 'Hard') return 'danger';
     return 'info';
+  }
+
+  getProgressForId(id: string): number {
+    return this.progress[id] || 0;
   }
 }

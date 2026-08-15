@@ -2,14 +2,14 @@ import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RouterOutlet } from '@angular/router';
-import { MenubarModule } from 'primeng/menubar';
 import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
 import { SidebarService } from './services/sidebar.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, SidebarComponent, RouterOutlet, MenubarModule, ButtonModule],
+  imports: [CommonModule, SidebarComponent, RouterOutlet, ButtonModule, RippleModule],
   templateUrl: './app.html',
   styleUrls: ['../styles.css']
 })

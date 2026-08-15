@@ -1,32 +1,105 @@
-<div class="experiments-container" pAnimateOnScroll enterClass="fadeinup">
+<div class="experiments-container fadeinup">
+
   <div class="experiments-header">
-    <h1 class="text-4xl font-bold mb-4">Home Physics Experiments</h1>
-    <p class="text-xl text-surface-border mb-8">Hands-on experiments with safety tips and progress tracking.</p>
+    <h1>Home Physics Experiments</h1>
+    <p class="subtitle">Hands-on experiments you can do at home — with step-by-step guidance and progress tracking.</p>
   </div>
 
-  <div class="filters-section mb-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-    <input pInputText [(ngModel)]="searchTerm" (input)="filterExperiments()" placeholder="Search experiments..." class="w-full" />
-    <p-dropdown [(ngModel)]="selectedCategory" [options]="categories" (onChange)="filterExperiments()" optionLabel="label" optionValue="value"></p-dropdown>
-    <p-dropdown [(ngModel)]="selectedDifficulty" [options]="difficulties" (onChange)="filterExperiments()" optionLabel="label" optionValue="value"></p-dropdown>
+  <!-- Filters -->
+  <div class="filters-section">
+    <div class="search-wrap">
+      <i class="pi pi-search search-icon"></i>
+      <input pInputText [(ngModel)]="searchTerm" (input)="filterExperiments()"
+             placeholder="Search experiments…" class="search-input" />
+    </div>
+    <p-dropdown [(ngModel)]="selectedCategory" [options]="categories"
+                (onChange)="filterExperiments()" optionLabel="label" optionValue="value"
+                placeholder="All Categories">
+    </p-dropdown>
+    <p-dropdown [(ngModel)]="selectedDifficulty" [options]="difficulties"
+                (onChange)="filterExperiments()" optionLabel="label" optionValue="value"
+                placeholder="All Difficulties">
+    </p-dropdown>
   </div>
 
+  <p class="results-label">
+    Showing <strong>{{ filteredExperiments.length }}</strong> experiment{{ filteredExperiments.length !== 1 ? 's' : '' }}
+  </p>
+
+  <!-- Grid -->
   <div class="experiments-grid">
-    <div *ngFor="let experiment of filteredExperiments" class="experiment-card">
-      <p-card styleClass="h-full">
+    <div *ngFor="let exp of filteredExperiments" class="exp-card-wrap">
+      <p-card styleClass="exp-card">
         <ng-template pTemplate="content">
-          <h3>{{ experiment.title }}</h3>
-          <p-tag [value]="experiment.difficulty" [severity]="getDifficultyColor(experiment.difficulty)"></p-tag>
-          <p>{{ experiment.description }}</p>
-          <p><strong>Progress:</strong> {{ progress[experiment.id] || 0 }}%</p>
-          <p-accordion>
-            <p-accordionTab header="Safety Tips"><ul><li *ngFor="let s of experiment.safetyNotes">{{ s }}</li></ul></p-accordionTab>
-            <p-accordionTab header="Materials"><ul><li *ngFor="let m of experiment.materials">{{ m }}</li></ul></p-accordionTab>
-          </p-accordion>
+
+          <!-- Title row -->
+          <div class="exp-title-row">
+            <h3 class="exp-title">{{ exp.title }}</h3>
+            <p-tag [value]="exp.difficulty" [severity]="getDifficultyColor(exp.difficulty)"></p-tag>
+          </div>
+
+          <!-- Meta row -->
+          <div class="exp-meta">
+            <span class="meta-item"><i class="pi pi-clock"></i> {{ exp.duration }}</span>
+            <span class="meta-item"><i class="pi pi-tag"></i> {{ exp.category }}</span>
+            <span class="meta-item"><i class="pi pi-list"></i> {{ exp.materials.length }} materials</span>
+            <span class="meta-item"><i class="pi pi-flag"></i> {{ exp.procedure.length }} steps</span>
+          </div>
+
+          <!-- Description -->
+          <p class="exp-desc">{{ exp.description }}</p>
+
+          <!-- Progress (if any) -->
+          <div class="exp-progress" *ngIf="getProgressForId(exp.id) > 0">
+            <div class="exp-progress-label">
+              <span>Progress</span>
+              <span>{{ getProgressForId(exp.id) }}%</span>
+            </div>
+            <div class="exp-progress-bar">
+              <div class="exp-progress-fill" [style.width.%]="getProgressForId(exp.id)"></div>
+            </div>
+          </div>
+
+          <!-- Brief detail preview -->
+          <div class="exp-preview">
+            <div class="preview-row">
+              <span class="preview-label">Materials needed:</span>
+              <span class="preview-value">{{ exp.materials.slice(0,3).join(', ') }}{{ exp.materials.length > 3 ? ' +' + (exp.materials.length - 3) + ' more' : '' }}</span>
+            </div>
+            <div class="preview-row">
+              <span class="preview-label">First step:</span>
+              <span class="preview-value">{{ exp.procedure[0]?.instruction | slice:0:80 }}{{ (exp.procedure[0]?.instruction?.length ?? 0) > 80 ? '…' : '' }}</span>
+            </div>
+          </div>
+
         </ng-template>
         <ng-template pTemplate="footer">
-          <div class="actions"><p-button label="Start experiment" icon="pi pi-play" (click)="startExperiment(experiment.id)"></p-button><p-button label="Open details" styleClass="p-button-outlined" [routerLink]="['/experiments', experiment.id]"></p-button></div>
+          <div class="exp-actions">
+            <p-button
+              [label]="getProgressForId(exp.id) > 0 ? 'Continue' : 'Start Experiment'"
+              [icon]="getProgressForId(exp.id) > 0 ? 'pi pi-arrow-right' : 'pi pi-play'"
+              styleClass="p-button-sm"
+              (click)="startExperiment(exp.id)">
+            </p-button>
+            <p-button
+              label="View Details"
+              icon="pi pi-eye"
+              styleClass="p-button-outlined p-button-sm"
+              [routerLink]="['/experiments', exp.id]">
+            </p-button>
+          </div>
         </ng-template>
       </p-card>
     </div>
   </div>
+
+  <!-- Empty state -->
+  <div *ngIf="filteredExperiments.length === 0" class="empty-state">
+    <i class="pi pi-search"></i>
+    <p>No experiments match your filters.</p>
+    <p-button label="Clear filters" styleClass="p-button-outlined p-button-sm"
+              (click)="searchTerm=''; selectedCategory=''; selectedDifficulty=''; filterExperiments()">
+    </p-button>
+  </div>
+
 </div>
